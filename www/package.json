@@ -8,20 +8,20 @@
     "test": "tsc"
   },
   "dependencies": {
-    "@zeit/next-typescript": "^1.1.1",
-    "next": "^7.0.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "@zeit/next-typescript": "1.1.1",
+    "next": "7.0.2",
+    "react": "16.6.3",
+    "react-dom": "16.6.3"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.10",
-    "@types/next": "^7.0.5",
-    "@types/node": "^10.12.17",
-    "@types/react": "^16.7.17",
-    "jest": "^23.6.0",
-    "jest-puppeteer": "^3.7.0",
-    "ts-jest": "^23.10.5",
-    "ts-node": "^7.0.1"
+    "@types/jest": "23.3.10",
+    "@types/next": "7.0.5",
+    "@types/node": "10.12.17",
+    "@types/react": "16.7.17",
+    "jest": "23.6.0",
+    "jest-puppeteer": "3.7.0",
+    "ts-jest": "23.10.5",
+    "ts-node": "7.0.1"
   },
   "license": "MIT"
 }
