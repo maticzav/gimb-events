@@ -1394,7 +1394,7 @@ babel-plugin-transform-strict-mode@^6.24.1:
     babel-runtime "^6.22.0"
     babel-types "^6.24.1"
 
-babel-preset-expo@^5.0.0:
+babel-preset-expo@5.0.0, babel-preset-expo@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/babel-preset-expo/-/babel-preset-expo-5.0.0.tgz#d1569579c7326391d589b031ed688061f959e378"
   integrity sha512-pDtkAIafvQLAZ5dQ/6I9okkiZLw9IBR8ItRzAyUO4j2rUMB9ey6yZTTE77AKWq5HhxhY53Hic8Zl0vSDMTXI0A==
@@ -2605,7 +2605,7 @@ expo-sms@~1.1.0:
     expo-core "~1.2.0"
     expo-permissions-interface "~1.2.0"
 
-expo@^31.0.2:
+expo@31.0.6:
   version "31.0.6"
   resolved "https://registry.yarnpkg.com/expo/-/expo-31.0.6.tgz#3e1d8d617c959e7218aabf9ff523703183dfdbaf"
   integrity sha512-MFMzLusP+CL3Y7agTmryk7mRwZBjze7Ahf+6qgLkPPhajqGA4kekp8vgAT5t9g76Gl7ZVkvWZGXKHwux4sBT2w==
@@ -2665,7 +2665,7 @@ expo@^31.0.2:
     qs "^6.5.0"
     react-native-branch "2.2.5"
     react-native-gesture-handler "1.0.9"
-    react-native-maps expo/react-native-maps#v0.22.1-exp.0
+    react-native-maps "github:expo/react-native-maps#v0.22.1-exp.0"
     react-native-reanimated "1.0.0-alpha.10"
     react-native-screens "1.0.0-alpha.15"
     react-native-svg "8.0.8"
@@ -3753,7 +3753,7 @@ jest-environment-node@^23.4.0:
     jest-mock "^23.2.0"
     jest-util "^23.4.0"
 
-jest-expo@^31.0.0:
+jest-expo@31.0.0:
   version "31.0.0"
   resolved "https://registry.yarnpkg.com/jest-expo/-/jest-expo-31.0.0.tgz#6f191eebb646b2654388f5166311385c118a7924"
   integrity sha512-GWHGY4M53dZljIzEJdGCntZFvWvF7tf6zAhCURaNSLpZ0o7qtVKqjZrjXI8bp+58Hr3O9N9KhWJYKFVzmMLAFQ==
@@ -5625,7 +5625,7 @@ react-navigation-tabs@0.8.4:
     react-lifecycles-compat "^3.0.4"
     react-native-tab-view "^1.0.0"
 
-react-navigation@^2.18.2:
+react-navigation@2.18.3:
   version "2.18.3"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-2.18.3.tgz#de9a24dc37dfc33f3e4779a9f13f45ea97dfe19e"
   integrity sha512-/5KGMG1Oj5LN/x/7AKF0MWrpX9Qe29307RxEsMCiRT/A4jCYT0DPY99Bl7ZAGtROxExEy3rwTfTrtvpIT+CU7A==
