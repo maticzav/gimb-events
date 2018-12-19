@@ -7,10 +7,18 @@ type Query {
 }
 
 type Mutation {
+  # Authentication
   login(email: String!): LoginPayload!
+  # Ticketing
+  requestTicket(event: ID!): Ticket
+  # Moderation
   createEvent(data: CreateEventInput!): Event
   updateEvent(id: ID!, data: UpdateEventInput): Event
   deleteEvent(id: ID!): Event
+  # Administration
+  addUser(data: CreateUserInput!): User
+  updateUser(id: ID!, data: UpdateUserInput!): User
+  deleteUser(id: ID!): User
 }
 
 # Payloads
@@ -39,16 +47,46 @@ input UpdateEventInput {
   numberOfTickets: Int
 }
 
+input CreateUserInput {
+  email: String!
+  status: UserStatus!
+}
+
+input UpdateUserInput {
+  email: String
+  status: UserStatus
+}
+
 # Types
 
 type Viewer {
   user: User!
+}
+
+interface User {
+  id: ID!
+  email: String!
   tickets: [Ticket!]!
 }
 
-type User {
+type Customer implements User {
   id: ID!
   email: String!
+  tickets: [Ticket!]!
+}
+
+type Moderator implements User {
+  id: ID!
+  email: String!
+  tickets: [Ticket!]!
+  events: [Event!]!
+}
+
+type Administrator implements User {
+  id: ID!
+  email: String!
+  tickets: [Ticket!]!
+  events: [Event!]!
 }
 
 type Ticket {
@@ -65,4 +103,13 @@ type Event {
   location: String!
   period: Int!
   date: DateTime!
+  viewerHasTicket: Boolean!
+}
+
+# Enums
+
+enum UserStatus {
+  ADMIN
+  MODERATOR
+  CUSTOMER
 }

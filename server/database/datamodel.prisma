@@ -4,6 +4,7 @@ type Event {
   updatedAt: DateTime!
 
   # Meta
+
   name: String!
   description: String!
   location: String!
@@ -12,6 +13,7 @@ type Event {
   published: Boolean! @default(value: "false")
 
   # Ticketing
+
   numberOfTickets: Int!
   tickets: [Ticket!]! @relation(name: "EventTicket", onDelete: CASCADE)
 }
@@ -40,4 +42,6 @@ type User {
 
   status: UserStatus!
   email: String! @unique
+
+  tickets: [Ticket!]! @relation(name: "TicketOwner", onDelete: CASCADE)
 }

@@ -351,7 +351,7 @@ type TicketConnection {
 
 input TicketCreateInput {
   event: EventCreateOneWithoutTicketsInput!
-  owner: UserCreateOneInput!
+  owner: UserCreateOneWithoutTicketsInput!
   isValidated: Boolean
 }
 
@@ -360,8 +360,18 @@ input TicketCreateManyWithoutEventInput {
   connect: [TicketWhereUniqueInput!]
 }
 
+input TicketCreateManyWithoutOwnerInput {
+  create: [TicketCreateWithoutOwnerInput!]
+  connect: [TicketWhereUniqueInput!]
+}
+
 input TicketCreateWithoutEventInput {
-  owner: UserCreateOneInput!
+  owner: UserCreateOneWithoutTicketsInput!
+  isValidated: Boolean
+}
+
+input TicketCreateWithoutOwnerInput {
+  event: EventCreateOneWithoutTicketsInput!
   isValidated: Boolean
 }
 
@@ -446,7 +456,7 @@ input TicketSubscriptionWhereInput {
 
 input TicketUpdateInput {
   event: EventUpdateOneRequiredWithoutTicketsInput
-  owner: UserUpdateOneRequiredInput
+  owner: UserUpdateOneRequiredWithoutTicketsInput
   isValidated: Boolean
 }
 
@@ -469,13 +479,29 @@ input TicketUpdateManyWithoutEventInput {
   updateMany: [TicketUpdateManyWithWhereNestedInput!]
 }
 
+input TicketUpdateManyWithoutOwnerInput {
+  create: [TicketCreateWithoutOwnerInput!]
+  delete: [TicketWhereUniqueInput!]
+  connect: [TicketWhereUniqueInput!]
+  disconnect: [TicketWhereUniqueInput!]
+  update: [TicketUpdateWithWhereUniqueWithoutOwnerInput!]
+  upsert: [TicketUpsertWithWhereUniqueWithoutOwnerInput!]
+  deleteMany: [TicketScalarWhereInput!]
+  updateMany: [TicketUpdateManyWithWhereNestedInput!]
+}
+
 input TicketUpdateManyWithWhereNestedInput {
   where: TicketScalarWhereInput!
   data: TicketUpdateManyDataInput!
 }
 
 input TicketUpdateWithoutEventDataInput {
-  owner: UserUpdateOneRequiredInput
+  owner: UserUpdateOneRequiredWithoutTicketsInput
+  isValidated: Boolean
+}
+
+input TicketUpdateWithoutOwnerDataInput {
+  event: EventUpdateOneRequiredWithoutTicketsInput
   isValidated: Boolean
 }
 
@@ -484,10 +510,21 @@ input TicketUpdateWithWhereUniqueWithoutEventInput {
   data: TicketUpdateWithoutEventDataInput!
 }
 
+input TicketUpdateWithWhereUniqueWithoutOwnerInput {
+  where: TicketWhereUniqueInput!
+  data: TicketUpdateWithoutOwnerDataInput!
+}
+
 input TicketUpsertWithWhereUniqueWithoutEventInput {
   where: TicketWhereUniqueInput!
   update: TicketUpdateWithoutEventDataInput!
   create: TicketCreateWithoutEventInput!
+}
+
+input TicketUpsertWithWhereUniqueWithoutOwnerInput {
+  where: TicketWhereUniqueInput!
+  update: TicketUpdateWithoutOwnerDataInput!
+  create: TicketCreateWithoutOwnerInput!
 }
 
 input TicketWhereInput {
@@ -540,6 +577,7 @@ type User {
   updatedAt: DateTime!
   status: UserStatus!
   email: String!
+  tickets(where: TicketWhereInput, orderBy: TicketOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ticket!]
 }
 
 type UserConnection {
@@ -551,11 +589,17 @@ type UserConnection {
 input UserCreateInput {
   status: UserStatus!
   email: String!
+  tickets: TicketCreateManyWithoutOwnerInput
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutTicketsInput {
+  create: UserCreateWithoutTicketsInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutTicketsInput {
+  status: UserStatus!
+  email: String!
 }
 
 type UserEdge {
@@ -608,14 +652,10 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  status: UserStatus
-  email: String
-}
-
 input UserUpdateInput {
   status: UserStatus
   email: String
+  tickets: TicketUpdateManyWithoutOwnerInput
 }
 
 input UserUpdateManyMutationInput {
@@ -623,16 +663,21 @@ input UserUpdateManyMutationInput {
   email: String
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+input UserUpdateOneRequiredWithoutTicketsInput {
+  create: UserCreateWithoutTicketsInput
+  update: UserUpdateWithoutTicketsDataInput
+  upsert: UserUpsertWithoutTicketsInput
   connect: UserWhereUniqueInput
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpdateWithoutTicketsDataInput {
+  status: UserStatus
+  email: String
+}
+
+input UserUpsertWithoutTicketsInput {
+  update: UserUpdateWithoutTicketsDataInput!
+  create: UserCreateWithoutTicketsInput!
 }
 
 input UserWhereInput {
@@ -684,6 +729,9 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  tickets_every: TicketWhereInput
+  tickets_some: TicketWhereInput
+  tickets_none: TicketWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

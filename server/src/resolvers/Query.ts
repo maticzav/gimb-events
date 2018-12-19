@@ -2,16 +2,18 @@
 // Please do not import this file directly but copy & paste to your application code.
 
 import { QueryResolvers } from '../generated/graphqlgen'
+import { getUserId } from '../utils'
 
 export const Query: QueryResolvers.Type = {
   ...QueryResolvers.defaultResolvers,
-  viewer: (parent, args, ctx) => {
-    throw new Error('Resolver not implemented')
+  viewer: async (parent, args, ctx) => {
+    return {}
   },
   events: (parent, args, ctx) => {
     return ctx.prisma.events({
       where: {
-        date: Date.now().toString(),
+        date_lte: new Date().toISOString(),
+        published: true,
       },
     })
   },

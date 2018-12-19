@@ -1,8 +1,18 @@
-// This resolver file was scaffolded by github.com/prisma/graphqlgen, DO NOT EDIT.
-// Please do not import this file directly but copy & paste to your application code.
+import { UserStatus } from '../generated/prisma-client'
 
-import { UserResolvers } from '../generated/graphqlgen'
+interface UserParent {
+  status: UserStatus
+}
 
-export const User: UserResolvers.Type = {
-  ...UserResolvers.defaultResolvers,
+export const User = {
+  __resolveType(parent: UserParent) {
+    switch (parent.status) {
+      case 'ADMIN':
+        return 'Administrator'
+      case 'MODERATOR':
+        return 'Moderator'
+      case 'CUSTOMER':
+        return 'Customer'
+    }
+  },
 }
