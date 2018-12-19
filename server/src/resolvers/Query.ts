@@ -9,9 +9,13 @@ export const Query: QueryResolvers.Type = {
     throw new Error('Resolver not implemented')
   },
   events: (parent, args, ctx) => {
-    throw new Error('Resolver not implemented')
+    return ctx.prisma.events({
+      where: {
+        date: Date.now().toString(),
+      },
+    })
   },
-  event: (parent, args, ctx) => {
-    throw new Error('Resolver not implemented')
+  event: (parent, { id }, ctx) => {
+    return ctx.prisma.event({ id })
   },
 }
