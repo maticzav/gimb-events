@@ -1,0 +1,14 @@
+{
+  "name": "gimb-events",
+  "private": true,
+  "devDependencies": {
+    "husky": "^1.3.0",
+    "prettier": "^1.15.3",
+    "pretty-quick": "^1.8.0"
+  },
+  "workspaces": [
+    "server",
+    "www"
+  ],
+  "license": "MIT"
+}

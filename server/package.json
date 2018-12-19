@@ -1,0 +1,20 @@
+{
+  "name": "gimb-events",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "generate": "graphqlgen"
+  },
+  "dependencies": {
+    "apollo-server": "^2.3.1",
+    "graphql": "^14.0.2",
+    "prisma-client-lib": "1.23.0"
+  },
+  "devDependencies": {
+    "graphqlgen": "^0.4.0",
+    "prisma": "1.23.0",
+    "ts-node": "7.0.1",
+    "typescript": "3.2.2"
+  },
+  "license": "MIT"
+}

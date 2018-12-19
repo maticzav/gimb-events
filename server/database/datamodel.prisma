@@ -1,0 +1,43 @@
+type Event {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  # Meta
+  name: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+  published: Boolean! @default(value: "false")
+
+  # Ticketing
+  numberOfTickets: Int!
+  tickets: [Ticket!]! @relation(name: "EventTicket", onDelete: CASCADE)
+}
+
+type Ticket {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  event: Event! @relation(name: "EventTicket", onDelete: SET_NULL)
+  owner: User! @relation(name: "TicketOwner", onDelete: SET_NULL)
+
+  isValidated: Boolean! @default(value: "false")
+}
+
+enum UserStatus {
+  ADMIN
+  MODERATOR
+  CUSTOMER
+}
+
+type User {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  status: UserStatus!
+  email: String! @unique
+}

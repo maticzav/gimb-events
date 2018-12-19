@@ -1,0 +1,68 @@
+scalar DateTime
+
+type Query {
+  viewer: Viewer
+  events: [Event!]!
+  event(id: ID!): Event
+}
+
+type Mutation {
+  login(email: String!): LoginPayload!
+  createEvent(data: CreateEventInput!): Event
+  updateEvent(id: ID!, data: UpdateEventInput): Event
+  deleteEvent(id: ID!): Event
+}
+
+# Payloads
+
+type LoginPayload {
+  success: Boolean!
+}
+
+# Inputs
+
+input CreateEventInput {
+  name: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+  numberOfTickets: Int!
+}
+
+input UpdateEventInput {
+  name: String
+  description: String
+  location: String
+  period: Int
+  date: DateTime
+  numberOfTickets: Int
+}
+
+# Types
+
+type Viewer {
+  user: User!
+  tickets: [Ticket!]!
+}
+
+type User {
+  id: ID!
+  email: String!
+}
+
+type Ticket {
+  id: ID!
+  event: Event!
+  owner: User!
+  isValidated: Boolean!
+}
+
+type Event {
+  id: ID!
+  name: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+}
