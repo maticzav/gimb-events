@@ -16,7 +16,7 @@
   "devDependencies": {
     "@types/jest": "23.3.10",
     "@types/next": "7.0.5",
-    "@types/node": "10.12.17",
+    "@types/node": "10.12.18",
     "@types/react": "16.7.17",
     "jest": "23.6.0",
     "jest-puppeteer": "3.7.0",
