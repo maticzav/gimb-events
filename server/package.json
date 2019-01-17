@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "apollo-server": "2.3.1",
-    "graphql": "14.1.0",
+    "graphql": "14.1.1",
     "graphql-shield": "5.1.0",
     "jsonwebtoken": "8.4.0",
     "prisma-client-lib": "1.24.0"
