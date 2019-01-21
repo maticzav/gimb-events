@@ -9,6 +9,7 @@
     "test": "NODE_ENV=test jest"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
     "apollo-server": "2.3.1",
     "graphql": "14.0.2",
     "graphql-shield": "5.0.1",

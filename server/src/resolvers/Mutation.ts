@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken'
+import { sendAuthenticationLink } from '../sendgrid'
 import { Context, getUserId } from '../utils'
 
 export const Mutation = {
@@ -16,10 +17,12 @@ export const Mutation = {
 
       const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
 
-      const res = await sendEmail(token)
+      const res = await sendAuthenticationLink(email, token)
 
-      return {
-        success: true,
+      if (res.status === 'ok') {
+        return { success: true }
+      } else {
+        return { success: false }
       }
     } catch (err) {
       return {

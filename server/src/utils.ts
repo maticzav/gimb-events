@@ -6,6 +6,14 @@ export interface Context {
   request: any
 }
 
+export function getAuthenticationLink(token: string): string {
+  if (process.env.NODE_ENV !== 'production') {
+    return `http://localhost:4000/login#token=${token}`
+  } else {
+    return `https://events.gimb.io/login#token=${token}`
+  }
+}
+
 export function getUserId(ctx: Context) {
   const Authorization = ctx.request.get('Authorization')
   if (Authorization) {
