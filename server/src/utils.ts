@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken'
-import { Prisma } from './generated/prisma-client'
+import { Prisma } from './generated/prisma'
 
 export interface Context {
   prisma: Prisma

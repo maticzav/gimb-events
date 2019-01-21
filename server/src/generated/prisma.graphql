@@ -1,0 +1,1805 @@
+# source: https://eu1.prisma.sh/matic-zavadlal-03c51f/gimb-events/dev
+# timestamp: Mon Jan 21 2019 16:11:57 GMT+0100 (Central European Standard Time)
+
+type AggregateEvent {
+  count: Int!
+}
+
+type AggregateTicket {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type BatchPayload {
+  """
+  The number of nodes that have been affected by the Batch operation.
+  """
+  count: Long!
+}
+
+scalar DateTime
+
+type Event implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+  published: Boolean!
+  numberOfTickets: Int!
+  tickets(
+    where: TicketWhereInput
+    orderBy: TicketOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Ticket!]
+}
+
+"""
+A connection to a list of items.
+"""
+type EventConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [EventEdge]!
+  aggregate: AggregateEvent!
+}
+
+input EventCreateInput {
+  name: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+  published: Boolean
+  numberOfTickets: Int!
+  tickets: TicketCreateManyWithoutEventInput
+}
+
+input EventCreateOneWithoutTicketsInput {
+  create: EventCreateWithoutTicketsInput
+  connect: EventWhereUniqueInput
+}
+
+input EventCreateWithoutTicketsInput {
+  name: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+  published: Boolean
+  numberOfTickets: Int!
+}
+
+"""
+An edge in a connection.
+"""
+type EventEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Event!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum EventOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  location_ASC
+  location_DESC
+  period_ASC
+  period_DESC
+  date_ASC
+  date_DESC
+  published_ASC
+  published_DESC
+  numberOfTickets_ASC
+  numberOfTickets_DESC
+}
+
+type EventPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+  published: Boolean!
+  numberOfTickets: Int!
+}
+
+type EventSubscriptionPayload {
+  mutation: MutationType!
+  node: Event
+  updatedFields: [String!]
+  previousValues: EventPreviousValues
+}
+
+input EventSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [EventSubscriptionWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [EventSubscriptionWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [EventSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: EventWhereInput
+}
+
+input EventUpdateInput {
+  name: String
+  description: String
+  location: String
+  period: Int
+  date: DateTime
+  published: Boolean
+  numberOfTickets: Int
+  tickets: TicketUpdateManyWithoutEventInput
+}
+
+input EventUpdateManyMutationInput {
+  name: String
+  description: String
+  location: String
+  period: Int
+  date: DateTime
+  published: Boolean
+  numberOfTickets: Int
+}
+
+input EventUpdateOneRequiredWithoutTicketsInput {
+  create: EventCreateWithoutTicketsInput
+  connect: EventWhereUniqueInput
+  update: EventUpdateWithoutTicketsDataInput
+  upsert: EventUpsertWithoutTicketsInput
+}
+
+input EventUpdateWithoutTicketsDataInput {
+  name: String
+  description: String
+  location: String
+  period: Int
+  date: DateTime
+  published: Boolean
+  numberOfTickets: Int
+}
+
+input EventUpsertWithoutTicketsInput {
+  update: EventUpdateWithoutTicketsDataInput!
+  create: EventCreateWithoutTicketsInput!
+}
+
+input EventWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [EventWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [EventWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [EventWhereInput!]
+  id: ID
+
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
+  name: String
+
+  """
+  All values that are not equal to given value.
+  """
+  name_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  name_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  name_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  name_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  name_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  name_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  name_gte: String
+
+  """
+  All values containing the given string.
+  """
+  name_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  name_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  name_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  name_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  name_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  name_not_ends_with: String
+  description: String
+
+  """
+  All values that are not equal to given value.
+  """
+  description_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  description_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  description_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  description_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  description_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  description_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  description_gte: String
+
+  """
+  All values containing the given string.
+  """
+  description_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  description_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  description_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  description_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  description_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  description_not_ends_with: String
+  location: String
+
+  """
+  All values that are not equal to given value.
+  """
+  location_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  location_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  location_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  location_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  location_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  location_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  location_gte: String
+
+  """
+  All values containing the given string.
+  """
+  location_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  location_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  location_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  location_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  location_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  location_not_ends_with: String
+  period: Int
+
+  """
+  All values that are not equal to given value.
+  """
+  period_not: Int
+
+  """
+  All values that are contained in given list.
+  """
+  period_in: [Int!]
+
+  """
+  All values that are not contained in given list.
+  """
+  period_not_in: [Int!]
+
+  """
+  All values less than the given value.
+  """
+  period_lt: Int
+
+  """
+  All values less than or equal the given value.
+  """
+  period_lte: Int
+
+  """
+  All values greater than the given value.
+  """
+  period_gt: Int
+
+  """
+  All values greater than or equal the given value.
+  """
+  period_gte: Int
+  date: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  date_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  date_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  date_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  date_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  date_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  date_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  date_gte: DateTime
+  published: Boolean
+
+  """
+  All values that are not equal to given value.
+  """
+  published_not: Boolean
+  numberOfTickets: Int
+
+  """
+  All values that are not equal to given value.
+  """
+  numberOfTickets_not: Int
+
+  """
+  All values that are contained in given list.
+  """
+  numberOfTickets_in: [Int!]
+
+  """
+  All values that are not contained in given list.
+  """
+  numberOfTickets_not_in: [Int!]
+
+  """
+  All values less than the given value.
+  """
+  numberOfTickets_lt: Int
+
+  """
+  All values less than or equal the given value.
+  """
+  numberOfTickets_lte: Int
+
+  """
+  All values greater than the given value.
+  """
+  numberOfTickets_gt: Int
+
+  """
+  All values greater than or equal the given value.
+  """
+  numberOfTickets_gte: Int
+  tickets_every: TicketWhereInput
+  tickets_some: TicketWhereInput
+  tickets_none: TicketWhereInput
+}
+
+input EventWhereUniqueInput {
+  id: ID
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createEvent(data: EventCreateInput!): Event!
+  createTicket(data: TicketCreateInput!): Ticket!
+  createUser(data: UserCreateInput!): User!
+  updateEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
+  updateTicket(data: TicketUpdateInput!, where: TicketWhereUniqueInput!): Ticket
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteEvent(where: EventWhereUniqueInput!): Event
+  deleteTicket(where: TicketWhereUniqueInput!): Ticket
+  deleteUser(where: UserWhereUniqueInput!): User
+  upsertEvent(
+    where: EventWhereUniqueInput!
+    create: EventCreateInput!
+    update: EventUpdateInput!
+  ): Event!
+  upsertTicket(
+    where: TicketWhereUniqueInput!
+    create: TicketCreateInput!
+    update: TicketUpdateInput!
+  ): Ticket!
+  upsertUser(
+    where: UserWhereUniqueInput!
+    create: UserCreateInput!
+    update: UserUpdateInput!
+  ): User!
+  updateManyEvents(
+    data: EventUpdateManyMutationInput!
+    where: EventWhereInput
+  ): BatchPayload!
+  updateManyTickets(
+    data: TicketUpdateManyMutationInput!
+    where: TicketWhereInput
+  ): BatchPayload!
+  updateManyUsers(
+    data: UserUpdateManyMutationInput!
+    where: UserWhereInput
+  ): BatchPayload!
+  deleteManyEvents(where: EventWhereInput): BatchPayload!
+  deleteManyTickets(where: TicketWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""
+An object with an ID
+"""
+interface Node {
+  """
+  The id of the object.
+  """
+  id: ID!
+}
+
+"""
+Information about pagination in a connection.
+"""
+type PageInfo {
+  """
+  When paginating forwards, are there more items?
+  """
+  hasNextPage: Boolean!
+
+  """
+  When paginating backwards, are there more items?
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  When paginating backwards, the cursor to continue.
+  """
+  startCursor: String
+
+  """
+  When paginating forwards, the cursor to continue.
+  """
+  endCursor: String
+}
+
+type Query {
+  events(
+    where: EventWhereInput
+    orderBy: EventOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Event]!
+  tickets(
+    where: TicketWhereInput
+    orderBy: TicketOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Ticket]!
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User]!
+  event(where: EventWhereUniqueInput!): Event
+  ticket(where: TicketWhereUniqueInput!): Ticket
+  user(where: UserWhereUniqueInput!): User
+  eventsConnection(
+    where: EventWhereInput
+    orderBy: EventOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): EventConnection!
+  ticketsConnection(
+    where: TicketWhereInput
+    orderBy: TicketOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): TicketConnection!
+  usersConnection(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): UserConnection!
+
+  """
+  Fetches an object given its ID
+  """
+  node(
+    """
+    The ID of an object
+    """
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  event(where: EventSubscriptionWhereInput): EventSubscriptionPayload
+  ticket(where: TicketSubscriptionWhereInput): TicketSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type Ticket implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  event: Event!
+  owner: User!
+  isValidated: Boolean!
+}
+
+"""
+A connection to a list of items.
+"""
+type TicketConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [TicketEdge]!
+  aggregate: AggregateTicket!
+}
+
+input TicketCreateInput {
+  isValidated: Boolean
+  event: EventCreateOneWithoutTicketsInput!
+  owner: UserCreateOneWithoutTicketsInput!
+}
+
+input TicketCreateManyWithoutEventInput {
+  create: [TicketCreateWithoutEventInput!]
+  connect: [TicketWhereUniqueInput!]
+}
+
+input TicketCreateManyWithoutOwnerInput {
+  create: [TicketCreateWithoutOwnerInput!]
+  connect: [TicketWhereUniqueInput!]
+}
+
+input TicketCreateWithoutEventInput {
+  isValidated: Boolean
+  owner: UserCreateOneWithoutTicketsInput!
+}
+
+input TicketCreateWithoutOwnerInput {
+  isValidated: Boolean
+  event: EventCreateOneWithoutTicketsInput!
+}
+
+"""
+An edge in a connection.
+"""
+type TicketEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Ticket!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum TicketOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  isValidated_ASC
+  isValidated_DESC
+}
+
+type TicketPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isValidated: Boolean!
+}
+
+input TicketScalarWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [TicketScalarWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [TicketScalarWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [TicketScalarWhereInput!]
+  id: ID
+
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
+  isValidated: Boolean
+
+  """
+  All values that are not equal to given value.
+  """
+  isValidated_not: Boolean
+}
+
+type TicketSubscriptionPayload {
+  mutation: MutationType!
+  node: Ticket
+  updatedFields: [String!]
+  previousValues: TicketPreviousValues
+}
+
+input TicketSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [TicketSubscriptionWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [TicketSubscriptionWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [TicketSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TicketWhereInput
+}
+
+input TicketUpdateInput {
+  isValidated: Boolean
+  event: EventUpdateOneRequiredWithoutTicketsInput
+  owner: UserUpdateOneRequiredWithoutTicketsInput
+}
+
+input TicketUpdateManyDataInput {
+  isValidated: Boolean
+}
+
+input TicketUpdateManyMutationInput {
+  isValidated: Boolean
+}
+
+input TicketUpdateManyWithoutEventInput {
+  create: [TicketCreateWithoutEventInput!]
+  connect: [TicketWhereUniqueInput!]
+  set: [TicketWhereUniqueInput!]
+  disconnect: [TicketWhereUniqueInput!]
+  delete: [TicketWhereUniqueInput!]
+  update: [TicketUpdateWithWhereUniqueWithoutEventInput!]
+  updateMany: [TicketUpdateManyWithWhereNestedInput!]
+  deleteMany: [TicketScalarWhereInput!]
+  upsert: [TicketUpsertWithWhereUniqueWithoutEventInput!]
+}
+
+input TicketUpdateManyWithoutOwnerInput {
+  create: [TicketCreateWithoutOwnerInput!]
+  connect: [TicketWhereUniqueInput!]
+  set: [TicketWhereUniqueInput!]
+  disconnect: [TicketWhereUniqueInput!]
+  delete: [TicketWhereUniqueInput!]
+  update: [TicketUpdateWithWhereUniqueWithoutOwnerInput!]
+  updateMany: [TicketUpdateManyWithWhereNestedInput!]
+  deleteMany: [TicketScalarWhereInput!]
+  upsert: [TicketUpsertWithWhereUniqueWithoutOwnerInput!]
+}
+
+input TicketUpdateManyWithWhereNestedInput {
+  where: TicketScalarWhereInput!
+  data: TicketUpdateManyDataInput!
+}
+
+input TicketUpdateWithoutEventDataInput {
+  isValidated: Boolean
+  owner: UserUpdateOneRequiredWithoutTicketsInput
+}
+
+input TicketUpdateWithoutOwnerDataInput {
+  isValidated: Boolean
+  event: EventUpdateOneRequiredWithoutTicketsInput
+}
+
+input TicketUpdateWithWhereUniqueWithoutEventInput {
+  where: TicketWhereUniqueInput!
+  data: TicketUpdateWithoutEventDataInput!
+}
+
+input TicketUpdateWithWhereUniqueWithoutOwnerInput {
+  where: TicketWhereUniqueInput!
+  data: TicketUpdateWithoutOwnerDataInput!
+}
+
+input TicketUpsertWithWhereUniqueWithoutEventInput {
+  where: TicketWhereUniqueInput!
+  update: TicketUpdateWithoutEventDataInput!
+  create: TicketCreateWithoutEventInput!
+}
+
+input TicketUpsertWithWhereUniqueWithoutOwnerInput {
+  where: TicketWhereUniqueInput!
+  update: TicketUpdateWithoutOwnerDataInput!
+  create: TicketCreateWithoutOwnerInput!
+}
+
+input TicketWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [TicketWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [TicketWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [TicketWhereInput!]
+  id: ID
+
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
+  isValidated: Boolean
+
+  """
+  All values that are not equal to given value.
+  """
+  isValidated_not: Boolean
+  event: EventWhereInput
+  owner: UserWhereInput
+}
+
+input TicketWhereUniqueInput {
+  id: ID
+}
+
+type User implements Node {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  isModerator: Boolean!
+  isAdministrator: Boolean!
+  tickets(
+    where: TicketWhereInput
+    orderBy: TicketOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Ticket!]
+}
+
+"""
+A connection to a list of items.
+"""
+type UserConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  email: String!
+  isModerator: Boolean
+  isAdministrator: Boolean
+  tickets: TicketCreateManyWithoutOwnerInput
+}
+
+input UserCreateOneWithoutTicketsInput {
+  create: UserCreateWithoutTicketsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutTicketsInput {
+  email: String!
+  isModerator: Boolean
+  isAdministrator: Boolean
+}
+
+"""
+An edge in a connection.
+"""
+type UserEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: User!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  email_ASC
+  email_DESC
+  isModerator_ASC
+  isModerator_DESC
+  isAdministrator_ASC
+  isAdministrator_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  isModerator: Boolean!
+  isAdministrator: Boolean!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [UserSubscriptionWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [UserSubscriptionWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateInput {
+  email: String
+  isModerator: Boolean
+  isAdministrator: Boolean
+  tickets: TicketUpdateManyWithoutOwnerInput
+}
+
+input UserUpdateManyMutationInput {
+  email: String
+  isModerator: Boolean
+  isAdministrator: Boolean
+}
+
+input UserUpdateOneRequiredWithoutTicketsInput {
+  create: UserCreateWithoutTicketsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutTicketsDataInput
+  upsert: UserUpsertWithoutTicketsInput
+}
+
+input UserUpdateWithoutTicketsDataInput {
+  email: String
+  isModerator: Boolean
+  isAdministrator: Boolean
+}
+
+input UserUpsertWithoutTicketsInput {
+  update: UserUpdateWithoutTicketsDataInput!
+  create: UserCreateWithoutTicketsInput!
+}
+
+input UserWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [UserWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [UserWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [UserWhereInput!]
+  id: ID
+
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
+  email: String
+
+  """
+  All values that are not equal to given value.
+  """
+  email_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  email_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  email_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  email_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  email_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  email_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  email_gte: String
+
+  """
+  All values containing the given string.
+  """
+  email_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  email_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  email_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  email_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  email_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  email_not_ends_with: String
+  isModerator: Boolean
+
+  """
+  All values that are not equal to given value.
+  """
+  isModerator_not: Boolean
+  isAdministrator: Boolean
+
+  """
+  All values that are not equal to given value.
+  """
+  isAdministrator_not: Boolean
+  tickets_every: TicketWhereInput
+  tickets_some: TicketWhereInput
+  tickets_none: TicketWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}

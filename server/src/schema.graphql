@@ -1,22 +1,26 @@
 scalar DateTime
 
 type Query {
-  viewer: Viewer
-  events: [Event!]!
+  # Session
+  viewer: User
+  # Feed
+  feed: [Event!]!
   event(id: ID!): Event
+  # Administration
+  users(query: String!): [User!]!
 }
 
 type Mutation {
   # Authentication
   login(email: String!): LoginPayload!
   # Ticketing
-  requestTicket(event: ID!): Ticket
+  requestTicket(eventId: ID!): Ticket
+  validateTicket(id: ID!): Ticket
   # Moderation
   createEvent(data: CreateEventInput!): Event
   updateEvent(id: ID!, data: UpdateEventInput): Event
   deleteEvent(id: ID!): Event
   # Administration
-  addUser(data: CreateUserInput!): User
   updateUser(id: ID!, data: UpdateUserInput!): User
   deleteUser(id: ID!): User
 }
@@ -47,46 +51,23 @@ input UpdateEventInput {
   numberOfTickets: Int
 }
 
-input CreateUserInput {
-  email: String!
-  status: UserStatus!
-}
-
 input UpdateUserInput {
-  email: String
-  status: UserStatus
+  isModerator: Boolean
+  isAdministrator: Boolean
 }
 
 # Types
 
-type Viewer {
-  user: User!
-}
-
-interface User {
+type User {
   id: ID!
+
+  # Meta
   email: String!
   tickets: [Ticket!]!
-}
 
-type Customer implements User {
-  id: ID!
-  email: String!
-  tickets: [Ticket!]!
-}
-
-type Moderator implements User {
-  id: ID!
-  email: String!
-  tickets: [Ticket!]!
-  events: [Event!]!
-}
-
-type Administrator implements User {
-  id: ID!
-  email: String!
-  tickets: [Ticket!]!
-  events: [Event!]!
+  # Administration
+  isModerator: Boolean
+  isAdministrator: Boolean
 }
 
 type Ticket {
@@ -94,22 +75,20 @@ type Ticket {
   event: Event!
   owner: User!
   isValidated: Boolean!
+  isExpired: Boolean!
 }
 
 type Event {
   id: ID!
+
+  # Meta
   name: String!
   description: String!
   location: String!
   period: Int!
   date: DateTime!
+
+  # Viewer
   viewerHasTicket: Boolean!
-}
-
-# Enums
-
-enum UserStatus {
-  ADMIN
-  MODERATOR
-  CUSTOMER
+  hasAvailableTickets: Boolean!
 }

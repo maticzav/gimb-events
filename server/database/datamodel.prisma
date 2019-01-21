@@ -29,19 +29,14 @@ type Ticket {
   isValidated: Boolean! @default(value: "false")
 }
 
-enum UserStatus {
-  ADMIN
-  MODERATOR
-  CUSTOMER
-}
-
 type User {
   id: ID! @unique
   createdAt: DateTime!
   updatedAt: DateTime!
 
-  status: UserStatus!
   email: String! @unique
-
   tickets: [Ticket!]! @relation(name: "TicketOwner", onDelete: CASCADE)
+
+  isModerator: Boolean! @default(value: "false")
+  isAdministrator: Boolean! @default(value: "false")
 }

@@ -1,23 +1,27 @@
-// This resolver file was scaffolded by github.com/prisma/graphqlgen, DO NOT EDIT.
-// Please do not import this file directly but copy & paste to your application code.
+import { Context, getUserId } from '../utils'
 
-import { QueryResolvers } from '../generated/graphqlgen'
-import { getUserId } from '../utils'
+export const Query = {
+  async viewer(parent, args, ctx: Context, info) {
+    const userId = getUserId(ctx)
 
-export const Query: QueryResolvers.Type = {
-  ...QueryResolvers.defaultResolvers,
-  viewer: async (parent, args, ctx) => {
-    return {}
+    return ctx.prisma.query.user({ where: { id: userId } }, info)
   },
-  events: (parent, args, ctx) => {
-    return ctx.prisma.events({
-      where: {
-        date_lte: new Date().toISOString(),
-        published: true,
+  async feed(parent, args, ctx: Context, info) {
+    const now = Date.now().toLocaleString()
+
+    return ctx.prisma.query.events(
+      {
+        where: {
+          date_gte: now,
+        },
       },
-    })
+      info,
+    )
   },
-  event: (parent, { id }, ctx) => {
-    return ctx.prisma.event({ id })
+  async event(parent, { id }, ctx: Context, info) {
+    return ctx.prisma.query.event({ where: { id } }, info)
+  },
+  async users(parent, { query }, ctx: Context, info) {
+    return ctx.prisma.query.users({ where: { email_contains: query } }, info)
   },
 }

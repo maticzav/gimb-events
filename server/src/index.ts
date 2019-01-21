@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as express from 'express'
 import { ApolloServer } from 'apollo-server'
-import { Prisma } from './generated/prisma-client'
+import { Prisma } from './generated/prisma'
 import { resolvers } from './resolvers'
 import { Context } from './utils'
 import { parse } from 'graphql'
@@ -32,8 +32,9 @@ export const server = new ApolloServer({
     } as Context),
 })
 
-/* istanbul ignore next */
-if (process.env.NODE_ENV !== 'test')
+/* istanbul ignore if */
+if (process.env.NODE_ENV !== 'test') {
   server.listen().then(({ url }: { url: string }) => {
     console.log(`🚀  Server ready at ${url}`)
   })
+}

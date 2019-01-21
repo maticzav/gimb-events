@@ -1,20 +1,28 @@
-// This resolver file was scaffolded by github.com/prisma/graphqlgen, DO NOT EDIT.
-// Please do not import this file directly but copy & paste to your application code.
+import { getUserId, Context } from '../utils'
 
-import { EventResolvers } from '../generated/graphqlgen'
-import { getUserId } from '../utils'
+export const Event = {
+  viewerHasTicket: {
+    fragment: `fragment TicketID on Ticket { id }`,
+    resolve: async ({ id }, args, ctx: Context, info) => {
+      const userId = getUserId(ctx)
 
-export const Event: EventResolvers.Type = {
-  ...EventResolvers.defaultResolvers,
-
-  viewerHasTicket: (parent, args, ctx) => {
-    const userId = getUserId(ctx)
-
-    return ctx.prisma.$exists.event({
-      id: parent.id,
-      tickets_some: {
+      return ctx.prisma.exists.Ticket({
+        id,
         owner: { id: userId },
-      },
-    })
+      })
+    },
+  },
+  hasAvailableTickets: {
+    fragment: `fragment TicketID on Ticket { event { id numberOfTickets } }`,
+    resolve: async ({ event }, args, ctx: Context, info) => {
+      const ticketsTaken = await ctx.prisma.query.ticketsConnection(
+        {
+          where: { event: { id: event.id } },
+        },
+        ` { aggregate { count } } `,
+      )
+
+      return ticketsTaken.aggregate.count < event.numberOfTickets
+    },
   },
 }
