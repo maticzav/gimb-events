@@ -60,10 +60,6 @@ export default class MyDocument extends Document {
             content="text/html;charset=UTF-8"
           />
           <link
-            rel="stylesheet"
-            href="/static/styles/fontawesome-all.min.css"
-          />
-          <link
             href="https://fonts.googleapis.com/css?family=Playfair+Display:700|Work+Sans:400,600"
             rel="stylesheet"
           />

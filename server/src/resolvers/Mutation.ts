@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken'
 import { sendAuthenticationLink } from '../sendgrid'
-import { Context, getUserId } from '../utils'
+import { Context, getUserId, getAuthenticationLink } from '../utils'
 
 export const Mutation = {
   async login(parent, { email }, ctx: Context, info) {
@@ -19,8 +19,9 @@ export const Mutation = {
     })
 
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
+    const link = getAuthenticationLink(token)
 
-    const res = await sendAuthenticationLink(email, token)
+    const res = await sendAuthenticationLink(email, link)
 
     if (res.status === 'ok') {
       return { success: true }

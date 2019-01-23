@@ -2,17 +2,17 @@ import React from 'react'
 import { destroyCookie } from 'nookies'
 
 import redirect from '../lib/redirect'
-import withData from '../hocs/withData'
 
 class SignOut extends React.Component {
-  static async getInitialProps(ctx, apollo) {
-    await apollo.resetStore()
-
+  static async getInitialProps(ctx) {
     destroyCookie(ctx, 'token')
+
+    await ctx.apolloClient.cache.reset()
+
     redirect(ctx, '/')
 
     return {}
   }
 }
 
-export default withData(SignOut)
+export default SignOut

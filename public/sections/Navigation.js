@@ -1,7 +1,11 @@
+import gql from 'graphql-tag'
 import Link from 'next/link'
 import React from 'react'
+import { Query } from 'react-apollo'
 import styled, { css } from 'styled-components'
+
 import Container from '../components/Container'
+import Login from '../components/Login'
 import { phone, mobile } from '../utils/media'
 
 const NavigationWrapper = styled.nav`
@@ -36,23 +40,22 @@ const Hero = styled.h1`
 
 const NavigationItems = styled.div`
   width: 100%;
-  display: 'flex',
-  flex-direction: horizontal;
+  padding: 10px;
+  margin: 0;
 `
 
 const NavigationItem = styled.a`
-  display: block;
-  flex: 1;
-  margin-top: 20px;
-  font-size: 14px;
+  margin: 10px;
+
   color: ${p => p.theme.colors.green};
+  font-size: 20px;
   text-decoration: none;
-`
 
-/* Login form */
+  ${phone(css`
+    font-size: 14px;
+  `)};
 
-const LoginForm = styled.div`
-  height: 10px;
+  cursor: pointer;
 `
 
 const pages = [
@@ -61,18 +64,38 @@ const pages = [
   { href: '/logout', name: 'Odjava' },
 ]
 
+const viewerQuery = gql`
+  query Viewer {
+    viewer {
+      id
+      email
+    }
+  }
+`
+
 export default () => (
   <NavigationWrapper>
     <Container>
       <Hero>Gimb Dogodki</Hero>
-    </Container>
-    <Container>
       <NavigationItems>
-        {pages.map(page => (
-          <Link key={`${page.name}-${page.href}`} href={page.href}>
-            <NavigationItem>{page.name}</NavigationItem>
-          </Link>
-        ))}
+        <Query query={viewerQuery}>
+          {({ loading, error, data }) => {
+            if (loading) return 'Nalagam...'
+            if (error) return 'Prišlo je do napake!'
+
+            if (!data.viewer) return <Login />
+
+            return (
+              <React.Fragment>
+                {pages.map(page => (
+                  <Link key={`${page.name}-${page.href}`} href={page.href}>
+                    <NavigationItem>{page.name}</NavigationItem>
+                  </Link>
+                ))}
+              </React.Fragment>
+            )
+          }}
+        </Query>
       </NavigationItems>
     </Container>
   </NavigationWrapper>

@@ -1,8 +1,10 @@
 import React from 'react'
+import { ApolloProvider } from 'react-apollo'
 import App, { Container } from 'next/app'
 import Router from 'next/router'
 import Progress from 'nprogress'
 import { createGlobalStyle, css, ThemeProvider } from 'styled-components'
+import withApollo from '../lib/withApollo'
 
 import Navigation from '../sections/Navigation'
 
@@ -91,7 +93,7 @@ const GlobalStyle = createGlobalStyle`
 
 /* App */
 
-export default class extends App {
+class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
 
@@ -103,16 +105,20 @@ export default class extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps, apolloClient } = this.props
 
     return (
       <ThemeProvider theme={theme}>
         <Container>
-          <GlobalStyle />
-          <Navigation />
-          <Component {...pageProps} />
+          <ApolloProvider client={apolloClient}>
+            <GlobalStyle />
+            <Navigation />
+            <Component {...pageProps} />
+          </ApolloProvider>
         </Container>
       </ThemeProvider>
     )
   }
 }
+
+export default withApollo(MyApp)

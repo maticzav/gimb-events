@@ -3,13 +3,16 @@
   "name": "gimb-events",
   "version": 2,
   "alias": "events.gimb.io",
-  "builds": [{ "src": "server/src/index.ts", "use": "@now/node-server" }],
-  "routes": [{ "src": "public/next.config.js", "dest": "@now/next" }],
+  "builds": [
+    { "src": "server/src/index.ts", "use": "@now/node-server" },
+    { "src": "public/next.config.js", "dest": "@now/next" }
+  ],
+  "routes": [],
   "env": {
-    "APP_SECRET":"@gimb-events-app-secret",
-    "PRISMA_ENDPOINT":"@gimb-events-prisma-endpoint",
-    "PRISMA_SECRET":"@gimb-events-prisma-secret",
-    "SENDGRID_KEY":"@gimb-events-sendgrid-key"
+    "APP_SECRET": "@gimb-events-app-secret",
+    "PRISMA_ENDPOINT": "@gimb-events-prisma-endpoint",
+    "PRISMA_SECRET": "@gimb-events-prisma-secret",
+    "SENDGRID_KEY": "@gimb-events-sendgrid-key"
   },
   "github": {
     "enabled": true,

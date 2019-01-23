@@ -2,9 +2,12 @@ import { Context, getUserId } from '../utils'
 
 export const Query = {
   async viewer(parent, args, ctx: Context, info) {
-    const userId = getUserId(ctx)
-
-    return ctx.prisma.query.user({ where: { id: userId } }, info)
+    try {
+      const userId = getUserId(ctx)
+      return ctx.prisma.query.user({ where: { id: userId } }, info)
+    } catch (err) {
+      return null
+    }
   },
   async feed(parent, args, ctx: Context, info) {
     const now = new Date().toISOString()

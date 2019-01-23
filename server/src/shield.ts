@@ -66,7 +66,7 @@ const isUserTicketOwner = rule({
 export const permissions = shield(
   {
     Query: {
-      viewer: isUserAuthenticated,
+      viewer: allow,
       feed: allow,
       event: allow,
       users: isUserAdministrator,
