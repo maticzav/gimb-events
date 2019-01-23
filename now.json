@@ -5,9 +5,12 @@
   "alias": "events.gimb.io",
   "builds": [
     { "src": "server/src/index.ts", "use": "@now/node-server" },
-    { "src": "public/next.config.js", "dest": "@now/next" }
+    { "src": "public/next.config.js", "use": "@now/next" }
   ],
-  "routes": [],
+  "routes": [
+    { "src": "/api", "dest": "/server/src/index.ts" },
+    { "src": "/.*", "dest": "/public/next.config.js" }
+  ],
   "env": {
     "APP_SECRET": "@gimb-events-app-secret",
     "PRISMA_ENDPOINT": "@gimb-events-prisma-endpoint",
