@@ -3,6 +3,7 @@ tmp*
 dist
 coverage
 .next
+.env*
 
 .DS_Store
 *.log*

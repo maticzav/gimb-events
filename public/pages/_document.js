@@ -63,6 +63,10 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="/static/styles/fontawesome-all.min.css"
           />
+          <link
+            href="https://fonts.googleapis.com/css?family=Playfair+Display:700|Work+Sans:400,600"
+            rel="stylesheet"
+          />
 
           {this.props.styleTags}
         </Head>

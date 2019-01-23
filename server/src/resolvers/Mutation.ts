@@ -4,34 +4,34 @@ import { Context, getUserId } from '../utils'
 
 export const Mutation = {
   async login(parent, { email }, ctx: Context, info) {
-    try {
-      const user = await ctx.prisma.mutation.upsertUser({
-        where: {
-          email: email,
-        },
-        create: {
-          email: email,
-        },
-        update: {},
-      })
+    if (!email.endsWith('@dijaki.gimb.org')) {
+      return new Error('Uporabit moraš šolski email (@dijaki.gimb.org)!')
+    }
 
-      const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
+    const user = await ctx.prisma.mutation.upsertUser({
+      where: {
+        email: email,
+      },
+      create: {
+        email: email,
+      },
+      update: {},
+    })
 
-      const res = await sendAuthenticationLink(email, token)
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
 
-      if (res.status === 'ok') {
-        return { success: true }
-      } else {
-        return { success: false }
-      }
-    } catch (err) {
-      return {
-        success: false,
-      }
+    const res = await sendAuthenticationLink(email, token)
+
+    if (res.status === 'ok') {
+      return { success: true }
+    } else {
+      return { success: false }
     }
   },
   async requestTicket(parent, { eventId }, ctx: Context, info) {
     const userId = getUserId(ctx)
+
+    // TODO: karte, ki se krizajo
 
     return ctx.prisma.mutation.createTicket(
       {
@@ -45,12 +45,21 @@ export const Mutation = {
     )
   },
   async validateTicket(parent, { id }, ctx: Context, info) {
-    return ctx.prisma.mutation.updateTicket({
-      where: { id: id },
-      data: {
-        isValidated: true,
-      },
+    const validated = await ctx.prisma.exists.Ticket({
+      id,
+      isValidated: true,
     })
+
+    if (validated) {
+      return new Error('Karta že validirana.')
+    } else {
+      return ctx.prisma.mutation.updateTicket({
+        where: { id: id },
+        data: {
+          isValidated: true,
+        },
+      })
+    }
   },
   async createEvent(parent, { data }, ctx: Context, info) {
     return ctx.prisma.mutation.createEvent(

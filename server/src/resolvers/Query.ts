@@ -7,7 +7,7 @@ export const Query = {
     return ctx.prisma.query.user({ where: { id: userId } }, info)
   },
   async feed(parent, args, ctx: Context, info) {
-    const now = Date.now().toLocaleString()
+    const now = new Date().toISOString()
 
     return ctx.prisma.query.events(
       {

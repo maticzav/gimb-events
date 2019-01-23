@@ -6,9 +6,5 @@
     "prettier": "1.15.3",
     "pretty-quick": "1.8.0"
   },
-  "workspaces": [
-    "server",
-    "www"
-  ],
   "license": "MIT"
 }
