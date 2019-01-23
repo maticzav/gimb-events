@@ -2,9 +2,13 @@ import React from 'react'
 import App, { Container } from 'next/app'
 import Router from 'next/router'
 import Progress from 'nprogress'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, css, ThemeProvider } from 'styled-components'
 
-import { Navigation } from '../components/navigation'
+import Navigation from '../sections/Navigation'
+
+import { phone } from '../utils/media'
+import { BASE_MOBILE_FONT_SIZE, BASE_FONT_SIZE } from '../utils/rem'
+import { theme } from '../utils/theme'
 
 // NProgress
 
@@ -25,28 +29,36 @@ Router.onRouteChangeError = stopProgress
 // Global
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: odin;
-    src: url("/static/fonts/odin.otf")
-  }
-  @font-face {
-    font-family: grandhotel;
-    src: url("/static/fonts/grandhotel.otf")
-  }
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: odin;
-    font-size: 16px;
-  }
   html,
   body {
     height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Work Sans", sans-serif;
+    font-size: ${BASE_FONT_SIZE}px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    ${phone(css`
+      font-size: ${BASE_MOBILE_FONT_SIZE}px;
+    `)};
   }
+
   body > div:first-child,
   body > div:first-child > div:first-child,
   body > div:first-child > div:first-child > div {
     height: inherit;
+  }
+
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background: black;
+    color: white;
   }
 
   /* Make clicks pass-through */
@@ -94,11 +106,13 @@ export default class extends App {
     const { Component, pageProps } = this.props
 
     return (
-      <Container>
-        <GlobalStyle />
-        <Navigation />
-        <Component {...pageProps} />
-      </Container>
+      <ThemeProvider theme={theme}>
+        <Container>
+          <GlobalStyle />
+          <Navigation />
+          <Component {...pageProps} />
+        </Container>
+      </ThemeProvider>
     )
   }
 }
