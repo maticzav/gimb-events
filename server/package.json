@@ -16,7 +16,7 @@
     "graphql-shield": "5.0.1",
     "graphql-tools": "^4.0.3",
     "jsonwebtoken": "8.4.0",
-    "multilines": "^1.0.0",
+    "multilines": "^1.0.2",
     "prisma-binding": "^2.2.14"
   },
   "devDependencies": {
