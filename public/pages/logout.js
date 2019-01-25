@@ -7,7 +7,7 @@ class SignOut extends React.Component {
   static async getInitialProps(ctx) {
     destroyCookie(ctx, 'token')
 
-    await ctx.apolloClient.cache.reset()
+    await ctx.apolloClient.resetStore()
 
     redirect(ctx, '/')
 

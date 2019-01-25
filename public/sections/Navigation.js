@@ -19,12 +19,12 @@ const NavigationWrapper = styled.nav`
 const Hero = styled.h1`
   width: min-content;
 
-  margin-left: 10px;
-  margin-top: 50px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin: 0;
 
-  padding: 0;
+  padding-left: 10px;
+  padding-top: 50px;
+  padding-right: 10px;
+  padding-bottom: 10px;
 
   color: ${p => p.theme.colors.black};
   font-family: Playfair Display;
@@ -34,6 +34,13 @@ const Hero = styled.h1`
   ${phone(css`
     font-size: 50px;
   `)};
+`
+
+/* Login */
+
+const LoginWrapper = styled.div`
+  padding: 10px;
+  background-color: ${p => p.theme.colors.red};
 `
 
 /* Navigation */
@@ -77,28 +84,36 @@ export default () => (
   <NavigationWrapper>
     <Container>
       <Hero>Gimb Dogodki</Hero>
-      <NavigationItems>
-        <Query query={viewerQuery}>
-          {({ loading, error, data }) => {
-            if (loading) return 'Nalagam...'
-            if (error) return 'Prišlo je do napake!'
-
-            console.log(data)
-
-            if (!data.viewer) return <Login />
-
-            return (
-              <React.Fragment>
-                {pages.map(page => (
-                  <Link key={`${page.name}-${page.href}`} href={page.href}>
-                    <NavigationItem>{page.name}</NavigationItem>
-                  </Link>
-                ))}
-              </React.Fragment>
-            )
-          }}
-        </Query>
-      </NavigationItems>
     </Container>
+
+    <Query query={viewerQuery}>
+      {({ loading, error, data }) => {
+        if (loading) return 'Nalagam...'
+        if (error) return 'Prišlo je do napake!'
+
+        console.log(data)
+
+        if (!data.viewer)
+          return (
+            <LoginWrapper>
+              <Container>
+                <Login />
+              </Container>
+            </LoginWrapper>
+          )
+
+        return (
+          <Container>
+            <NavigationItems>
+              {pages.map(page => (
+                <Link key={`${page.name}-${page.href}`} href={page.href}>
+                  <NavigationItem>{page.name}</NavigationItem>
+                </Link>
+              ))}
+            </NavigationItems>
+          </Container>
+        )
+      }}
+    </Query>
   </NavigationWrapper>
 )

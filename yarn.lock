@@ -2558,6 +2558,11 @@ capture-stack-trace@^1.0.0:
   resolved "https://registry.yarnpkg.com/capture-stack-trace/-/capture-stack-trace-1.0.1.tgz#a6c0bbe1f38f3aa0b92238ecb6ff42c344d4135d"
   integrity sha512-mYQLZnx5Qt1JgB1WEiMCf2647plpGeQ2NMR/5L0HNZzGQo4fuSPnK+wjfPnKZV0aiJDgzmWqqkV/g7JD+DW0qw==
 
+card-vibes@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/card-vibes/-/card-vibes-0.1.0.tgz#f72420589af8bbccafd8092ee96929800b6fe3a4"
+  integrity sha512-Wf3FVP+HpwdYFif6BP2p+NH5us8jcMoY0j3XqX6iO0TfE7o4DXX3OZZxWQuqL6lOP9jHRBD7Rosv+VRHXOTDZA==
+
 cardinal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/cardinal/-/cardinal-1.0.0.tgz#50e21c1b0aa37729f9377def196b5a9cec932ee9"

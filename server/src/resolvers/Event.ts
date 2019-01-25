@@ -2,14 +2,14 @@ import { getUserId, Context } from '../utils'
 
 export const Event = {
   viewerHasTicket: {
-    fragment: `fragment TicketID on Ticket { id }`,
+    fragment: `fragment EventId on Event { id }`,
     resolve: async ({ id }, args, ctx: Context) => {
       try {
         const userId = getUserId(ctx)
 
-        return ctx.prisma.exists.Ticket({
+        return ctx.prisma.exists.Event({
           id,
-          owner: { id: userId },
+          tickets_some: { owner: { id: userId } },
         })
       } catch (err) {
         return false
@@ -17,21 +17,21 @@ export const Event = {
     },
   },
   hasAvailableTickets: {
-    fragment: `fragment TicketID on Ticket { event { id numberOfTickets } }`,
-    resolve: async ({ event }, args, ctx: Context) => {
+    fragment: `fragment EventId on Event { id numberOfTickets }`,
+    resolve: async ({ id, numberOfTickets }, args, ctx: Context) => {
       const ticketsTaken = await ctx.prisma.query.ticketsConnection(
         {
-          where: { event: { id: event.id } },
+          where: { event: { id: id } },
         },
         ` { aggregate { count } } `,
       )
 
-      return ticketsTaken.aggregate.count < event.numberOfTickets
+      return ticketsTaken.aggregate.count < numberOfTickets
     },
   },
   viewerCanRequestTicket: {
-    fragment: `fragment TicketID on Ticket { event { id numberOfTickets } }`,
-    resolve: async ({ event }, args, ctx: Context) => {
+    fragment: `fragment EventId on Event { id }`,
+    resolve: async ({ id }, args, ctx: Context) => {
       try {
         const userId = getUserId(ctx)
 

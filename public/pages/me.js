@@ -4,6 +4,8 @@ import { destroyCookie } from 'nookies'
 import checkLoggedIn from '../lib/checkLoggedIn'
 import redirect from '../lib/redirect'
 
+import MyTickets from '../sections/MyTickets'
+
 class MePage extends React.Component {
   static async getInitialProps(ctx) {
     const { loggedInUser } = await checkLoggedIn(ctx.apolloClient)
@@ -16,7 +18,7 @@ class MePage extends React.Component {
   }
 
   render() {
-    return <div>ME</div>
+    return <MyTickets />
   }
 }
 

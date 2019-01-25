@@ -7,14 +7,40 @@ import { phone } from '../utils/media'
 
 /* Components */
 
-const LoginWrapper = styled.div`
-  width: 100%;
+const LoginWrapper = styled.span`
+  width: auto;
+  max-width: 340px;
+  margin: 0;
+  padding: 0;
 `
 
 const FormWrapper = styled.div`
   width: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px;
+  background: white;
+  border-radius: 6px;
+`
+
+const Input = styled.input`
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  font-size: 16px;
+  padding: 0 3px;
   margin: 0;
-  padding: 0;
+`
+
+const Button = styled.button`
+  display: inline-flex;
+  width: auto;
+  cursor: pointer;
+  line-height: 1;
+  font-size: 14px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  scrollbehavior: ;
 `
 
 const SuccessMessage = styled.p`
@@ -28,23 +54,12 @@ const ErrorMessage = styled.p`
   margin: 0;
   padding: 0;
 
-  color: ${p => p.theme.colors.red};
+  color: ${p => p.theme.colors.white};
   font-size: 15px;
 
   ${phone(css`
     font-size: 12px;
   `)};
-`
-
-const Input = styled.input`
-  display: inline;
-  width: 90%;
-  max-width: 400px;
-`
-
-const Button = styled.button`
-  display: inline-block;
-  width: 100px;
 `
 
 /* Mutation */
@@ -84,7 +99,7 @@ export default class Login extends React.Component {
               <React.Fragment>
                 <FormWrapper>
                   <Input
-                    placeholder="Hey"
+                    placeholder="matic@dijaki.gimb.org"
                     value={this.state.email}
                     onChange={this.changeEmailAddress}
                   />

@@ -67,6 +67,7 @@ export const Mutation = {
       {
         data: {
           name: data.name,
+          speaker: data.speaker,
           description: data.description,
           date: data.date,
           location: data.location,
@@ -86,6 +87,7 @@ export const Mutation = {
         },
         data: {
           name: data.name,
+          speaker: data.speaker,
           description: data.description,
           date: data.date,
           location: data.location,

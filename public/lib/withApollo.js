@@ -22,10 +22,7 @@ export default App => {
       const apollo = initApollo(
         {},
         {
-          getToken: () => {
-            console.log('abcff', parseCookies(ctx))
-            return parseCookies(ctx).token
-          },
+          getToken: () => parseCookies(ctx.ctx).token,
         },
       )
 

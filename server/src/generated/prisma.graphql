@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/matic-zavadlal-03c51f/gimb-events/dev
-# timestamp: Mon Jan 21 2019 16:11:57 GMT+0100 (Central European Standard Time)
+# timestamp: Fri Jan 25 2019 17:52:26 GMT+0100 (Central European Standard Time)
 
 type AggregateEvent {
   count: Int!
@@ -27,6 +27,7 @@ type Event implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -62,6 +63,7 @@ type EventConnection {
 
 input EventCreateInput {
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -78,6 +80,7 @@ input EventCreateOneWithoutTicketsInput {
 
 input EventCreateWithoutTicketsInput {
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -110,6 +113,8 @@ enum EventOrderByInput {
   updatedAt_DESC
   name_ASC
   name_DESC
+  speaker_ASC
+  speaker_DESC
   description_ASC
   description_DESC
   location_ASC
@@ -129,6 +134,7 @@ type EventPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -184,6 +190,7 @@ input EventSubscriptionWhereInput {
 
 input EventUpdateInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -195,6 +202,7 @@ input EventUpdateInput {
 
 input EventUpdateManyMutationInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -212,6 +220,7 @@ input EventUpdateOneRequiredWithoutTicketsInput {
 
 input EventUpdateWithoutTicketsDataInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -444,6 +453,72 @@ input EventWhereInput {
   All values not ending with the given string.
   """
   name_not_ends_with: String
+  speaker: String
+
+  """
+  All values that are not equal to given value.
+  """
+  speaker_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  speaker_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  speaker_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  speaker_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  speaker_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  speaker_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  speaker_gte: String
+
+  """
+  All values containing the given string.
+  """
+  speaker_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  speaker_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  speaker_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  speaker_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  speaker_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  speaker_not_ends_with: String
   description: String
 
   """
@@ -1401,8 +1476,6 @@ type User implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   email: String!
-  isModerator: Boolean!
-  isAdministrator: Boolean!
   tickets(
     where: TicketWhereInput
     orderBy: TicketOrderByInput
@@ -1412,6 +1485,8 @@ type User implements Node {
     first: Int
     last: Int
   ): [Ticket!]
+  isModerator: Boolean!
+  isAdministrator: Boolean!
 }
 
 """

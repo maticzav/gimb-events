@@ -299,6 +299,7 @@ type Event implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -320,6 +321,7 @@ type EventConnection {
 
 input EventCreateInput {
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -336,6 +338,7 @@ input EventCreateOneWithoutTicketsInput {
 
 input EventCreateWithoutTicketsInput {
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -362,6 +365,8 @@ enum EventOrderByInput {
   updatedAt_DESC
   name_ASC
   name_DESC
+  speaker_ASC
+  speaker_DESC
   description_ASC
   description_DESC
   location_ASC
@@ -381,6 +386,7 @@ type EventPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
@@ -430,6 +436,7 @@ input EventSubscriptionWhereInput {
 
 input EventUpdateInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -441,6 +448,7 @@ input EventUpdateInput {
 
 input EventUpdateManyMutationInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -458,6 +466,7 @@ input EventUpdateOneRequiredWithoutTicketsInput {
 
 input EventUpdateWithoutTicketsDataInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -604,6 +613,46 @@ input EventWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  speaker: String
+
+  """All values that are not equal to given value."""
+  speaker_not: String
+
+  """All values that are contained in given list."""
+  speaker_in: [String!]
+
+  """All values that are not contained in given list."""
+  speaker_not_in: [String!]
+
+  """All values less than the given value."""
+  speaker_lt: String
+
+  """All values less than or equal the given value."""
+  speaker_lte: String
+
+  """All values greater than the given value."""
+  speaker_gt: String
+
+  """All values greater than or equal the given value."""
+  speaker_gte: String
+
+  """All values containing the given string."""
+  speaker_contains: String
+
+  """All values not containing the given string."""
+  speaker_not_contains: String
+
+  """All values starting with the given string."""
+  speaker_starts_with: String
+
+  """All values not starting with the given string."""
+  speaker_not_starts_with: String
+
+  """All values ending with the given string."""
+  speaker_ends_with: String
+
+  """All values not ending with the given string."""
+  speaker_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -1236,9 +1285,9 @@ type User implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   email: String!
+  tickets(where: TicketWhereInput, orderBy: TicketOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ticket!]
   isModerator: Boolean!
   isAdministrator: Boolean!
-  tickets(where: TicketWhereInput, orderBy: TicketOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ticket!]
 }
 
 """A connection to a list of items."""
@@ -1541,6 +1590,8 @@ export type EventOrderByInput =
   | 'updatedAt_DESC'
   | 'name_ASC'
   | 'name_DESC'
+  | 'speaker_ASC'
+  | 'speaker_DESC'
   | 'description_ASC'
   | 'description_DESC'
   | 'location_ASC'
@@ -1582,6 +1633,7 @@ export type UserOrderByInput =
 
 export interface EventCreateInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -1598,6 +1650,7 @@ export interface EventCreateOneWithoutTicketsInput {
 
 export interface EventCreateWithoutTicketsInput {
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -1619,6 +1672,7 @@ export interface EventSubscriptionWhereInput {
 
 export interface EventUpdateInput {
   name?: String | null
+  speaker?: String | null
   description?: String | null
   location?: String | null
   period?: Int | null
@@ -1630,6 +1684,7 @@ export interface EventUpdateInput {
 
 export interface EventUpdateManyMutationInput {
   name?: String | null
+  speaker?: String | null
   description?: String | null
   location?: String | null
   period?: Int | null
@@ -1647,6 +1702,7 @@ export interface EventUpdateOneRequiredWithoutTicketsInput {
 
 export interface EventUpdateWithoutTicketsDataInput {
   name?: String | null
+  speaker?: String | null
   description?: String | null
   location?: String | null
   period?: Int | null
@@ -1708,6 +1764,20 @@ export interface EventWhereInput {
   name_not_starts_with?: String | null
   name_ends_with?: String | null
   name_not_ends_with?: String | null
+  speaker?: String | null
+  speaker_not?: String | null
+  speaker_in?: String[] | String | null
+  speaker_not_in?: String[] | String | null
+  speaker_lt?: String | null
+  speaker_lte?: String | null
+  speaker_gt?: String | null
+  speaker_gte?: String | null
+  speaker_contains?: String | null
+  speaker_not_contains?: String | null
+  speaker_starts_with?: String | null
+  speaker_not_starts_with?: String | null
+  speaker_ends_with?: String | null
+  speaker_not_ends_with?: String | null
   description?: String | null
   description_not?: String | null
   description_in?: String[] | String | null
@@ -2146,6 +2216,7 @@ export interface Event extends Node {
   createdAt: DateTime
   updatedAt: DateTime
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -2179,6 +2250,7 @@ export interface EventPreviousValues {
   createdAt: DateTime
   updatedAt: DateTime
   name: String
+  speaker: String
   description: String
   location: String
   period: Int
@@ -2252,9 +2324,9 @@ export interface User extends Node {
   createdAt: DateTime
   updatedAt: DateTime
   email: String
+  tickets?: Array<Ticket> | null
   isModerator: Boolean
   isAdministrator: Boolean
-  tickets?: Array<Ticket> | null
 }
 
 /*

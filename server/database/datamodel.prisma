@@ -6,6 +6,7 @@ type Event {
   # Meta
 
   name: String!
+  speaker: String!
   description: String!
   location: String!
   period: Int!
