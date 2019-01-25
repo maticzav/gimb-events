@@ -1,12 +1,25 @@
 import gql from 'graphql-tag'
 import React from 'react'
 import { Query } from 'react-apollo'
+import styled from 'styled-components'
 
 import Container from '../components/Container'
 import Heading from '../components/SectionHeading'
 import Ticket, { fragment as ticketFragment } from '../components/Ticket'
 
-/* Events */
+const TicketsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-directon: row;
+  flex-wrap: wrap;
+
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 30px;
+`
+
+/* Tickets */
 
 const viewerQuery = gql`
   query Viewer {
@@ -37,11 +50,11 @@ export default () => (
           if (data.viewer.tickets.length === 0) return 'Nimaš še nobenih kart.'
 
           return (
-            <React.Fragment>
+            <TicketsWrapper>
               {data.viewer.tickets.map(ticket => (
-                <Ticket key={ticket.id} data={ticket} />
+                <Ticket key={ticket.id} ticket={ticket} />
               ))}
-            </React.Fragment>
+            </TicketsWrapper>
           )
         }}
       </Query>

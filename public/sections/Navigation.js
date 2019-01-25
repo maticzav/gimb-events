@@ -40,7 +40,6 @@ const Hero = styled.h1`
 
 const LoginWrapper = styled.div`
   padding: 10px;
-  background-color: ${p => p.theme.colors.red};
 `
 
 /* Navigation */
@@ -90,8 +89,6 @@ export default () => (
       {({ loading, error, data }) => {
         if (loading) return 'Nalagam...'
         if (error) return 'Prišlo je do napake!'
-
-        console.log(data)
 
         if (!data.viewer)
           return (

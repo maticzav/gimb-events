@@ -78,10 +78,7 @@ export default App => {
       // `getDataFromTree` renders the component first, the client is passed off as a property.
       // After that rendering is done using Next's normal rendering pipeline
       this.apolloClient = initApollo(props.apolloState, {
-        getToken: () => {
-          console.log('abc', parseCookies())
-          return parseCookies().token
-        },
+        getToken: () => parseCookies().token,
       })
     }
 

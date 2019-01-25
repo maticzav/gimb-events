@@ -104,7 +104,7 @@ export default class Login extends React.Component {
                     onChange={this.changeEmailAddress}
                   />
                   <Button onClick={login} disabled={disabled}>
-                    {loading ? 'Nalagam' : 'Prijava'}
+                    {loading ? 'Počakaj' : 'Vpiši se'}
                   </Button>
                 </FormWrapper>
                 {error && (
