@@ -17,8 +17,8 @@ export const Event = {
     },
   },
   hasAvailableTickets: {
-    fragment: `fragment EventId on Event { id numberOfTickets }`,
-    resolve: async ({ id, numberOfTickets }, args, ctx: Context) => {
+    fragment: `fragment EventId on Event { id }`,
+    resolve: async ({ id }, args, ctx: Context) => {
       const ticketsTaken = await ctx.prisma.query.ticketsConnection(
         {
           where: { event: { id: id } },
@@ -26,7 +26,10 @@ export const Event = {
         ` { aggregate { count } } `,
       )
 
-      return ticketsTaken.aggregate.count < numberOfTickets
+      return ctx.prisma.exists.Event({
+        id: id,
+        numberOfTickets_gt: ticketsTaken.aggregate.count,
+      })
     },
   },
   viewerCanRequestTicket: {

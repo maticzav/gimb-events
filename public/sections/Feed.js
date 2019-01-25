@@ -47,7 +47,7 @@ export default () => (
           return (
             <EventsWrapper>
               {data.feed.map(event => (
-                <Event key={event.id} data={event} />
+                <Event key={event.id} event={event} />
               ))}
             </EventsWrapper>
           )

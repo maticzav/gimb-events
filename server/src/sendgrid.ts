@@ -47,3 +47,52 @@ export async function sendAuthenticationLink(
     }
   }
 }
+
+/**
+ *
+ * Sends authentication link to a particular recipient.
+ *
+ * @param email
+ * @param link
+ */
+export async function sendAdminAuthenticationLink(
+  email: string,
+  link: string,
+): Promise<{ status: 'ok' } | { status: 'err'; message: string }> {
+  try {
+    const res = await sendgrid.send({
+      from: 'Gimb Dogodki <events@gimb.org>',
+      to: email,
+      subject: 'Prijava v Gimb Dogodke',
+      text: mls`
+        | Za prijavo klikni spodnji link ali pa ga 
+        | skopiraj v svoj brskalnik. 
+        |
+        | ${link}
+        |
+        | Za prijavo v aplikacijo Gimb Dogodki klini spodnji
+        | link, ali pa ga skopiraj v svoj brskalnik.
+        |
+        | ${link}
+        `,
+      html: mls`
+        | Za prijavo klikni spodnji link ali pa ga 
+        | skopiraj v svoj brskalnik.
+        |
+        | <a href="${link}">${link}</a>
+        |
+        | Za prijavo v aplikacijo Gimb Dogodki klini spodnji
+        | link, ali pa ga skopiraj v svoj brskalnik.
+        |
+        | ${link}
+        `,
+    })
+
+    return { status: 'ok' }
+  } catch (err) {
+    return {
+      status: 'err',
+      message: err.message,
+    }
+  }
+}
