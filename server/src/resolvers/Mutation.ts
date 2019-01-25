@@ -21,7 +21,7 @@ export const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
     const link = getAuthenticationLink(token)
 
-    const res = await sendAuthenticationLink(email, link)
+    const res = await sendAuthenticationLink(email, link.web)
 
     if (res.status === 'ok') {
       return { success: true }

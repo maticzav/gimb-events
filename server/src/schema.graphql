@@ -90,5 +90,6 @@ type Event {
 
   # Viewer
   viewerHasTicket: Boolean!
+  viewerCanRequestTicket: Boolean!
   hasAvailableTickets: Boolean!
 }

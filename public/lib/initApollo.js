@@ -41,6 +41,7 @@ function create(initialState = {}, { getToken }) {
       if (process.browser && process.env.NODE_ENV !== 'production') {
         console.log(operation.operationName)
         console.log(operation)
+        console.log(result)
       }
       return result
     })

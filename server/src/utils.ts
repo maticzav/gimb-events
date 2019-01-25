@@ -1,16 +1,19 @@
+import * as express from 'express'
 import * as jwt from 'jsonwebtoken'
 import { Prisma } from './generated/prisma'
 
 export interface Context {
   prisma: Prisma
-  request: any
+  request: express.Request
 }
 
-export function getAuthenticationLink(token: string): string {
+export function getAuthenticationLink(
+  token: string,
+): { web: string; app: string } {
   if (process.env.NODE_ENV !== 'production') {
-    return `http://localhost:4000/confirm?token=${token}`
+    return { web: `http://localhost:3001/confirm?token=${token}`, app: '' }
   } else {
-    return `https://events.gimb.io/confirm?token=${token}`
+    return { web: `https://events.gimb.io/confirm?token=${token}`, app: '' }
   }
 }
 

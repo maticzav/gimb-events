@@ -29,4 +29,18 @@ export const Event = {
       return ticketsTaken.aggregate.count < event.numberOfTickets
     },
   },
+  viewerCanRequestTicket: {
+    fragment: `fragment TicketID on Ticket { event { id numberOfTickets } }`,
+    resolve: async ({ event }, args, ctx: Context) => {
+      try {
+        const userId = getUserId(ctx)
+
+        // TODO:
+
+        return true
+      } catch (err) {
+        return false
+      }
+    },
+  },
 }

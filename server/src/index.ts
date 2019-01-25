@@ -32,7 +32,8 @@ const schema = applyMiddleware(
 
 export const server = new ApolloServer({
   schema,
-  context: (req: express.Request) =>
+  debug: process.env.NODE_ENV !== 'production',
+  context: ({ req }: { req: express.Request }) =>
     ({
       prisma: new Prisma({
         endpoint: process.env.PRISMA_ENDPOINT,

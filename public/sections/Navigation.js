@@ -83,6 +83,8 @@ export default () => (
             if (loading) return 'Nalagam...'
             if (error) return 'Prišlo je do napake!'
 
+            console.log(data)
+
             if (!data.viewer) return <Login />
 
             return (
