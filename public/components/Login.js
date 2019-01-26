@@ -102,7 +102,7 @@ const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email('Vpisati moraš veljaven email!')
     .matches(
-      new RegExp('/@dijaki.gimb.org$/'),
+      new RegExp(/@dijaki.gimb.org$/),
       'Vpisati moraš šolski email (@dijaki.gimb.org).',
     )
     .required('Vpisati moraš šolski email.'),
@@ -116,19 +116,21 @@ export default () => (
           initialValues={{ email: '' }}
           validationSchema={loginSchema}
           onSubmit={(values, actions) => {
-            alert(values)
-            // error.message.replace('GraphQL error: ', '')
+            actions.setStatus({ success: false })
+
             login({ variables: { email: values.email } }).then(
               () => {
+                actions.setStatus({ success: true })
                 actions.setSubmitting(false)
               },
               error => {
+                actions.setStatus({ success: false })
                 actions.setSubmitting(false)
               },
             )
           }}
         >
-          {({ handleSubmit, isSubmitting }) => (
+          {({ handleSubmit, isSubmitting, status }) => (
             <React.Fragment>
               <Form>
                 <FormWrapper>
@@ -142,6 +144,9 @@ export default () => (
                   </Button>
                 </FormWrapper>
                 <ErrorMessage name="email" component={Status} />
+                {status.success && (
+                  <Status success>Poglej svoj email za vpis!</Status>
+                )}
               </Form>
             </React.Fragment>
           )}

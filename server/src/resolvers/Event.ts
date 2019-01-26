@@ -34,7 +34,7 @@ export const Event = {
     },
   },
   viewerCanRequestTicket: {
-    fragment: `fragment EventId on Event { date period }`,
+    fragment: `fragment EventDatePeriod on Event { date period }`,
     resolve: async ({ date, period }, args, ctx: Context) => {
       try {
         const userId = getUserId(ctx)
@@ -51,8 +51,8 @@ export const Event = {
           owner: { id: userId },
           event: {
             period: period,
-            date_lte: end.toISOString(),
             date_gte: start.toISOString(),
+            date_lte: end.toISOString(),
           },
         })
 
