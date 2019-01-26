@@ -36,12 +36,6 @@ const Hero = styled.h1`
   `)};
 `
 
-/* Login */
-
-const LoginWrapper = styled.div`
-  padding: 10px;
-`
-
 /* Navigation */
 
 const NavigationItems = styled.div`
@@ -92,11 +86,9 @@ export default () => (
 
         if (!data.viewer)
           return (
-            <LoginWrapper>
-              <Container>
-                <Login />
-              </Container>
-            </LoginWrapper>
+            <Container>
+              <Login />
+            </Container>
           )
 
         return (

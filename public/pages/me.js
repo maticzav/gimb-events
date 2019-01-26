@@ -5,6 +5,7 @@ import checkLoggedIn from '../lib/checkLoggedIn'
 import redirect from '../lib/redirect'
 
 import MyTickets from '../sections/MyTickets'
+import Footer from '../sections/Footer'
 
 class MePage extends React.Component {
   static async getInitialProps(ctx) {
@@ -18,7 +19,12 @@ class MePage extends React.Component {
   }
 
   render() {
-    return <MyTickets />
+    return (
+      <React.Fragment>
+        <MyTickets />
+        <Footer />
+      </React.Fragment>
+    )
   }
 }
 

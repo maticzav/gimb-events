@@ -2,7 +2,6 @@ import React from 'react'
 import gql from 'graphql-tag'
 import hasher from 'hash-index'
 import moment from 'moment'
-import Link from 'next/link'
 import { invert, saturate, hsl } from 'polished'
 import QRCode from 'qrcode.react'
 import styled, { css } from 'styled-components'
@@ -138,26 +137,11 @@ const Status = styled.p`
     `};
 `
 
-const Button = styled.a`
-  display: inline-block;
+const Code = styled(QRCode)`
+  display: block;
+  width: auto;
 
-  padding: 12px 24px;
-  font-size: 20px;
-  font-weight: 600;
-
-  background: ${p => p.theme.colors.green};
-  color: white;
-  border: none;
-  cursor: pointer;
-
-  transform-origin: right center;
-  transition: background 160ms ease-out, transform 160ms ease-out, color 160ms,
-    box-shadow 160ms;
-
-  ${phone(css`
-    margin-top: 18px;
-    transform-origin: center center;
-  `)};
+  text-align: center;
 `
 
 const Ticket = ({ ticket }) => (
@@ -173,12 +157,7 @@ const Ticket = ({ ticket }) => (
         .locale('sl')
         .format('LL')}
     </Datum>
-    {ticket.isExpired && <Status>Ta vztopnica ni več veljavna</Status>}
-    {!ticket.isExpired && (
-      <Link href={`/ticket/${ticket.id}`}>
-        <Button>Vztopnica</Button>
-      </Link>
-    )}
+    <Code value={ticket.id} />
   </TicketWrapper>
 )
 
