@@ -11,4 +11,7 @@ hooks:
     - graphql get-schema --project database
     - graphql codegen
 
+seed:
+  import: seed.graphql
+
 secret: ${env:PRISMA_SECRET}

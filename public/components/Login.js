@@ -1,65 +1,89 @@
-import gql from 'graphql-tag'
 import React from 'react'
 import { Mutation } from 'react-apollo'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import gql from 'graphql-tag'
 import styled, { css } from 'styled-components'
+import * as Yup from 'yup'
 
 import { phone } from '../utils/media'
 
 /* Components */
 
 const LoginWrapper = styled.span`
-  width: auto;
-  max-width: 340px;
+  display: block;
+  max-width: 320px;
   margin: 0;
   padding: 0;
+  box-sizing: content-box;
+  text-align: center;
 `
 
 const FormWrapper = styled.div`
   width: 100%;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   padding: 8px;
-  background: white;
+  border: 1px solid lightgrey;
   border-radius: 6px;
 `
 
-const Input = styled.input`
+const EmailInput = styled.input.attrs(props => ({
+  ...props.field,
+  placeholder: 'matic@dijaki.gimb.org',
+}))`
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: auto;
   font-size: 16px;
-  padding: 0 3px;
+  padding: 0 6px;
   margin: 0;
+  border: 0;
+
+  line-height: 1;
+  font-size: 14px;
+
+  outline: none;
 `
 
 const Button = styled.button`
-  display: inline-flex;
-  width: auto;
+  box-sizing: border-box;
+  display: inline-block;
   cursor: pointer;
+  pointer-events: all;
   line-height: 1;
   font-size: 14px;
+  font-weight: 700;
   text-transform: uppercase;
   white-space: nowrap;
-  scrollbehavior: ;
+  color: white;
+  background: ${p => p.theme.colors.green};
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  border-radius: 6px;
+
+  outline: none;
+  padding: 8px;
+
+  box-shadow: rgba(12, 52, 75, 0.05) 0px 3px 3px;
+  transition: all 0.2s linear 0s;
 `
 
-const SuccessMessage = styled.p`
+const Status = styled.p`
   margin: 0;
-  padding: 0;
+  padding: 3px;
 
-  color: ${p => p.theme.colors.green};
-`
+  font-size: 14px;
+  text-align: left;
 
-const ErrorMessage = styled.p`
-  margin: 0;
-  padding: 0;
+  color: ${p => p.theme.colors.red};
 
-  color: ${p => p.theme.colors.white};
-  font-size: 15px;
-
-  ${phone(css`
-    font-size: 12px;
-  `)};
+  ${p =>
+    p.success &&
+    css`
+      color: ${p.theme.colors.green};
+    `};
 `
 
 /* Mutation */
@@ -74,49 +98,55 @@ const loginMutation = gql`
 
 /* Form */
 
-export default class Login extends React.Component {
-  state = { email: '' }
+const loginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Vpisati moraš veljaven email!')
+    .matches(
+      new RegExp('/@dijaki.gimb.org$/'),
+      'Vpisati moraš šolski email (@dijaki.gimb.org).',
+    )
+    .required('Vpisati moraš šolski email.'),
+})
 
-  changeEmailAddress = e => {
-    this.setState({ email: e.target.value })
-  }
-
-  render() {
-    return (
-      <LoginWrapper>
-        <Mutation
-          mutation={loginMutation}
-          variables={{ email: this.state.email }}
-        >
-          {(login, { data, loading, error }) => {
-            const disabled = loading || this.state.email.trim().length === 0
-
-            if (data && data.success) {
-              return <SuccessMessage>Poglej svoj mail.</SuccessMessage>
-            }
-
-            return (
-              <React.Fragment>
-                <FormWrapper>
-                  <Input
-                    placeholder="matic@dijaki.gimb.org"
-                    value={this.state.email}
-                    onChange={this.changeEmailAddress}
-                  />
-                  <Button onClick={login} disabled={disabled}>
-                    {loading ? 'Počakaj' : 'Vpiši se'}
-                  </Button>
-                </FormWrapper>
-                {error && (
-                  <ErrorMessage>
-                    {error.message.replace('GraphQL error: ', '')}
-                  </ErrorMessage>
-                )}
-              </React.Fragment>
+export default () => (
+  <LoginWrapper>
+    <Mutation mutation={loginMutation}>
+      {(login, { data, loading, error }) => (
+        <Formik
+          initialValues={{ email: '' }}
+          validationSchema={loginSchema}
+          onSubmit={(values, actions) => {
+            alert(values)
+            // error.message.replace('GraphQL error: ', '')
+            login({ variables: { email: values.email } }).then(
+              () => {
+                actions.setSubmitting(false)
+              },
+              error => {
+                actions.setSubmitting(false)
+              },
             )
           }}
-        </Mutation>
-      </LoginWrapper>
-    )
-  }
-}
+        >
+          {({ handleSubmit, isSubmitting }) => (
+            <React.Fragment>
+              <Form>
+                <FormWrapper>
+                  <Field type="email" name="email" component={EmailInput} />
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Počakaj' : 'Vpiši se'}
+                  </Button>
+                </FormWrapper>
+                <ErrorMessage name="email" component={Status} />
+              </Form>
+            </React.Fragment>
+          )}
+        </Formik>
+      )}
+    </Mutation>
+  </LoginWrapper>
+)

@@ -1,0 +1,11 @@
+mutation {
+  createUser(
+    data: {
+      email: "matic.zavadlal@dijaki.gimb.org"
+      isAdministrator: true
+      isModerator: true
+    }
+  ) {
+    id
+  }
+}

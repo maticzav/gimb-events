@@ -36,7 +36,7 @@ const Footer = () => (
   <Wrapper>
     <p>
       Made with <span>❤️</span> by{' '}
-      <a href="https://twitter.com/maticzav">Matic</a>
+      <a href="https://www.instagram.com/maticzavadlal/">Matic Zavadlal</a>
     </p>
     <p>
       <LinkItem href="/privacy">Privacy Policy</LinkItem>{' '}
