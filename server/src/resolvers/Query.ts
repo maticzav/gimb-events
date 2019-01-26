@@ -1,4 +1,5 @@
 import { Context, getUserId } from '../utils'
+import moment = require('moment')
 
 export const Query = {
   async viewer(parent, args, ctx: Context, info) {
@@ -13,7 +14,9 @@ export const Query = {
     return ctx.prisma.query.ticket({ where: { id } }, info)
   },
   async feed(parent, args, ctx: Context, info) {
-    const now = new Date().toISOString()
+    const now = moment()
+      .endOf('day')
+      .toISOString()
 
     return ctx.prisma.query.events(
       {
