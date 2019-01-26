@@ -13,7 +13,7 @@ export function getAuthenticationLink(
   if (process.env.NODE_ENV !== 'production') {
     return { web: `http://localhost:3001/confirm?token=${token}`, app: '' }
   } else {
-    return { web: `https://events.gimb.io/confirm?token=${token}`, app: '' }
+    return { web: `https://dogodki.gimb.io/confirm?token=${token}`, app: '' }
   }
 }
 

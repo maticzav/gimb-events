@@ -3,8 +3,10 @@ tmp*
 dist
 coverage
 .next
-.env*
 .vscode
+.env*
 
 .DS_Store
 *.log*
+
+app

@@ -11,7 +11,7 @@ if (!process.browser) {
   global.fetch = fetch
 }
 
-let GRAPHQL_URL = 'https://events.gimb.io/api'
+let GRAPHQL_URL = 'https://dogodki.gimb.io/api'
 
 if (process.env.NODE_ENV !== 'production') {
   GRAPHQL_URL = 'http://localhost:4000'

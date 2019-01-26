@@ -1,13 +1,11 @@
 import { ApolloServer } from 'apollo-server'
 import * as express from 'express'
-import * as fs from 'fs'
-import { parse } from 'graphql'
 import { applyMiddleware } from 'graphql-middleware'
 import { makeExecutableSchema } from 'graphql-tools'
-import * as path from 'path'
 
 import { Prisma } from './generated/prisma'
 import { resolvers, fragmentReplacements } from './resolvers'
+import { typeDefs } from './schema'
 import { permissions } from './shield'
 import { Context } from './utils'
 
@@ -18,10 +16,6 @@ if (!process.env.PRISMA_ENDPOINT || !process.env.PRISMA_SECRET) {
 }
 
 /* Schema */
-
-const typeDefs = parse(
-  fs.readFileSync(path.resolve(__dirname, './schema.graphql'), 'utf-8'),
-)
 
 const schema = applyMiddleware(
   makeExecutableSchema({ typeDefs, resolvers }),
