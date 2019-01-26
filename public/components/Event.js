@@ -186,7 +186,11 @@ const Event = ({ event }) => (
         .locale('sl')
         .format('LL')}
     </Datum>
-    <Mutation mutation={reserveMutation} variables={{ eventId: event.id }}>
+    <Mutation
+      mutation={reserveMutation}
+      variables={{ eventId: event.id }}
+      refetchQueries={['feed']}
+    >
       {(reserve, { data, loading, error }) => {
         if (event.viewerHasTicket)
           return <Status success>{'Karta za dogodek rezervirana!'}</Status>
