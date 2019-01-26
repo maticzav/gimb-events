@@ -22,7 +22,7 @@ export async function sendAuthenticationLink(
 ): Promise<{ status: 'ok' } | { status: 'err'; message: string }> {
   try {
     const res = await sendgrid.send({
-      from: 'Gimb Dogodki <dogodki@gimb.io>',
+      from: 'Gimb Dogodki <dogodki@gimb.xyz>',
       to: email,
       subject: 'Prijava v Gimb Dogodke',
       text: mls`

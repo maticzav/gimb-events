@@ -2,7 +2,7 @@
   "public": false,
   "name": "gimb-events",
   "version": 2,
-  "alias": "dogodki.gimb.io",
+  "alias": "dogodki.gimb.xyz",
   "builds": [
     { "src": "server/src/index.ts", "use": "@now/node-server@canary" },
     { "src": "public/package.json", "use": "@now/next" }

@@ -4,10 +4,11 @@ import { ServerStyleSheet } from 'styled-components'
 // Document
 
 const meta = {
-  url: 'https://events.gimb.io/',
+  url: 'https://dogodki.gimb.xyz/',
+  title: 'Gimb Dogodki',
   description: 'Spletna stran dogodkov na Gimnaziji Bežigrad.',
   keywords: 'Gimnazija, Bežigrad, dogodki, karte',
-  thumbnail: 'https://znam.gimb.io/static/images/logo_large.png',
+  thumbnail: 'https://znam.gimb.xyz/static/images/logo_large.png',
   googleSiteVerification: '',
 }
 
@@ -25,6 +26,8 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
+          <title>{meta.title}</title>
+
           <meta
             name="google-site-verification"
             content={meta.googleSiteVerification}
