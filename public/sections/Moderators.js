@@ -1,0 +1,109 @@
+import gql from 'graphql-tag'
+import React from 'react'
+import { Query } from 'react-apollo'
+import styled from 'styled-components'
+
+import Container from '../components/Container'
+import User, { fragment as userFragment } from '../components/User'
+import Heading from '../components/SectionHeading'
+
+const InputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 6px;
+`
+
+const Input = styled.input`
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  font-size: 16px;
+  padding: 0 6px;
+  margin: 0;
+  border: 0;
+
+  line-height: 1;
+  font-size: 14px;
+
+  outline: none;
+`
+
+const UsersWrapper = styled.table`
+  width: 100%;
+  display: flex;
+  flex-directon: row;
+  flex-wrap: wrap;
+
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 30px;
+`
+
+const Users = styled.tbody``
+
+/* Events */
+
+const usersQuery = gql`
+  query Feed($query: String) {
+    users(query: $query) {
+      ...UserInformation
+    }
+  }
+
+  ${userFragment}
+`
+
+class Moderators extends React.Component {
+  state = {
+    query: '',
+  }
+
+  handleQueryChange = e => {
+    this.setState({ query: e.target.value })
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Container>
+          <Heading>Uporabniki</Heading>
+        </Container>
+        <Container>
+          <InputWrapper>
+            <Input
+              value={this.state.query}
+              onChange={this.handleQueryChange}
+              placeholder="Išči..."
+            />
+          </InputWrapper>
+
+          <Query query={usersQuery} variables={{ query: this.state.query }}>
+            {({ loading, error, data }) => {
+              if (loading) return 'Nalagam...'
+              if (error) return 'Prišlo je do napake.'
+
+              if (data.users.length === 0)
+                return 'Ne najdem nobenih uporabnikov.'
+
+              return (
+                <UsersWrapper>
+                  <Users>
+                    {data.users.map(user => (
+                      <User key={user.id} user={user} />
+                    ))}
+                  </Users>
+                </UsersWrapper>
+              )
+            }}
+          </Query>
+        </Container>
+      </React.Fragment>
+    )
+  }
+}
+
+export default Moderators

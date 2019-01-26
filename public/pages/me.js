@@ -1,5 +1,4 @@
 import React from 'react'
-import { destroyCookie } from 'nookies'
 
 import checkLoggedIn from '../lib/checkLoggedIn'
 import redirect from '../lib/redirect'

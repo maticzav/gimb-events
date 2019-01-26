@@ -58,6 +58,38 @@ const NavigationItem = styled.a`
   cursor: pointer;
 `
 
+/* Admin */
+
+const AdminNavigation = styled.div`
+  width: 100%;
+  padding: 10px 20px;
+  margin: 0;
+
+  color: ${p => p.theme.colors.red};
+  font-size: 20px;
+  text-decoration: none;
+
+  ${phone(css`
+    font-size: 14px;
+  `)};
+`
+
+const AdminLink = styled.a`
+  display: inline;
+  margin: 0;
+  padding: 0;
+
+  color: ${p => p.theme.colors.red};
+  font-size: 20px;
+  text-decoration: underline;
+
+  ${phone(css`
+    font-size: 14px;
+  `)};
+
+  cursor: pointer;
+`
+
 const pages = [
   { href: '/', name: 'Dogodki' },
   { href: '/me', name: 'Moje karte' },
@@ -69,6 +101,7 @@ const viewerQuery = gql`
     viewer {
       id
       email
+      isAdministrator
     }
   }
 `
@@ -100,6 +133,15 @@ export default () => (
                 </Link>
               ))}
             </NavigationItems>
+            {data.viewer.isAdministrator && (
+              <AdminNavigation>
+                Za urejanje dogodkov obišči{' '}
+                <Link href="/admin">
+                  <AdminLink>administratorsko stran</AdminLink>
+                </Link>
+                .
+              </AdminNavigation>
+            )}
           </Container>
         )
       }}

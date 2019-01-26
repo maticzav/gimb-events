@@ -7,6 +7,8 @@ export default apolloClient =>
         query getUser {
           viewer {
             id
+            email
+            isAdministrator
           }
         }
       `,

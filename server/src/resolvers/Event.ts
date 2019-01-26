@@ -1,4 +1,5 @@
 import { getUserId, Context } from '../utils'
+import moment = require('moment')
 
 export const Event = {
   viewerHasTicket: {
@@ -33,14 +34,29 @@ export const Event = {
     },
   },
   viewerCanRequestTicket: {
-    fragment: `fragment EventId on Event { id }`,
-    resolve: async ({ id }, args, ctx: Context) => {
+    fragment: `fragment EventId on Event { date period }`,
+    resolve: async ({ date, period }, args, ctx: Context) => {
       try {
         const userId = getUserId(ctx)
 
-        // TODO:
+        const start = moment(date).startOf('day')
+        const end = moment(date).endOf('day')
 
-        return true
+        /**
+         * Check whether there exists any Ticket this user owns
+         * which takes place on the same date and at the same period.
+         */
+
+        const hasTicket = await ctx.prisma.exists.Ticket({
+          owner: { id: userId },
+          event: {
+            period: period,
+            date_lte: end.toISOString(),
+            date_gte: start.toISOString(),
+          },
+        })
+
+        return !hasTicket
       } catch (err) {
         return false
       }

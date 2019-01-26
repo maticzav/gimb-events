@@ -9,6 +9,9 @@ export const Query = {
       return null
     }
   },
+  async ticket(parent, { id }, ctx: Context, info) {
+    return ctx.prisma.query.ticket({ where: { id } }, info)
+  },
   async feed(parent, args, ctx: Context, info) {
     const now = new Date().toISOString()
 
@@ -26,5 +29,8 @@ export const Query = {
   },
   async users(parent, { query }, ctx: Context, info) {
     return ctx.prisma.query.users({ where: { email_contains: query } }, info)
+  },
+  async events(parent, { query }, ctx: Context, info) {
+    return ctx.prisma.query.events({ where: { name_contains: query } }, info)
   },
 }

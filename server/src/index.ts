@@ -7,7 +7,7 @@ import { makeExecutableSchema } from 'graphql-tools'
 import * as path from 'path'
 
 import { Prisma } from './generated/prisma'
-import { resolvers } from './resolvers'
+import { resolvers, fragmentReplacements } from './resolvers'
 import { permissions } from './shield'
 import { Context } from './utils'
 
@@ -36,6 +36,7 @@ export const server = new ApolloServer({
   context: ({ req }: { req: express.Request }) =>
     ({
       prisma: new Prisma({
+        fragmentReplacements,
         endpoint: process.env.PRISMA_ENDPOINT,
         secret: process.env.PRISMA_SECRET,
       }),

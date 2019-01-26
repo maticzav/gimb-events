@@ -3,11 +3,13 @@ scalar DateTime
 type Query {
   # Session
   viewer: User
+  ticket(id: ID!): Ticket
   # Feed
   feed: [Event!]!
   event(id: ID!): Event
   # Administration
-  users(query: String!): [User!]!
+  users(query: String): [User!]!
+  events(query: String): [AdminEvent!]!
 }
 
 type Mutation {
@@ -95,4 +97,20 @@ type Event {
   viewerHasTicket: Boolean!
   viewerCanRequestTicket: Boolean!
   hasAvailableTickets: Boolean!
+}
+
+type AdminEvent {
+  id: ID!
+
+  # Meta
+  name: String!
+  speaker: String!
+  description: String!
+  location: String!
+  period: Int!
+  date: DateTime!
+
+  # Admin
+  numberOfTickets: Int!
+  isPublished: Boolean!
 }

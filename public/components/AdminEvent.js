@@ -1,32 +1,29 @@
 import React from 'react'
+import { Mutation } from 'react-apollo'
+import Card from 'card-vibes'
 import gql from 'graphql-tag'
 import hasher from 'hash-index'
 import moment from 'moment'
-import Link from 'next/link'
 import { invert, saturate, hsl } from 'polished'
-import QRCode from 'qrcode.react'
 import styled, { css } from 'styled-components'
 
 import { mobile, phone } from '../utils/media'
 
 export const fragment = gql`
-  fragment TicketInformation on Ticket {
+  fragment AdminEventInformation on AdminEvent {
     id
-    event {
-      id
-      name
-      speaker
-      description
-      location
-      period
-      date
-    }
-    isValidated
-    isExpired
+    name
+    speaker
+    description
+    location
+    period
+    date
+    isPublished
+    numberOfTickets
   }
 `
 
-const TicketWrapper = styled.div`
+const EventWrapper = styled.div`
   width: auto;
 
   flex-grow: 1;
@@ -138,15 +135,13 @@ const Status = styled.p`
     `};
 `
 
-const Button = styled.a`
-  display: inline-block;
-
+const Button = styled.button`
   padding: 12px 24px;
   font-size: 20px;
   font-weight: 600;
 
-  background: ${p => p.theme.colors.green};
-  color: white;
+  background: ${p => p.theme.colors.red};
+  color: rgba(255, 255, 255, 0.85);
   border: none;
   cursor: pointer;
 
@@ -160,26 +155,53 @@ const Button = styled.a`
   `)};
 `
 
-const Ticket = ({ ticket }) => (
-  <TicketWrapper>
-    <Name>{ticket.event.name}</Name>
-    <Speaker>{ticket.event.speaker}</Speaker>
-    <Overview>{ticket.event.description}</Overview>
-    <LocationPeriod>
-      {`${ticket.event.location}, ${ticket.event.period}. ura`}
-    </LocationPeriod>
+/* Reservation */
+
+const reserveMutation = gql`
+  mutation ReserveTicket($eventId: ID!) {
+    requestTicket(eventId: $eventId) {
+      id
+      event {
+        ...EventInformation
+      }
+      isValidated
+      isExpired
+    }
+  }
+
+  ${fragment}
+`
+
+/* Event */
+
+const AdminEvent = ({ event }) => (
+  <EventWrapper>
+    <Name>{event.name}</Name>
+    <Speaker>{event.speaker}</Speaker>
+    <Overview>{event.description}</Overview>
+    <LocationPeriod>{`${event.location}, ${event.period}. ura`}</LocationPeriod>
     <Datum>
-      {moment(ticket.event.date)
+      {moment(event.date)
         .locale('sl')
         .format('LL')}
     </Datum>
-    {ticket.isExpired && <Status>Ta vstopnica ni več veljavna</Status>}
-    {!ticket.isExpired && (
-      <Link href={{ pathname: `/ticket`, query: { id: ticket.id } }}>
-        <Button>Vstopnica</Button>
-      </Link>
-    )}
-  </TicketWrapper>
+    <Mutation mutation={reserveMutation} variables={{ eventId: event.id }}>
+      {(reserve, { data, loading, error }) => {
+        if (event.viewerHasTicket)
+          return <Status success>{'Karta za dogodek rezervirana!'}</Status>
+        if (!event.hasAvailableTickets)
+          return <Status>{'Vse karte za ta dogodek so že pošle.'}</Status>
+        if (!event.viewerCanRequestTicket)
+          return <Status>{'Te karte ne moraš rezervirat.'}</Status>
+
+        return (
+          <Button onClick={reserve} disabled={loading}>
+            {loading ? 'Nalagam' : 'Rezerviraj'}
+          </Button>
+        )
+      }}
+    </Mutation>
+  </EventWrapper>
 )
 
-export default Ticket
+export default AdminEvent

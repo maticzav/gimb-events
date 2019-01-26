@@ -1,6 +1,7 @@
 import * as jwt from 'jsonwebtoken'
 import { sendAuthenticationLink } from '../sendgrid'
 import { Context, getUserId, getAuthenticationLink } from '../utils'
+import moment = require('moment')
 
 export const Mutation = {
   async login(parent, { email }, ctx: Context, info) {
@@ -32,7 +33,30 @@ export const Mutation = {
   async requestTicket(parent, { eventId }, ctx: Context, info) {
     const userId = getUserId(ctx)
 
-    // TODO: karte, ki se krizajo
+    /* Obtains event information */
+
+    const event = await ctx.prisma.query.event({ where: { id: eventId } })
+
+    const start = moment(event.date).startOf('day')
+    const end = moment(event.date).endOf('day')
+
+    /**
+     * Check whether there exists any Ticket this user owns
+     * which takes place on the same date and at the same period.
+     */
+
+    const hasTicket = await ctx.prisma.exists.Ticket({
+      owner: { id: userId },
+      event: {
+        period: event.period,
+        date_lte: end.toISOString(),
+        date_gte: start.toISOString(),
+      },
+    })
+
+    if (hasTicket) {
+      throw new Error('Dogodek se križa z nekaterimi drugimi.')
+    }
 
     return ctx.prisma.mutation.createTicket(
       {

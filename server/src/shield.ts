@@ -67,9 +67,11 @@ export const permissions = shield(
   {
     Query: {
       viewer: allow,
+      ticket: allow,
       feed: allow,
       event: allow,
       users: isUserAdministrator,
+      events: isUserAdministrator,
     },
     Mutation: {
       login: or(not(isUserAuthenticated), isUserAdministrator),
@@ -85,6 +87,7 @@ export const permissions = shield(
     User: isUserAuthenticated,
     Ticket: or(isUserAdministrator, isUserModerator, isUserTicketOwner),
     Event: allow,
+    AdminEvent: isUserAdministrator,
   },
   {
     debug: process.env.NODE_ENV !== 'production',
