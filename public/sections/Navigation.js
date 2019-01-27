@@ -90,6 +90,38 @@ const AdminLink = styled.a`
   cursor: pointer;
 `
 
+/* Moderator */
+
+const ModeratorNavigation = styled.div`
+  width: 100%;
+  padding: 10px 20px;
+  margin: 0;
+
+  color: ${p => p.theme.colors.lightBlue};
+  font-size: 20px;
+  text-decoration: none;
+
+  ${phone(css`
+    font-size: 14px;
+  `)};
+`
+
+const ModeratorLink = styled.a`
+  display: inline;
+  margin: 0;
+  padding: 0;
+
+  color: ${p => p.theme.colors.lightBlue};
+  font-size: 20px;
+  text-decoration: underline;
+
+  ${phone(css`
+    font-size: 14px;
+  `)};
+
+  cursor: pointer;
+`
+
 const pages = [
   { href: '/', name: 'Dogodki' },
   { href: '/me', name: 'Moje karte' },
@@ -101,6 +133,7 @@ const viewerQuery = gql`
     viewer {
       id
       email
+      isModerator
       isAdministrator
     }
   }
@@ -117,12 +150,13 @@ export default () => (
         if (loading) return 'Nalagam...'
         if (error) return 'Prišlo je do napake!'
 
-        if (!data.viewer)
+        if (!data.viewer) {
           return (
             <Container>
               <Login />
             </Container>
           )
+        }
 
         return (
           <Container>
@@ -133,6 +167,15 @@ export default () => (
                 </Link>
               ))}
             </NavigationItems>
+            {data.viewer.isModerator && (
+              <ModeratorNavigation>
+                Za dostop do čitalca klikni ta{' '}
+                <ModeratorLink href="https://expo.io/@maticzav/gimbdogodki">
+                  link
+                </ModeratorLink>
+                .
+              </ModeratorNavigation>
+            )}
             {data.viewer.isAdministrator && (
               <AdminNavigation>
                 Za urejanje dogodkov obišči{' '}

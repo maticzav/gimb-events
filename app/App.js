@@ -1,62 +1,90 @@
+import { Font, ScreenOrientation, AppLoading, Linking, Permissions } from 'expo'
 import React from 'react'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native'
-import { AppLoading, Asset, Font, Icon } from 'expo'
-import AppNavigator from './navigation/AppNavigator'
+import { ApolloProvider } from 'react-apollo'
+import { AsyncStorage } from 'react-native'
+
+import Scanner from './components/Scanner'
+import Viewer from './components/Viewer'
+
+import { create } from './lib/initApollo'
 
 export default class App extends React.Component {
-  state = {
-    isLoadingComplete: false,
+  state = { ready: false }
+  apolloClient = null
+  token = null
+
+  constructor(props) {
+    super()
+
+    this.apolloClient = create({
+      getToken: () => this.token,
+    })
+
+    this._handleAppReady = this._handleAppReady.bind(this)
   }
+
+  /* Events */
+
+  async componentDidMount() {
+    /* Listeners */
+
+    Linking.addEventListener('url', this.handleAppLink)
+
+    /* Setup */
+
+    const token = await AsyncStorage.getItem('token')
+    this.token = token
+  }
+
+  componentWillUnmount() {
+    /* Listeners */
+    Linking.removeEventListener('url', this.handleAppLink)
+  }
+
+  /* App Setup */
+
+  _handleAppReady = () => {
+    this.setState({ ready: true })
+  }
+
+  async _setup() {
+    const fonts = Font.loadAsync({
+      'worksans-regular': require('./assets/fonts/WorkSans-Regular.ttf'),
+    })
+    const orientation = ScreenOrientation.allowAsync(
+      ScreenOrientation.Orientation.PORTRAIT_UP,
+    )
+    const camera = Permissions.askAsync(Permissions.CAMERA)
+
+    await Promise.all([fonts, orientation, camera])
+  }
+
+  /* Linking */
+
+  async handleAppLink(event) {
+    const data = Linking.parse(event.url)
+
+    /* Write to storage */
+    const token = await AsyncStorage.setItem('token', data.token)
+  }
+
+  /* Render */
 
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    if (!this.state.ready) {
       return (
         <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
+          startAsync={this._setup}
+          onFinish={this._handleAppReady}
+          onError={console.error}
         />
       )
-    } else {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      )
     }
-  }
 
-  _loadResourcesAsync = async () => {
-    return Promise.all([
-      Asset.loadAsync([
-        require('./assets/images/robot-dev.png'),
-        require('./assets/images/robot-prod.png'),
-      ]),
-      Font.loadAsync({
-        // This is the font that we are using for our tab bar
-        ...Icon.Ionicons.font,
-        // We include SpaceMono because we use it in HomeScreen.js. Feel free
-        // to remove this if you are not using it in your app
-        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-      }),
-    ])
-  }
-
-  _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
-    console.warn(error)
-  }
-
-  _handleFinishLoading = () => {
-    this.setState({ isLoadingComplete: true })
+    return (
+      <ApolloProvider client={this.apolloClient}>
+        <Scanner>{/* <Viewer /> */}</Scanner>
+      </ApolloProvider>
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-})
