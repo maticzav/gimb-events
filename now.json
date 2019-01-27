@@ -4,7 +4,7 @@
   "version": 2,
   "alias": "dogodki.gimb.xyz",
   "builds": [
-    { "src": "server/src/index.ts", "use": "@now/node-server" },
+    { "src": "server/src/index.ts", "use": "@now/node-server@0.4.26-canary.7" },
     { "src": "public/package.json", "use": "@now/next" }
   ],
   "routes": [
