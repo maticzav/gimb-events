@@ -17,10 +17,10 @@ if (!process.env.PRISMA_ENDPOINT || !process.env.PRISMA_SECRET) {
 
 /* Schema */
 
-const schema = applyMiddleware(
-  makeExecutableSchema({ typeDefs, resolvers }),
-  permissions,
-)
+const {
+  schema,
+  fragmentReplacements: middlewareFragmentReplacements,
+} = applyMiddleware(makeExecutableSchema({ typeDefs, resolvers }), permissions)
 
 /* Server */
 
@@ -30,7 +30,7 @@ export const server = new ApolloServer({
   context: ({ req }: { req: express.Request }) =>
     ({
       prisma: new Prisma({
-        fragmentReplacements,
+        fragmentReplacements: [...fragmentReplacements],
         endpoint: process.env.PRISMA_ENDPOINT,
         secret: process.env.PRISMA_SECRET,
       }),

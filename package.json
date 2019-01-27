@@ -2,6 +2,7 @@
   "name": "gimb-events",
   "private": true,
   "scripts": {
+    "test": "cd public; npm-run-all test",
     "dev": "npm-run-all -p dev-*",
     "dev-public": "cd public; npm-run-all dev",
     "dev-server": "cd server; npm-run-all dev"

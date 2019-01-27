@@ -1,6 +1,7 @@
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import App, { Container } from 'next/app'
+import Head from 'next/head'
 import Router from 'next/router'
 import Progress from 'nprogress'
 import { createGlobalStyle, css, ThemeProvider } from 'styled-components'
@@ -9,6 +10,7 @@ import withApollo from '../lib/withApollo'
 import Navigation from '../sections/Navigation'
 
 import { phone } from '../utils/media'
+import { meta } from '../utils/meta'
 import { BASE_MOBILE_FONT_SIZE, BASE_FONT_SIZE } from '../utils/rem'
 import { theme } from '../utils/theme'
 
@@ -108,15 +110,21 @@ class MyApp extends App {
     const { Component, pageProps, apolloClient } = this.props
 
     return (
-      <ThemeProvider theme={theme}>
-        <Container>
-          <ApolloProvider client={apolloClient}>
-            <GlobalStyle />
-            <Navigation />
-            <Component {...pageProps} />
-          </ApolloProvider>
-        </Container>
-      </ThemeProvider>
+      <React.Fragment>
+        <Head>
+          <title>{meta.title}</title>
+        </Head>
+
+        <ThemeProvider theme={theme}>
+          <Container>
+            <ApolloProvider client={apolloClient}>
+              <GlobalStyle />
+              <Navigation />
+              <Component {...pageProps} />
+            </ApolloProvider>
+          </Container>
+        </ThemeProvider>
+      </React.Fragment>
     )
   }
 }

@@ -1,14 +1,14 @@
 import React from 'react'
 
-import checkLoggedIn from '../lib/checkLoggedIn'
-import redirect from '../lib/redirect'
+import checkLoggedIn from '../../lib/checkLoggedIn'
+import redirect from '../../lib/redirect'
 
-import Container from '../components/Container'
-import Heading from '../components/SectionHeading'
+import Container from '../../components/Container'
+import Heading from '../../components/SectionHeading'
 
 // import Events from '../sections/Events'
-import Moderators from '../sections/Moderators'
-import Footer from '../sections/Footer'
+import AdminUsers from '../../sections/AdminUsers'
+import Footer from '../../sections/Footer'
 
 class Admin extends React.Component {
   static async getInitialProps(ctx) {
@@ -28,7 +28,7 @@ class Admin extends React.Component {
           <Heading>Administrator</Heading>
         </Container>
         {/* <Events /> */}
-        <Moderators />
+        <AdminUsers />
         <Footer />
       </React.Fragment>
     )

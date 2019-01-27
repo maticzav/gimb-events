@@ -1,16 +1,9 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
-// Document
+import { meta } from '../utils/meta'
 
-const meta = {
-  url: 'https://dogodki.gimb.xyz/',
-  title: 'Gimb Dogodki',
-  description: 'Spletna stran dogodkov na Gimnaziji Bežigrad.',
-  keywords: 'Gimnazija, Bežigrad, dogodki, karte',
-  thumbnail: 'https://dogodki.gimb.xyz/static/images/logo_large.png',
-  googleSiteVerification: '',
-}
+// Document
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -26,8 +19,6 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <title>{meta.title}</title>
-
           <meta
             name="google-site-verification"
             content={meta.googleSiteVerification}

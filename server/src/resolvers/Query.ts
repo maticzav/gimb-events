@@ -31,9 +31,15 @@ export const Query = {
     return ctx.prisma.query.event({ where: { id } }, info)
   },
   async users(parent, { query }, ctx: Context, info) {
-    return ctx.prisma.query.users({ where: { email_contains: query } }, info)
+    return ctx.prisma.query.users(
+      { where: { email_contains: query }, first: 10 },
+      info,
+    )
   },
   async events(parent, { query }, ctx: Context, info) {
-    return ctx.prisma.query.events({ where: { name_contains: query } }, info)
+    return ctx.prisma.query.events(
+      { where: { name_contains: query }, orderBy: 'date_DESC', first: 10 },
+      info,
+    )
   },
 }

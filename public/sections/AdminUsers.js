@@ -31,19 +31,13 @@ const Input = styled.input`
   outline: none;
 `
 
-const UsersWrapper = styled.table`
+const UsersWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-directon: row;
-  flex-wrap: wrap;
+  display: block;
 
-  padding-top: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 30px;
+  padding: 0;
+  margin: 0;
 `
-
-const Users = styled.tbody``
 
 /* Events */
 
@@ -57,7 +51,7 @@ const usersQuery = gql`
   ${userFragment}
 `
 
-class Moderators extends React.Component {
+class AdminUsers extends React.Component {
   state = {
     query: '',
   }
@@ -91,11 +85,9 @@ class Moderators extends React.Component {
 
               return (
                 <UsersWrapper>
-                  <Users>
-                    {data.users.map(user => (
-                      <User key={user.id} user={user} />
-                    ))}
-                  </Users>
+                  {data.users.map(user => (
+                    <User key={user.id} user={user} />
+                  ))}
                 </UsersWrapper>
               )
             }}
@@ -106,4 +98,4 @@ class Moderators extends React.Component {
   }
 }
 
-export default Moderators
+export default AdminUsers
