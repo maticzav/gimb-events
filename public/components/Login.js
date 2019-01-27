@@ -144,7 +144,7 @@ export default () => (
                   </Button>
                 </FormWrapper>
                 <ErrorMessage name="email" component={Status} />
-                {status.success && (
+                {status && status.success && (
                   <Status success>Poglej svoj email za vpis!</Status>
                 )}
               </Form>
