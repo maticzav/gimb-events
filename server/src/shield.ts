@@ -85,7 +85,7 @@ export const permissions = shield(
     },
     LoginPayload: allow,
     User: isUserAuthenticated,
-    Ticket: or(isUserAdministrator, isUserModerator, isUserTicketOwner),
+    Ticket: allow, //or(isUserAdministrator, isUserModerator, isUserTicketOwner),
     Event: allow,
     AdminEvent: isUserAdministrator,
   },
