@@ -116,6 +116,7 @@ export const typeDefs = gql`
     # Admin
     numberOfTickets: Int!
     numberOfReservations: Int!
+    numberOfValidatedTickets: Int!
     isPublished: Boolean!
   }
 `

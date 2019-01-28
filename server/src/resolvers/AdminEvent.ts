@@ -17,4 +17,20 @@ export const AdminEvent = {
       return events.aggregate.count
     },
   },
+  numberOfValidatedTickets: {
+    fragment: `fragment EventId on Event { id }`,
+    resolve: async ({ id }, args, ctx: Context) => {
+      const events = await ctx.prisma.query.ticketsConnection(
+        {
+          where: {
+            event: { id: id },
+            isValidated: true,
+          },
+        },
+        ` { aggregate { count } } `,
+      )
+
+      return events.aggregate.count
+    },
+  },
 }
