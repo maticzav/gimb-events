@@ -42,7 +42,7 @@ const style = StyleSheet.create({
     color: '#FF5E85',
     fontSize: 14,
     textAlign: 'center',
-    padding: 20,
+    padding: 5,
   },
 })
 
@@ -52,7 +52,7 @@ const SuccessMark = ({ children }) => (
   </View>
 )
 
-const ErrorMark = ({ childern }) => (
+const ErrorMark = ({ children }) => (
   <View style={style.error}>
     <Text style={{ fontFamily: 'worksans-regular' }}>{children}</Text>
   </View>
