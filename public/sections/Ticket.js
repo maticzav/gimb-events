@@ -4,6 +4,8 @@ import gql from 'graphql-tag'
 import QRCode from 'qrcode.react'
 import styled, { css } from 'styled-components'
 
+import Container from '../components/Container'
+
 import { mobile, phone } from '../utils/media'
 
 const TicketWrapper = styled.div`
@@ -85,10 +87,25 @@ export const ticketQuery = gql`
 export default ({ id }) => (
   <Query query={ticketQuery} variables={{ id: id }} errorPolicy="ignore">
     {({ data, loading, error }) => {
-      if (loading) return <Status>Nalagam...</Status>
-      if (error) return <Status>Prišlo je do napake.</Status>
+      if (loading)
+        return (
+          <Container>
+            <Status>Nalagam...</Status>
+          </Container>
+        )
+      if (error)
+        return (
+          <Container>
+            <Status>Prišlo je do napake.</Status>
+          </Container>
+        )
 
-      if (!data.ticket) return <Status>Prijavit se moraš!</Status>
+      if (!data.ticket)
+        return (
+          <Container>
+            <Status>Prijavit se moraš!</Status>
+          </Container>
+        )
 
       return (
         <TicketWrapper>
