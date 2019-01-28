@@ -20,7 +20,7 @@ export default class App extends React.Component {
       getToken: () => this.token,
     })
 
-    this._handleAppReady = this._handleAppReady.bind(this)
+    this.handleAppLink = this.handleAppLink.bind(this)
   }
 
   /* Events */
@@ -30,10 +30,18 @@ export default class App extends React.Component {
 
     Linking.addEventListener('url', this.handleAppLink)
 
-    /* Setup */
+    /* Load token from storage */
 
     const token = await AsyncStorage.getItem('token')
-    this.token = token
+
+    if (token) {
+      this.token = token
+    }
+
+    /* Load token from URL */
+
+    const url = await Linking.getInitialURL()
+    this.handleAppLink({ url })
   }
 
   componentWillUnmount() {
@@ -63,9 +71,13 @@ export default class App extends React.Component {
 
   async handleAppLink(event) {
     const data = Linking.parse(event.url)
+    const token = data.queryParams.token
 
     /* Write to storage */
-    const token = await AsyncStorage.setItem('token', data.token)
+    if (token) {
+      await AsyncStorage.setItem('token', token)
+      this.token = token
+    }
   }
 
   /* Render */
@@ -83,7 +95,9 @@ export default class App extends React.Component {
 
     return (
       <ApolloProvider client={this.apolloClient}>
-        <Scanner>{/* <Viewer /> */}</Scanner>
+        <Scanner>
+          <Viewer />
+        </Scanner>
       </ApolloProvider>
     )
   }

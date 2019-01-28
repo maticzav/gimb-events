@@ -46,15 +46,15 @@ const style = StyleSheet.create({
   },
 })
 
-const SuccessMark = () => (
+const SuccessMark = ({ children }) => (
   <View style={style.success}>
-    <Text style={{ fontFamily: 'worksans-regular' }}>Potrjeno</Text>
+    <Text style={{ fontFamily: 'worksans-regular' }}>{children}</Text>
   </View>
 )
 
-const ErrorMark = () => (
+const ErrorMark = ({ childern }) => (
   <View style={style.error}>
-    <Text style={{ fontFamily: 'worksans-regular' }}>Zavrnjeno</Text>
+    <Text style={{ fontFamily: 'worksans-regular' }}>{children}</Text>
   </View>
 )
 
@@ -76,6 +76,9 @@ const validateMutation = gql`
   }
 `
 
+/* Cache */
+const cache = []
+
 export default ({ children }) => (
   <Mutation mutation={validateMutation} errorPolicy="none">
     {(validate, { data, error, loading }) => (
@@ -84,20 +87,23 @@ export default ({ children }) => (
           style={style.camera}
           type={Camera.Constants.Type.back}
           onBarCodeScanned={async ({ data }) => {
-            if (loading) return
+            if (loading || cache.includes(data)) return
 
             Vibration.vibrate(5)
 
             try {
-              await validate({ id: data })
+              await validate({ variables: { id: data } })
+              cache.push(data)
             } catch (err) {}
           }}
           barCodeScannerSettings={{
             barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
           }}
         >
-          {!loading && data && <SuccessMark />}
-          {!loading && error && <ErrorMark />}
+          {!loading && data && (
+            <SuccessMark>{data.validateTicket.owner.email}</SuccessMark>
+          )}
+          {!loading && error && <ErrorMark>Nekaj je šlo narobe.</ErrorMark>}
         </Camera>
         <View style={style.container}>{children}</View>
       </React.Fragment>

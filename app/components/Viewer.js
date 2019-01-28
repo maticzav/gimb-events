@@ -38,18 +38,26 @@ const viewerQuery = gql`
 export default () => (
   <View style={style.container}>
     <View style={style.notification}>
-      <Text style={style.info}>
-        <Query query={viewerQuery} pollInterval={10}>
-          {({ loading, error, data }) => {
-            if (loading) return 'Nalagam...'
-            if (error) return 'Nekaj je šlo narobe.'
-            if (!data.viewer) return 'Najprej se vpiši!'
-            if (!data.viewer.isModerator) return 'Moraš biti moderator.'
+      <Query
+        query={viewerQuery}
+        fetchPolicy="network-only"
+        notifyOnNetworkStatusChange
+      >
+        {({ loading, error, data, refetch }) => (
+          <TouchableOpacity onPress={() => refetch()} disabled={loading}>
+            <Text style={style.info}>
+              {(() => {
+                if (loading) return 'Nalagam...'
+                if (error) return 'Nekaj je šlo narobe.'
+                if (!data.viewer) return 'Najprej se vpiši!'
+                if (!data.viewer.isModerator) return 'Moraš biti moderator.'
 
-            return data.viewer.email
-          }}
-        </Query>
-      </Text>
+                return data.viewer.email
+              })()}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </Query>
     </View>
   </View>
 )

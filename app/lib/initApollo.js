@@ -1,7 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import { persistCache } from 'apollo-cache-persist'
 import { ApolloClient } from 'apollo-client'
 
 import { HttpLink } from 'apollo-link-http'
@@ -14,7 +13,7 @@ export function create({ getToken }) {
 
   const httpLink = new HttpLink({
     uri: GRAPHQL_URL,
-    credentials: 'same-origin',
+    crendetials: true,
   })
 
   const authLink = new ApolloLink((operation, forward) => {
@@ -30,27 +29,11 @@ export function create({ getToken }) {
     return forward(operation)
   })
 
-  const loggerLink = new ApolloLink((operation, forward) => {
-    return forward(operation).map(result => {
-      if (process.browser && process.env.NODE_ENV !== 'production') {
-        console.log(operation.operationName)
-        console.log(operation)
-        console.log(result)
-      }
-      return result
-    })
-  })
-
-  const link = from([loggerLink, authLink, httpLink])
+  const link = from([authLink, httpLink])
 
   /* Cache */
 
   const cache = new InMemoryCache()
-
-  persistCache({
-    cache,
-    storage: AsyncStorage,
-  })
 
   return new ApolloClient({ link, cache })
 }
