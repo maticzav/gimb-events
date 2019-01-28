@@ -15,7 +15,7 @@ export const Query = {
   },
   async feed(parent, args, ctx: Context, info) {
     const now = moment()
-      .endOf('day')
+      .startOf('day')
       .toISOString()
 
     return ctx.prisma.query.events(
