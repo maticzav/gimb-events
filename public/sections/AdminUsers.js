@@ -75,7 +75,11 @@ class AdminUsers extends React.Component {
             />
           </InputWrapper>
 
-          <Query query={usersQuery} variables={{ query: this.state.query }}>
+          <Query
+            query={usersQuery}
+            fetchPolicy="network-only"
+            variables={{ query: this.state.query }}
+          >
             {({ loading, error, data }) => {
               if (loading) return 'Nalagam...'
               if (error) return 'Prišlo je do napake.'
