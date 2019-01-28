@@ -1,5 +1,8 @@
 import * as jwt from 'jsonwebtoken'
-import { sendAuthenticationLink } from '../sendgrid'
+import {
+  sendAuthenticationLink,
+  sendModeratorAuthenticationLink,
+} from '../sendgrid'
 import { Context, getUserId, getAuthenticationLink } from '../utils'
 import moment = require('moment')
 
@@ -19,14 +22,19 @@ export const Mutation = {
       update: {},
     })
 
+    /* Generate Links */
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET)
     const link = getAuthenticationLink(token)
 
-    const res = await sendAuthenticationLink(email, link.web)
+    /* Send emails */
+    try {
+      if (user.isModerator) {
+        await sendModeratorAuthenticationLink(email, link.app)
+      }
+      await sendAuthenticationLink(email, link.web)
 
-    if (res.status === 'ok') {
       return { success: true }
-    } else {
+    } catch (err) {
       return { success: false }
     }
   },

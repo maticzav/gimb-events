@@ -76,7 +76,7 @@ export const permissions = shield(
     Mutation: {
       login: or(not(isUserAuthenticated), isUserAdministrator),
       requestTicket: isUserAuthenticated,
-      validateTicket: allow, //or(isUserModerator, isUserAdministrator),
+      validateTicket: or(isUserModerator, isUserAdministrator),
       createEvent: isUserAdministrator,
       updateEvent: isUserAdministrator,
       deleteEvent: isUserAdministrator,
@@ -85,7 +85,7 @@ export const permissions = shield(
     },
     LoginPayload: allow,
     User: isUserAuthenticated,
-    Ticket: allow, //or(isUserAdministrator, isUserModerator, isUserTicketOwner),
+    Ticket: or(isUserAdministrator, isUserModerator, isUserTicketOwner),
     Event: allow,
     AdminEvent: isUserAdministrator,
   },

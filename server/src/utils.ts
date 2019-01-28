@@ -11,11 +11,14 @@ export function getAuthenticationLink(
   token: string,
 ): { web: string; app: string } {
   if (process.env.NODE_ENV !== 'production') {
-    return { web: `http://localhost:3001/confirm?token=${token}`, app: '' }
+    return {
+      web: `http://localhost:3001/confirm?token=${token}`,
+      app: `exp://exp.host/@maticzav/gimbdogodki?token=${token}`,
+    }
   } else {
     return {
       web: `https://dogodki.gimb.xyz/confirm?token=${token}`,
-      app: '',
+      app: `exp://exp.host/@maticzav/gimbdogodki?token=${token}`,
     }
   }
 }
