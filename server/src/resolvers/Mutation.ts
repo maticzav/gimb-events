@@ -78,12 +78,15 @@ export const Mutation = {
     if (validated) {
       return new Error('Karta že validirana.')
     } else {
-      return ctx.prisma.mutation.updateTicket({
-        where: { id: id },
-        data: {
-          isValidated: true,
+      return ctx.prisma.mutation.updateTicket(
+        {
+          where: { id: id },
+          data: {
+            isValidated: true,
+          },
         },
-      })
+        info,
+      )
     }
   },
   async createEvent(parent, { data }, ctx: Context, info) {
