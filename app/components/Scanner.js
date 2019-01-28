@@ -42,7 +42,7 @@ const style = StyleSheet.create({
     color: '#FF5E85',
     fontSize: 14,
     textAlign: 'center',
-    padding: 5,
+    padding: 20,
   },
 })
 
