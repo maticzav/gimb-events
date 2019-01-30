@@ -1,26 +1,29 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import Card from 'card-vibes'
+import { Formik, Form, Field } from 'formik'
 import gql from 'graphql-tag'
 import hasher from 'hash-index'
 import moment from 'moment'
 import { invert, saturate, hsl } from 'polished'
 import styled, { css } from 'styled-components'
+import * as Yup from 'yup'
 
 import { mobile, phone } from '../utils/media'
 
-export const fragment = gql`
-  fragment AdminEventInformation on AdminEvent {
-    id
-    name
-    speaker
-    description
-    location
-    period
-    date
-    isPublished
-    numberOfTickets
-  }
+/* Because of the delegation issue */
+export const fragment = `
+  id
+  name
+  speaker
+  description
+  location
+  period
+  date
+  published
+  numberOfTickets
+  numberOfReservations
+  numberOfValidatedTickets
 `
 
 const EventWrapper = styled.div`
@@ -42,39 +45,96 @@ const EventWrapper = styled.div`
   `)};
 `
 
-const Name = styled.h2`
+const Input = styled.input.attrs(({ field, ...props }) => ({
+  ...props,
+  ...field,
+}))`
   display: block;
+
+  width: 100%;
 
   margin: 0;
   padding: 0;
 
+  border: 0;
+
+  outline: 0;
+`
+
+const InlineInput = styled(Input)`
+  display: inline;
+  width: min-content;
+`
+
+const TextArea = styled.textarea.attrs(({ field, ...props }) => ({
+  ...props,
+  ...field,
+}))`
+  display: block;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  outline: 0;
+`
+
+const Name = styled(Input).attrs({
+  placeholder: 'Naslov dogodka',
+})`
   font-weight: 600;
   font-size: 30px;
   font-family: Playfair Display;
 
-  color: ${p => hsl(hasher(p.children, 360), 1, 0.1)};
+  color: ${p => hsl(hasher(p.value, 360), 1, 0.1)};
 
   ${phone(css`
     font-size: 24px;
   `)};
 `
 
-const Speaker = styled.h4`
-  display: block;
-
-  margin: 0;
+const Speaker = styled(Input).attrs({
+  placeholder: 'Ime govorca',
+})`
   padding: 3px 0;
 
   font-weight: 400;
   font-size: 18px;
 `
 
-const Overview = styled.p`
-  display: block;
-
-  margin: 0;
+const Overview = styled(TextArea).attrs({
+  placeholder: 'Opis...',
+})`
   padding: 5px 0;
 
+  font-weight: 400;
+  font-size: 20px;
+
+  ${phone(css`
+    font-weight: 400;
+    font-size: 14px;
+  `)}
+`
+
+const Location = styled(InlineInput).attrs({
+  placeholder: 'Kraj',
+})`
+  font-weight: 400;
+  font-size: 20px;
+
+  ${phone(css`
+    font-weight: 400;
+    font-size: 14px;
+  `)}
+`
+
+const Period = styled(InlineInput).attrs(({ onChange, ...props }) => ({
+  ...props,
+  placeholder: 'N',
+}))`
   font-weight: 400;
   font-size: 20px;
 
@@ -155,53 +215,87 @@ const Button = styled.button`
   `)};
 `
 
-/* Reservation */
+/* Mutations */
 
-const reserveMutation = gql`
-  mutation ReserveTicket($eventId: ID!) {
-    requestTicket(eventId: $eventId) {
-      id
-      event {
-        ...EventInformation
-      }
-      isValidated
-      isExpired
+const createMutation = gql`
+  mutation CreateEvent($data: CreateEventInput!) {
+    createEvent(data: $data) {
+      ${fragment}
     }
   }
-
-  ${fragment}
 `
+
+const updateMutation = gql`
+  mutation UpdateEvent($id: ID!, $data: UpdateEventInput!) {
+    updateEvent(id: $id, data: $data) {
+      ${fragment}
+    }
+  }
+`
+
+const deleteMutation = gql`
+  mutation DeleteEvent($id: ID!) {
+    deleteEvent(id: $id) {
+      ${fragment}
+    }
+  }
+`
+
+const getEventMutation = event => {
+  if (event.id === 'NEW') {
+    return createMutation
+  } else {
+    return updateMutation
+  }
+}
+
+/* Schema */
+
+const eventSchema = Yup.object().shape({
+  name: Yup.string().required(),
+  speaker: Yup.string().required(),
+  description: Yup.string().default(''),
+  location: Yup.string().required(),
+  period: Yup.number()
+    .integer()
+    .min(0, 'Začneš lahko z najmanj preduro (0).')
+    .max(13, 'Dan ima samo 13 šolskih ur.'),
+  date: Yup.date().required(),
+  numberOfTickets: Yup.number()
+    .integer()
+    .min(1, 'Vsaj eno karto za dogodek rabiš.'),
+})
 
 /* Event */
 
-const AdminEvent = ({ event }) => (
-  <EventWrapper>
-    <Name>{event.name}</Name>
-    <Speaker>{event.speaker}</Speaker>
-    <Overview>{event.description}</Overview>
-    <LocationPeriod>{`${event.location}, ${event.period}. ura`}</LocationPeriod>
-    <Datum>
-      {moment(event.date)
-        .locale('sl')
-        .format('LL')}
-    </Datum>
-    <Mutation mutation={reserveMutation} variables={{ eventId: event.id }}>
-      {(reserve, { data, loading, error }) => {
-        if (event.viewerHasTicket)
-          return <Status success>{'Karta za dogodek rezervirana!'}</Status>
-        if (!event.hasAvailableTickets)
-          return <Status>{'Vse karte za ta dogodek so že pošle.'}</Status>
-        if (!event.viewerCanRequestTicket)
-          return <Status>{'Te karte ne moraš rezervirat.'}</Status>
-
-        return (
-          <Button onClick={reserve} disabled={loading}>
-            {loading ? 'Nalagam' : 'Rezerviraj'}
-          </Button>
-        )
-      }}
-    </Mutation>
-  </EventWrapper>
+export default ({ event }) => (
+  <Mutation mutation={getEventMutation(event)}>
+    {(createOrUpdate, { loading, data, error }) => (
+      <Formik
+        initialValues={event}
+        validationSchema={eventSchema}
+        onSubmit={(values, formik) => {
+          console.log(values)
+        }}
+      >
+        <EventWrapper>
+          <Form>
+            <Field name="name" component={Name} />
+            <Field name="speaker" component={Speaker} />
+            <Field name="description" component={Overview} />
+            <LocationPeriod>
+              <Field name="location" component={Location} />,
+              <Field name="period" component={Period} />
+              {'. ura'}
+            </LocationPeriod>
+            <Datum>
+              {moment(event.date)
+                .locale('sl')
+                .format('LL')}
+            </Datum>
+          </Form>
+        </EventWrapper>
+      </Formik>
+    )}
+  </Mutation>
 )
-
-export default AdminEvent

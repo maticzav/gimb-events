@@ -27,9 +27,10 @@ const FormWrapper = styled.div`
   border-radius: 6px;
 `
 
-const EmailInput = styled.input.attrs(props => ({
-  ...props.field,
-  placeholder: 'matic@dijaki.gimb.org',
+const EmailInput = styled.input.attrs(({ field, ...props }) => ({
+  ...props,
+  ...field,
+  placeholder: 'ime.priimek@dijaki.gimb.org',
 }))`
   flex-grow: 1;
   flex-shrink: 1;
@@ -45,7 +46,9 @@ const EmailInput = styled.input.attrs(props => ({
   outline: none;
 `
 
-const Button = styled.button`
+const Submit = styled.button.attrs({
+  type: 'submit',
+})`
   box-sizing: border-box;
   display: inline-block;
   cursor: pointer;
@@ -116,36 +119,33 @@ export default () => (
           initialValues={{ email: '' }}
           validationSchema={loginSchema}
           onSubmit={(values, actions) => {
-            actions.setStatus({ success: false })
+            login({ variables: { email: values.email } }).then(res => {
+              if (res.data.login.success) {
+                actions.resetForm()
+                actions.setStatus({ login: 'SUCCESS' })
+              } else {
+                actions.setStatus({ login: 'FAILURE' })
+              }
 
-            login({ variables: { email: values.email } }).then(
-              () => {
-                actions.setStatus({ success: true })
-                actions.setSubmitting(false)
-              },
-              error => {
-                actions.setStatus({ success: false })
-                actions.setSubmitting(false)
-              },
-            )
+              actions.setSubmitting(false)
+            })
           }}
         >
-          {({ handleSubmit, isSubmitting, status }) => (
+          {({ isSubmitting, status }) => (
             <React.Fragment>
               <Form>
                 <FormWrapper>
                   <Field type="email" name="email" component={EmailInput} />
-                  <Button
-                    type="submit"
-                    onClick={handleSubmit}
-                    disabled={isSubmitting}
-                  >
+                  <Submit disabled={isSubmitting}>
                     {isSubmitting ? 'Počakaj' : 'Vpiši se'}
-                  </Button>
+                  </Submit>
                 </FormWrapper>
                 <ErrorMessage name="email" component={Status} />
-                {status && status.success && (
+                {status && status.login === 'SUCCESS' && (
                   <Status success>Poglej svoj email za vpis!</Status>
+                )}
+                {status && status.login === 'FAILURE' && (
+                  <Status>Nekaj je šlo narobe. Poizkusi kasneje!</Status>
                 )}
               </Form>
             </React.Fragment>

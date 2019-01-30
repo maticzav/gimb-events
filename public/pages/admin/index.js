@@ -6,7 +6,7 @@ import redirect from '../../lib/redirect'
 import Container from '../../components/Container'
 import Heading from '../../components/SectionHeading'
 
-// import Events from '../sections/Events'
+import AdminEvents from '../../sections/AdminEvents'
 import AdminUsers from '../../sections/AdminUsers'
 import Footer from '../../sections/Footer'
 
@@ -27,7 +27,7 @@ class Admin extends React.Component {
         <Container>
           <Heading>Administrator</Heading>
         </Container>
-        {/* <Events /> */}
+        <AdminEvents />
         <AdminUsers />
         <Footer />
       </React.Fragment>

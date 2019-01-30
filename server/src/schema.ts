@@ -23,7 +23,7 @@ export const typeDefs = gql`
     validateTicket(id: ID!): Ticket
     # Moderation
     createEvent(data: CreateEventInput!): Event
-    updateEvent(id: ID!, data: UpdateEventInput): Event
+    updateEvent(id: ID!, data: UpdateEventInput!): Event
     deleteEvent(id: ID!): Event
     # Administration
     updateUser(id: ID!, data: UpdateUserInput!): User
@@ -112,11 +112,11 @@ export const typeDefs = gql`
     location: String!
     period: Int!
     date: DateTime!
+    published: Boolean!
 
     # Admin
     numberOfTickets: Int!
     numberOfReservations: Int!
     numberOfValidatedTickets: Int!
-    isPublished: Boolean!
   }
 `

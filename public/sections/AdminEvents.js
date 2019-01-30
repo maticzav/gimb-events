@@ -4,10 +4,36 @@ import { Query } from 'react-apollo'
 import styled from 'styled-components'
 
 import Container from '../components/Container'
-import Event, { fragment as eventFragment } from '../components/AdminEvent'
+import AdminEvent, {
+  fragment as adminEventFragment,
+} from '../components/AdminEvent'
 import Heading from '../components/SectionHeading'
 
-const EventsWrapper = styled.table`
+const InputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 6px;
+`
+
+const Input = styled.input`
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  font-size: 16px;
+  padding: 0 6px;
+  margin: 0;
+  border: 0;
+
+  line-height: 1;
+  font-size: 14px;
+
+  outline: none;
+`
+
+const EventsWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-directon: row;
@@ -22,37 +48,61 @@ const EventsWrapper = styled.table`
 /* Events */
 
 const eventsQuery = gql`
-  query Feed {
-    events {
-      ...EventInformation
+  query AdminEvents($query: String!) {
+    events(query: $query) {
+      ${adminEventFragment}
     }
   }
-
-  ${eventFragment}
 `
 
-export default () => (
-  <React.Fragment>
-    <Container>
-      <Heading>Dogodki</Heading>
-    </Container>
-    <Container>
-      <Query query={eventsQuery}>
-        {({ loading, error, data }) => {
-          if (loading) return 'Nalagam...'
-          if (error) return 'Prišlo je do napake.'
+class AdminEvents extends React.Component {
+  state = {
+    query: '',
+  }
 
-          if (data.feed.length === 0) return 'Na voljo ni nobenih dogodkov.'
+  handleQueryChange = e => {
+    this.setState({ query: e.target.value })
+  }
 
-          return (
-            <EventsWrapper>
-              {data.feed.map(event => (
-                <Event key={event.id} event={event} />
-              ))}
-            </EventsWrapper>
-          )
-        }}
-      </Query>
-    </Container>
-  </React.Fragment>
-)
+  render() {
+    return (
+      <React.Fragment>
+        <Container>
+          <Heading>Dogodki</Heading>
+        </Container>
+        <Container>
+          <InputWrapper>
+            <Input
+              value={this.state.query}
+              onChange={this.handleQueryChange}
+              placeholder="Išči dogodke..."
+            />
+          </InputWrapper>
+
+          <Query
+            query={eventsQuery}
+            fetchPolicy="network-only"
+            variables={{ query: this.state.query }}
+          >
+            {({ loading, error, data }) => {
+              if (loading) return 'Nalagam...'
+              if (error) return JSON.stringify(error)
+
+              if (data.events.length === 0) return 'Ne najdem nobenih dogodkov.'
+
+              return (
+                <EventsWrapper>
+                  {data.events.map(event => (
+                    <AdminEvent key={event.id} event={event} />
+                  ))}
+                </EventsWrapper>
+              )
+            }}
+          </Query>
+        </Container>
+      </React.Fragment>
+    )
+  }
+}
+
+export default AdminEvents

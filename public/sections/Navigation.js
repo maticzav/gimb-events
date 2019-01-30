@@ -144,50 +144,47 @@ export default () => (
     <Container>
       <Hero>Gimb Dogodki</Hero>
     </Container>
+    <Container>
+      <Query query={viewerQuery}>
+        {({ loading, error, data }) => {
+          if (loading) return 'Nalagam...'
+          if (error) return 'Prišlo je do napake!'
 
-    <Query query={viewerQuery}>
-      {({ loading, error, data }) => {
-        if (loading) return 'Nalagam...'
-        if (error) return 'Prišlo je do napake!'
+          if (!data.viewer) {
+            return <Login />
+          }
 
-        if (!data.viewer) {
           return (
-            <Container>
-              <Login />
-            </Container>
+            <React.Fragment>
+              <NavigationItems>
+                {pages.map(page => (
+                  <Link key={`${page.name}-${page.href}`} href={page.href}>
+                    <NavigationItem>{page.name}</NavigationItem>
+                  </Link>
+                ))}
+              </NavigationItems>
+              {data.viewer.isModerator && (
+                <ModeratorNavigation>
+                  Za dostop do čitalca klikni ta{' '}
+                  <ModeratorLink href="https://expo.io/@maticzav/gimbdogodki">
+                    link
+                  </ModeratorLink>
+                  .
+                </ModeratorNavigation>
+              )}
+              {data.viewer.isAdministrator && (
+                <AdminNavigation>
+                  Za urejanje dogodkov obišči{' '}
+                  <Link href="/admin">
+                    <AdminLink>administratorsko stran</AdminLink>
+                  </Link>
+                  .
+                </AdminNavigation>
+              )}
+            </React.Fragment>
           )
-        }
-
-        return (
-          <Container>
-            <NavigationItems>
-              {pages.map(page => (
-                <Link key={`${page.name}-${page.href}`} href={page.href}>
-                  <NavigationItem>{page.name}</NavigationItem>
-                </Link>
-              ))}
-            </NavigationItems>
-            {data.viewer.isModerator && (
-              <ModeratorNavigation>
-                Za dostop do čitalca klikni ta{' '}
-                <ModeratorLink href="https://expo.io/@maticzav/gimbdogodki">
-                  link
-                </ModeratorLink>
-                .
-              </ModeratorNavigation>
-            )}
-            {data.viewer.isAdministrator && (
-              <AdminNavigation>
-                Za urejanje dogodkov obišči{' '}
-                <Link href="/admin">
-                  <AdminLink>administratorsko stran</AdminLink>
-                </Link>
-                .
-              </AdminNavigation>
-            )}
-          </Container>
-        )
-      }}
-    </Query>
+        }}
+      </Query>
+    </Container>
   </NavigationWrapper>
 )

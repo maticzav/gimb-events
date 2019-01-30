@@ -1,5 +1,6 @@
 import mls from 'multilines'
 import sendgrid = require('@sendgrid/mail')
+import request = require('request')
 
 /* Credentials */
 
@@ -19,33 +20,26 @@ sendgrid.setApiKey(process.env.SENDGRID_KEY!)
 export async function sendAuthenticationLink(
   email: string,
   link: string,
-): Promise<{ status: 'ok' } | { status: 'err'; message: string }> {
-  try {
-    const res = await sendgrid.send({
-      from: 'Gimb Dogodki <events@gimb.org>',
-      to: email,
-      subject: 'Prijava v Gimb Dogodke',
-      text: mls`
+): Promise<[request.Response, {}]> {
+  const res = await sendgrid.send({
+    from: 'Gimb Dogodki <events@gimb.org>',
+    to: email,
+    subject: 'Prijava v Gimb Dogodke',
+    text: mls`
         | Za prijavo klikni spodnji link ali pa ga 
         | skopiraj v svoj brskalnik. 
         |
         | ${link}
         `,
-      html: mls`
+    html: mls`
         | Za prijavo klikni spodnji link ali pa ga 
         | skopiraj v svoj brskalnik.
         |
         | <a href="${link}">${link}</a>
         `,
-    })
+  })
 
-    return { status: 'ok' }
-  } catch (err) {
-    return {
-      status: 'err',
-      message: err.message,
-    }
-  }
+  return res
 }
 
 /**
