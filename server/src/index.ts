@@ -30,7 +30,10 @@ export const server = new ApolloServer({
   context: ({ req }: { req: express.Request }) =>
     ({
       prisma: new Prisma({
-        fragmentReplacements: [...fragmentReplacements],
+        fragmentReplacements: [
+          ...fragmentReplacements,
+          ...middlewareFragmentReplacements,
+        ],
         endpoint: process.env.PRISMA_ENDPOINT,
         secret: process.env.PRISMA_SECRET,
       }),

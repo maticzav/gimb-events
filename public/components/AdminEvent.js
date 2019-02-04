@@ -1,5 +1,6 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
+import TextArea from 'react-textarea-autosize'
 import Card from 'card-vibes'
 import { Formik, Form, Field } from 'formik'
 import gql from 'graphql-tag'
@@ -45,34 +46,12 @@ const EventWrapper = styled.div`
   `)};
 `
 
-const Input = styled.input.attrs(({ field, ...props }) => ({
+const InlineInput = styled.input.attrs(({ field, ...props }) => ({
   ...props,
   ...field,
 }))`
-  display: block;
-
-  width: 100%;
-
-  margin: 0;
-  padding: 0;
-
-  border: 0;
-
-  outline: 0;
-`
-
-const InlineInput = styled(Input)`
   display: inline;
   width: min-content;
-`
-
-const TextArea = styled.textarea.attrs(({ field, ...props }) => ({
-  ...props,
-  ...field,
-}))`
-  display: block;
-
-  width: 100%;
 
   margin: 0;
   padding: 0;
@@ -80,10 +59,29 @@ const TextArea = styled.textarea.attrs(({ field, ...props }) => ({
   border: 0;
 
   outline: 0;
+  max-width: ${p => p.width || 120}px;
+`
+
+const Input = styled(TextArea).attrs(({ field, ...props }) => ({
+  ...props,
+  ...field,
+}))`
+  display: block;
+
+  width: 100%;
+  height: min-content;
+
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+
+  resize: none;
 `
 
 const Name = styled(Input).attrs({
   placeholder: 'Naslov dogodka',
+  minRows: 2,
 })`
   font-weight: 600;
   font-size: 30px;
@@ -105,8 +103,9 @@ const Speaker = styled(Input).attrs({
   font-size: 18px;
 `
 
-const Overview = styled(TextArea).attrs({
+const Overview = styled(Input).attrs({
   placeholder: 'Opis...',
+  minRows: 5,
 })`
   padding: 5px 0;
 
@@ -137,6 +136,8 @@ const Period = styled(InlineInput).attrs(({ onChange, ...props }) => ({
 }))`
   font-weight: 400;
   font-size: 20px;
+
+  text-align: center;
 
   ${phone(css`
     font-weight: 400;
@@ -196,7 +197,7 @@ const Status = styled.p`
 `
 
 const Button = styled.button`
-  padding: 12px 24px;
+  padding: 5px 12px;
   font-size: 20px;
   font-weight: 600;
 
@@ -214,6 +215,22 @@ const Button = styled.button`
     transform-origin: center center;
   `)};
 `
+
+/* Create */
+
+export const empty = {
+  id: 'NEW',
+  name: '',
+  speaker: '',
+  description: '',
+  location: '',
+  // period: undefined,
+  // date: "",
+  published: false,
+  numberOfTickets: 1,
+  numberOfReservations: 0,
+  numberOfValidatedTickets: 0,
+}
 
 /* Mutations */
 
@@ -284,8 +301,8 @@ export default ({ event }) => (
             <Field name="speaker" component={Speaker} />
             <Field name="description" component={Overview} />
             <LocationPeriod>
-              <Field name="location" component={Location} />,
-              <Field name="period" component={Period} />
+              <Field name="location" width={150} component={Location} />
+              <Field name="period" width={25} component={Period} />
               {'. ura'}
             </LocationPeriod>
             <Datum>
@@ -293,6 +310,9 @@ export default ({ event }) => (
                 .locale('sl')
                 .format('LL')}
             </Datum>
+            <Button type="submit" disabled={loading}>
+              {loading ? 'Nalagam' : 'Dodaj'}
+            </Button>
           </Form>
         </EventWrapper>
       </Formik>

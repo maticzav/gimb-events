@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Container from '../components/Container'
 import AdminEvent, {
   fragment as adminEventFragment,
+  empty as emptyEvent,
 } from '../components/AdminEvent'
 import Heading from '../components/SectionHeading'
 
@@ -88,11 +89,11 @@ class AdminEvents extends React.Component {
               if (loading) return 'Nalagam...'
               if (error) return JSON.stringify(error)
 
-              if (data.events.length === 0) return 'Ne najdem nobenih dogodkov.'
+              const events = [emptyEvent, ...data.events]
 
               return (
                 <EventsWrapper>
-                  {data.events.map(event => (
+                  {events.map(event => (
                     <AdminEvent key={event.id} event={event} />
                   ))}
                 </EventsWrapper>
