@@ -1,6 +1,6 @@
 import * as express from 'express'
 import * as jwt from 'jsonwebtoken'
-import { Prisma } from './generated/prisma'
+import { Prisma } from './generated/prisma/binding'
 
 export interface Context {
   prisma: Prisma

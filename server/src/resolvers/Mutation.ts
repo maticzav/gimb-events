@@ -1,15 +1,17 @@
 import * as jwt from 'jsonwebtoken'
+import * as moment from 'moment'
+import { MutationResolvers } from '../generated/graphqlgen'
 import {
   sendAuthenticationLink,
   sendModeratorAuthenticationLink,
 } from '../sendgrid'
-import { Context, getUserId, getAuthenticationLink } from '../utils'
-import moment = require('moment')
+import { getUserId, getAuthenticationLink } from '../utils'
 
-export const Mutation = {
-  async login(parent, { email }, ctx: Context, info) {
+export const Mutation: MutationResolvers.Type = {
+  ...MutationResolvers.defaultResolvers,
+  login: async (parent, { email }, ctx) => {
     if (!email.endsWith('@dijaki.gimb.org')) {
-      return new Error('Uporabit moraš šolski email (@dijaki.gimb.org)!')
+      throw new Error('Uporabit moraš šolski email (@dijaki.gimb.org)!')
     }
 
     const user = await ctx.prisma.mutation.upsertUser({
@@ -38,7 +40,7 @@ export const Mutation = {
       return { success: false }
     }
   },
-  async requestTicket(parent, { eventId }, ctx: Context, info) {
+  requestTicket: async (parent, { eventId }, ctx, info) => {
     const userId = getUserId(ctx)
 
     /* Obtains event information */
@@ -77,91 +79,40 @@ export const Mutation = {
       info,
     )
   },
-  async validateTicket(parent, { id }, ctx: Context, info) {
-    const validated = await ctx.prisma.exists.Ticket({
-      id,
-      isValidated: true,
-    })
+  validateTicket: async (parent, { id }, ctx, info) => {
+    const validated = await ctx.prisma.exists.Ticket({ id, isValidated: true })
 
     if (validated) {
-      return new Error('Karta že validirana.')
+      throw new Error('Karta že validirana.')
     } else {
       return ctx.prisma.mutation.updateTicket(
-        {
-          where: { id: id },
-          data: {
-            isValidated: true,
-          },
-        },
+        { where: { id: id }, data: { isValidated: true } },
         info,
       )
     }
   },
-  async createEvent(parent, { data }, ctx: Context, info) {
+  createEvent: (parent, args, ctx, info) => {
     return ctx.prisma.mutation.createEvent(
-      {
-        data: {
-          name: data.name,
-          speaker: data.speaker,
-          description: data.description,
-          date: data.date,
-          location: data.location,
-          period: data.period,
-          numberOfTickets: data.numberOfTickets,
-          published: false,
-        },
-      },
+      { data: { ...args.data, published: false } },
       info,
     )
   },
-  async updateEvent(parent, { id, data }, ctx: Context, info) {
+  updateEvent: async (parent, { id, data }, ctx, info) => {
     return ctx.prisma.mutation.updateEvent(
-      {
-        where: {
-          id: id,
-        },
-        data: {
-          name: data.name,
-          speaker: data.speaker,
-          description: data.description,
-          date: data.date,
-          location: data.location,
-          period: data.period,
-          numberOfTickets: data.numberOfTickets,
-          published: false,
-        },
-      },
+      { where: { id: id }, data: data },
       info,
     )
   },
-  async deleteEvent(parent, { id }, ctx: Context, info) {
-    return ctx.prisma.mutation.deleteEvent(
-      {
-        where: {
-          id: id,
-        },
-      },
-      info,
-    )
+  deleteEvent: (parent, { id }, ctx, info) => {
+    return ctx.prisma.mutation.deleteEvent({ where: { id: id } }, info)
   },
-  async updateUser(parent, { id, data }, ctx: Context, info) {
+  updateUser: (parent, { id, data }, ctx, info) => {
     return ctx.prisma.mutation.updateUser(
-      {
-        where: { id: id },
-        data: {
-          isModerator: data.isModerator,
-          isAdministrator: data.isAdministrator,
-        },
-      },
+      { where: { id: id }, data: data },
       info,
     )
   },
-  async deleteUser(parent, { id }, ctx: Context, info) {
-    return ctx.prisma.mutation.deleteUser(
-      {
-        where: { id: id },
-      },
-      info,
-    )
+  deleteUser: (parent, { id }, ctx, info) => {
+    return ctx.prisma.mutation.deleteUser({ where: { id: id } }, info)
   },
 }

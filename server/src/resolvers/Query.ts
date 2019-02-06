@@ -1,8 +1,10 @@
-import { Context, getUserId } from '../utils'
-import moment = require('moment')
+import * as moment from 'moment'
+import { QueryResolvers } from '../generated/graphqlgen'
+import { getUserId } from '../utils'
 
-export const Query = {
-  async viewer(parent, args, ctx: Context, info) {
+export const Query: QueryResolvers.Type = {
+  ...QueryResolvers.defaultResolvers,
+  viewer: async (parent, args, ctx, info) => {
     try {
       const userId = getUserId(ctx)
       return ctx.prisma.query.user({ where: { id: userId } }, info)
@@ -10,33 +12,26 @@ export const Query = {
       return null
     }
   },
-  async ticket(parent, { id }, ctx: Context, info) {
+  ticket: async (parent, { id }, ctx, info) => {
     return ctx.prisma.query.ticket({ where: { id } }, info)
   },
-  async feed(parent, args, ctx: Context, info) {
+  feed: async (parent, args, ctx, info) => {
     const now = moment()
       .startOf('day')
       .toISOString()
 
-    return ctx.prisma.query.events(
-      {
-        where: {
-          date_gte: now,
-        },
-      },
-      info,
-    )
+    return ctx.prisma.query.events({ where: { date_gte: now } }, info)
   },
-  async event(parent, { id }, ctx: Context, info) {
+  event: async (parent, { id }, ctx, info) => {
     return ctx.prisma.query.event({ where: { id } }, info)
   },
-  async users(parent, { query }, ctx: Context, info) {
+  users: async (parent, { query }, ctx, info) => {
     return ctx.prisma.query.users(
       { where: { email_contains: query }, first: 10 },
       info,
     )
   },
-  async events(parent, { query }, ctx: Context, info) {
+  events: async (parent, { query }, ctx, info) => {
     return ctx.prisma.query.events(
       { where: { name_contains: query }, orderBy: 'date_DESC', first: 10 },
       info,

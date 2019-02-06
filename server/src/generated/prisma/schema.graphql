@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/matic-zavadlal-03c51f/gimb-events/dev
-# timestamp: Fri Jan 25 2019 17:52:26 GMT+0100 (Central European Standard Time)
+# timestamp: Wed Feb 06 2019 09:17:11 GMT+0100 (Central European Standard Time)
 
 type AggregateEvent {
   count: Int!

@@ -1,0 +1,20 @@
+language: typescript
+
+# Config
+
+schema: ./src/schema.graphql
+context: ./src/utils.ts:Context
+
+# Output
+models:
+  override:
+    PublicEvent: ./src/generated/prisma/binding.ts:Event
+    AdminEvent: ./src/generated/prisma/binding.ts:Event
+  files:
+    - ./src/models.ts
+    - ./src/generated/prisma/binding.ts
+
+output: ./src/generated/graphqlgen.ts
+resolver-scaffolding:
+  output: ./src/generated/tmp-resolvers/
+  layout: file-per-type

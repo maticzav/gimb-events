@@ -1,18 +1,21 @@
 {
+  "private": true,
   "name": "gimb-events",
+  "description": "Server for Gimb Events website.",
+  "repository": "https://github.com/maticzav/gimb-events",
   "version": "0.0.0",
   "scripts": {
     "clean": "rimraf dist",
     "dev": "dotenv -- nodemon -e ts,graphql -x ts-node src/index.ts",
     "build": "tsc -d",
     "start": "node dist/index.js",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "generate": "graphqlgen"
   },
   "dependencies": {
     "@sendgrid/mail": "6.3.1",
-    "apollo-server": "2.3.3",
-    "graphql-middleware": "3.0.2",
     "graphql-shield": "5.1.1",
+    "graphql-yoga": "^1.17.4",
     "jsonwebtoken": "8.4.0",
     "moment": "2.24.0",
     "multilines": "1.0.2",
@@ -26,6 +29,7 @@
     "@types/node": "10.12.21",
     "dotenv-cli": "1.4.0",
     "graphql-cli": "3.0.9",
+    "graphqlgen": "^0.6.0-rc5",
     "jest": "23.6.0",
     "nodemon": "1.18.9",
     "npm-run-all": "4.1.5",

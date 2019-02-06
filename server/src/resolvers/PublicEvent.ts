@@ -1,10 +1,17 @@
-import { getUserId, Context } from '../utils'
-import moment = require('moment')
+import * as moment from 'moment'
+import { EventResolvers } from '../generated/graphqlgen'
+import { getUserId } from '../utils'
 
-export const Event = {
+import { PublicEventResolvers } from '../generated/graphqlgen'
+
+export const PublicEvent: PublicEventResolvers.Type = {
+  ...PublicEventResolvers.defaultResolvers,
+  date: (parent, args, ctx) => {
+    return parent.date.toString()
+  },
   viewerHasTicket: {
     fragment: `fragment EventId on Event { id }`,
-    resolve: async ({ id }, args, ctx: Context) => {
+    resolver: async ({ id }, args, ctx) => {
       try {
         const userId = getUserId(ctx)
 
@@ -19,7 +26,7 @@ export const Event = {
   },
   hasAvailableTickets: {
     fragment: `fragment EventId on Event { id }`,
-    resolve: async ({ id }, args, ctx: Context) => {
+    resolver: async ({ id }, args, ctx) => {
       const ticketsTaken = await ctx.prisma.query.ticketsConnection(
         {
           where: { event: { id: id } },
@@ -35,7 +42,7 @@ export const Event = {
   },
   viewerCanRequestTicket: {
     fragment: `fragment EventDatePeriod on Event { date period }`,
-    resolve: async ({ date, period }, args, ctx: Context) => {
+    resolver: async ({ date, period }, args, ctx) => {
       try {
         const userId = getUserId(ctx)
 

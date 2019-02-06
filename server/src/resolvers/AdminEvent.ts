@@ -1,10 +1,13 @@
-import { getUserId, Context } from '../utils'
-import moment = require('moment')
+import { AdminEventResolvers } from '../generated/graphqlgen'
 
-export const AdminEvent = {
+export const AdminEvent: AdminEventResolvers.Type = {
+  ...AdminEventResolvers.defaultResolvers,
+  date: (parent, args, ctx) => {
+    return parent.date.toString()
+  },
   numberOfReservations: {
     fragment: `fragment EventId on Event { id }`,
-    resolve: async ({ id }, args, ctx: Context) => {
+    resolver: async ({ id }, args, ctx) => {
       const events = await ctx.prisma.query.ticketsConnection(
         {
           where: {
@@ -19,7 +22,7 @@ export const AdminEvent = {
   },
   numberOfValidatedTickets: {
     fragment: `fragment EventId on Event { id }`,
-    resolve: async ({ id }, args, ctx: Context) => {
+    resolver: async ({ id }, args, ctx) => {
       const events = await ctx.prisma.query.ticketsConnection(
         {
           where: {
