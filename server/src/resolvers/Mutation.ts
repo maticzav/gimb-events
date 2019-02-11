@@ -37,6 +37,7 @@ export const Mutation: MutationResolvers.Type = {
 
       return { success: true }
     } catch (err) {
+      console.error(err)
       return { success: false }
     }
   },

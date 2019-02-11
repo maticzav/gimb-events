@@ -7,7 +7,7 @@ export const AdminEvent: AdminEventResolvers.Type = {
   },
   numberOfReservations: {
     fragment: `fragment EventId on Event { id }`,
-    resolver: async ({ id }, args, ctx) => {
+    resolve: async ({ id }, args, ctx) => {
       const events = await ctx.prisma.query.ticketsConnection(
         {
           where: {
@@ -22,7 +22,7 @@ export const AdminEvent: AdminEventResolvers.Type = {
   },
   numberOfValidatedTickets: {
     fragment: `fragment EventId on Event { id }`,
-    resolver: async ({ id }, args, ctx) => {
+    resolve: async ({ id }, args, ctx) => {
       const events = await ctx.prisma.query.ticketsConnection(
         {
           where: {

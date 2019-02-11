@@ -5,7 +5,7 @@ export const Ticket: TicketResolvers.Type = {
 
   isExpired: {
     fragment: `fragment TicketId on Ticket { id }`,
-    resolver: async ({ id }, args, ctx) => {
+    resolve: async ({ id }, args, ctx) => {
       const now = new Date().toISOString()
 
       return ctx.prisma.exists.Ticket({ id: id, event: { date_lt: now } })

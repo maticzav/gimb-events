@@ -8,8 +8,8 @@ type Query {
   feed: [PublicEvent!]!
   # Administration
   users(query: String): [User!]
-  event(id: ID!): AdminEvent
-  events(query: String): [AdminEvent!]
+  event(id: ID!): Event
+  events(query: String): [Event!]
 }
 
 type Mutation {
@@ -76,7 +76,7 @@ type User {
 
 type Ticket {
   id: ID!
-  event: PublicEvent!
+  event: Event!
   owner: User!
   isValidated: Boolean!
   isExpired: Boolean!

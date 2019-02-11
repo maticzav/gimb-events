@@ -33,7 +33,7 @@ export namespace QueryResolvers {
       ) => User | null | Promise<User | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: {},
           ctx: Context,
@@ -50,7 +50,7 @@ export namespace QueryResolvers {
       ) => Ticket | null | Promise<Ticket | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsTicket,
           ctx: Context,
@@ -67,7 +67,7 @@ export namespace QueryResolvers {
       ) => Event[] | Promise<Event[]>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: {},
           ctx: Context,
@@ -84,7 +84,7 @@ export namespace QueryResolvers {
       ) => User[] | null | Promise<User[] | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsUsers,
           ctx: Context,
@@ -98,15 +98,15 @@ export namespace QueryResolvers {
         args: ArgsEvent,
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => Event | null | Promise<Event | null>)
+      ) => Event | Event | null | Promise<Event | Event | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsEvent,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>
+        ) => Event | Event | null | Promise<Event | Event | null>
       }
 
   export type EventsResolver =
@@ -115,15 +115,15 @@ export namespace QueryResolvers {
         args: ArgsEvents,
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => Event[] | null | Promise<Event[] | null>)
+      ) => Array<Event | Event> | null | Promise<Array<Event | Event> | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsEvents,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event[] | null | Promise<Event[] | null>
+        ) => Array<Event | Event> | null | Promise<Array<Event | Event> | null>
       }
 
   export interface Type {
@@ -136,7 +136,7 @@ export namespace QueryResolvers {
         ) => User | null | Promise<User | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: {},
             ctx: Context,
@@ -153,7 +153,7 @@ export namespace QueryResolvers {
         ) => Ticket | null | Promise<Ticket | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsTicket,
             ctx: Context,
@@ -170,7 +170,7 @@ export namespace QueryResolvers {
         ) => Event[] | Promise<Event[]>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: {},
             ctx: Context,
@@ -187,7 +187,7 @@ export namespace QueryResolvers {
         ) => User[] | null | Promise<User[] | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsUsers,
             ctx: Context,
@@ -201,15 +201,15 @@ export namespace QueryResolvers {
           args: ArgsEvent,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>)
+        ) => Event | Event | null | Promise<Event | Event | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsEvent,
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) => Event | null | Promise<Event | null>
+          ) => Event | Event | null | Promise<Event | Event | null>
         }
 
     events:
@@ -218,15 +218,18 @@ export namespace QueryResolvers {
           args: ArgsEvents,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event[] | null | Promise<Event[] | null>)
+        ) => Array<Event | Event> | null | Promise<Array<Event | Event> | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsEvents,
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) => Event[] | null | Promise<Event[] | null>
+          ) =>
+            | Array<Event | Event>
+            | null
+            | Promise<Array<Event | Event> | null>
         }
   }
 }
@@ -248,7 +251,7 @@ export namespace UserResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: User,
           args: {},
           ctx: Context,
@@ -265,7 +268,7 @@ export namespace UserResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: User,
           args: {},
           ctx: Context,
@@ -282,7 +285,7 @@ export namespace UserResolvers {
       ) => Ticket[] | Promise<Ticket[]>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: User,
           args: {},
           ctx: Context,
@@ -299,7 +302,7 @@ export namespace UserResolvers {
       ) => boolean | null | Promise<boolean | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: User,
           args: {},
           ctx: Context,
@@ -316,7 +319,7 @@ export namespace UserResolvers {
       ) => boolean | null | Promise<boolean | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: User,
           args: {},
           ctx: Context,
@@ -334,7 +337,7 @@ export namespace UserResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: User,
             args: {},
             ctx: Context,
@@ -351,7 +354,7 @@ export namespace UserResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: User,
             args: {},
             ctx: Context,
@@ -368,7 +371,7 @@ export namespace UserResolvers {
         ) => Ticket[] | Promise<Ticket[]>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: User,
             args: {},
             ctx: Context,
@@ -385,7 +388,7 @@ export namespace UserResolvers {
         ) => boolean | null | Promise<boolean | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: User,
             args: {},
             ctx: Context,
@@ -402,7 +405,7 @@ export namespace UserResolvers {
         ) => boolean | null | Promise<boolean | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: User,
             args: {},
             ctx: Context,
@@ -429,7 +432,7 @@ export namespace TicketResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Ticket,
           args: {},
           ctx: Context,
@@ -443,15 +446,15 @@ export namespace TicketResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => Event | Promise<Event>)
+      ) => Event | Event | Promise<Event | Event>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Ticket,
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | Promise<Event>
+        ) => Event | Event | Promise<Event | Event>
       }
 
   export type OwnerResolver =
@@ -463,7 +466,7 @@ export namespace TicketResolvers {
       ) => User | Promise<User>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Ticket,
           args: {},
           ctx: Context,
@@ -480,7 +483,7 @@ export namespace TicketResolvers {
       ) => boolean | Promise<boolean>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Ticket,
           args: {},
           ctx: Context,
@@ -497,7 +500,7 @@ export namespace TicketResolvers {
       ) => boolean | Promise<boolean>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Ticket,
           args: {},
           ctx: Context,
@@ -515,7 +518,7 @@ export namespace TicketResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Ticket,
             args: {},
             ctx: Context,
@@ -529,15 +532,15 @@ export namespace TicketResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | Promise<Event>)
+        ) => Event | Event | Promise<Event | Event>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Ticket,
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) => Event | Promise<Event>
+          ) => Event | Event | Promise<Event | Event>
         }
 
     owner:
@@ -549,7 +552,7 @@ export namespace TicketResolvers {
         ) => User | Promise<User>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Ticket,
             args: {},
             ctx: Context,
@@ -566,7 +569,7 @@ export namespace TicketResolvers {
         ) => boolean | Promise<boolean>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Ticket,
             args: {},
             ctx: Context,
@@ -583,7 +586,7 @@ export namespace TicketResolvers {
         ) => boolean | Promise<boolean>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Ticket,
             args: {},
             ctx: Context,
@@ -613,7 +616,7 @@ export namespace PublicEventResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -630,7 +633,7 @@ export namespace PublicEventResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -647,7 +650,7 @@ export namespace PublicEventResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -664,7 +667,7 @@ export namespace PublicEventResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -681,7 +684,7 @@ export namespace PublicEventResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -698,7 +701,7 @@ export namespace PublicEventResolvers {
       ) => number | Promise<number>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -715,7 +718,7 @@ export namespace PublicEventResolvers {
       ) => string | Promise<string>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -732,7 +735,7 @@ export namespace PublicEventResolvers {
       ) => boolean | Promise<boolean>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -749,7 +752,7 @@ export namespace PublicEventResolvers {
       ) => boolean | Promise<boolean>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -766,7 +769,7 @@ export namespace PublicEventResolvers {
       ) => boolean | Promise<boolean>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: Event,
           args: {},
           ctx: Context,
@@ -784,7 +787,7 @@ export namespace PublicEventResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -801,7 +804,7 @@ export namespace PublicEventResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -818,7 +821,7 @@ export namespace PublicEventResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -835,7 +838,7 @@ export namespace PublicEventResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -852,7 +855,7 @@ export namespace PublicEventResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -869,7 +872,7 @@ export namespace PublicEventResolvers {
         ) => number | Promise<number>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -886,7 +889,7 @@ export namespace PublicEventResolvers {
         ) => string | Promise<string>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -903,7 +906,7 @@ export namespace PublicEventResolvers {
         ) => boolean | Promise<boolean>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -920,7 +923,7 @@ export namespace PublicEventResolvers {
         ) => boolean | Promise<boolean>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
@@ -937,404 +940,12 @@ export namespace PublicEventResolvers {
         ) => boolean | Promise<boolean>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: Event,
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo,
           ) => boolean | Promise<boolean>
-        }
-
-    __isTypeOf?: GraphQLIsTypeOfFn<Event | Event, Context>
-  }
-}
-
-export namespace AdminEventResolvers {
-  export const defaultResolvers = {
-    id: (parent: Event) => parent.id,
-    name: (parent: Event) => parent.name,
-    speaker: (parent: Event) => parent.speaker,
-    description: (parent: Event) => parent.description,
-    location: (parent: Event) => parent.location,
-    period: (parent: Event) => parent.period,
-    date: (parent: Event) => parent.date,
-    published: (parent: Event) => parent.published,
-    numberOfTickets: (parent: Event) => parent.numberOfTickets,
-  }
-
-  export type IdResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => string | Promise<string>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>
-      }
-
-  export type NameResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => string | Promise<string>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>
-      }
-
-  export type SpeakerResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => string | Promise<string>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>
-      }
-
-  export type DescriptionResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => string | Promise<string>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>
-      }
-
-  export type LocationResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => string | Promise<string>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>
-      }
-
-  export type PeriodResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => number | Promise<number>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>
-      }
-
-  export type DateResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => string | Promise<string>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>
-      }
-
-  export type PublishedResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => boolean | Promise<boolean>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => boolean | Promise<boolean>
-      }
-
-  export type NumberOfTicketsResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => number | Promise<number>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>
-      }
-
-  export type NumberOfReservationsResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => number | Promise<number>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>
-      }
-
-  export type NumberOfValidatedTicketsResolver =
-    | ((
-        parent: Event,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => number | Promise<number>)
-    | {
-        fragment: string
-        resolver: (
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>
-      }
-
-  export interface Type {
-    id:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => string | Promise<string>
-        }
-
-    name:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => string | Promise<string>
-        }
-
-    speaker:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => string | Promise<string>
-        }
-
-    description:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => string | Promise<string>
-        }
-
-    location:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => string | Promise<string>
-        }
-
-    period:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => number | Promise<number>
-        }
-
-    date:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => string | Promise<string>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => string | Promise<string>
-        }
-
-    published:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => boolean | Promise<boolean>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => boolean | Promise<boolean>
-        }
-
-    numberOfTickets:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => number | Promise<number>
-        }
-
-    numberOfReservations:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => number | Promise<number>
-        }
-
-    numberOfValidatedTickets:
-      | ((
-          parent: Event,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => number | Promise<number>)
-      | {
-          fragment: string
-          resolver: (
-            parent: Event,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => number | Promise<number>
         }
 
     __isTypeOf?: GraphQLIsTypeOfFn<Event | Event, Context>
@@ -1410,7 +1021,7 @@ export namespace MutationResolvers {
       ) => LoginPayload | Promise<LoginPayload>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsLogin,
           ctx: Context,
@@ -1427,7 +1038,7 @@ export namespace MutationResolvers {
       ) => Ticket | null | Promise<Ticket | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsRequestTicket,
           ctx: Context,
@@ -1444,7 +1055,7 @@ export namespace MutationResolvers {
       ) => Ticket | null | Promise<Ticket | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsValidateTicket,
           ctx: Context,
@@ -1461,7 +1072,7 @@ export namespace MutationResolvers {
       ) => Event | null | Promise<Event | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsCreateEvent,
           ctx: Context,
@@ -1478,7 +1089,7 @@ export namespace MutationResolvers {
       ) => Event | null | Promise<Event | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsUpdateEvent,
           ctx: Context,
@@ -1495,7 +1106,7 @@ export namespace MutationResolvers {
       ) => Event | null | Promise<Event | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsDeleteEvent,
           ctx: Context,
@@ -1512,7 +1123,7 @@ export namespace MutationResolvers {
       ) => User | null | Promise<User | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsUpdateUser,
           ctx: Context,
@@ -1529,7 +1140,7 @@ export namespace MutationResolvers {
       ) => User | null | Promise<User | null>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: undefined,
           args: ArgsDeleteUser,
           ctx: Context,
@@ -1547,7 +1158,7 @@ export namespace MutationResolvers {
         ) => LoginPayload | Promise<LoginPayload>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsLogin,
             ctx: Context,
@@ -1564,7 +1175,7 @@ export namespace MutationResolvers {
         ) => Ticket | null | Promise<Ticket | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsRequestTicket,
             ctx: Context,
@@ -1581,7 +1192,7 @@ export namespace MutationResolvers {
         ) => Ticket | null | Promise<Ticket | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsValidateTicket,
             ctx: Context,
@@ -1598,7 +1209,7 @@ export namespace MutationResolvers {
         ) => Event | null | Promise<Event | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsCreateEvent,
             ctx: Context,
@@ -1615,7 +1226,7 @@ export namespace MutationResolvers {
         ) => Event | null | Promise<Event | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsUpdateEvent,
             ctx: Context,
@@ -1632,7 +1243,7 @@ export namespace MutationResolvers {
         ) => Event | null | Promise<Event | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsDeleteEvent,
             ctx: Context,
@@ -1649,7 +1260,7 @@ export namespace MutationResolvers {
         ) => User | null | Promise<User | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsUpdateUser,
             ctx: Context,
@@ -1666,7 +1277,7 @@ export namespace MutationResolvers {
         ) => User | null | Promise<User | null>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: undefined,
             args: ArgsDeleteUser,
             ctx: Context,
@@ -1690,7 +1301,7 @@ export namespace LoginPayloadResolvers {
       ) => boolean | Promise<boolean>)
     | {
         fragment: string
-        resolver: (
+        resolve: (
           parent: LoginPayload,
           args: {},
           ctx: Context,
@@ -1708,13 +1319,405 @@ export namespace LoginPayloadResolvers {
         ) => boolean | Promise<boolean>)
       | {
           fragment: string
-          resolver: (
+          resolve: (
             parent: LoginPayload,
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo,
           ) => boolean | Promise<boolean>
         }
+  }
+}
+
+export namespace AdminEventResolvers {
+  export const defaultResolvers = {
+    id: (parent: Event) => parent.id,
+    name: (parent: Event) => parent.name,
+    speaker: (parent: Event) => parent.speaker,
+    description: (parent: Event) => parent.description,
+    location: (parent: Event) => parent.location,
+    period: (parent: Event) => parent.period,
+    date: (parent: Event) => parent.date,
+    published: (parent: Event) => parent.published,
+    numberOfTickets: (parent: Event) => parent.numberOfTickets,
+  }
+
+  export type IdResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>
+      }
+
+  export type NameResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>
+      }
+
+  export type SpeakerResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>
+      }
+
+  export type DescriptionResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>
+      }
+
+  export type LocationResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>
+      }
+
+  export type PeriodResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => number | Promise<number>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>
+      }
+
+  export type DateResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => string | Promise<string>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>
+      }
+
+  export type PublishedResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => boolean | Promise<boolean>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => boolean | Promise<boolean>
+      }
+
+  export type NumberOfTicketsResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => number | Promise<number>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>
+      }
+
+  export type NumberOfReservationsResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => number | Promise<number>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>
+      }
+
+  export type NumberOfValidatedTicketsResolver =
+    | ((
+        parent: Event,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => number | Promise<number>)
+    | {
+        fragment: string
+        resolve: (
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>
+      }
+
+  export interface Type {
+    id:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>
+        }
+
+    name:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>
+        }
+
+    speaker:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>
+        }
+
+    description:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>
+        }
+
+    location:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>
+        }
+
+    period:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => number | Promise<number>
+        }
+
+    date:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => string | Promise<string>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => string | Promise<string>
+        }
+
+    published:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => boolean | Promise<boolean>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => boolean | Promise<boolean>
+        }
+
+    numberOfTickets:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => number | Promise<number>
+        }
+
+    numberOfReservations:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => number | Promise<number>
+        }
+
+    numberOfValidatedTickets:
+      | ((
+          parent: Event,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => number | Promise<number>)
+      | {
+          fragment: string
+          resolve: (
+            parent: Event,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => number | Promise<number>
+        }
+
+    __isTypeOf?: GraphQLIsTypeOfFn<Event | Event, Context>
   }
 }
 
@@ -1733,8 +1736,13 @@ export interface Resolvers {
   User: UserResolvers.Type
   Ticket: TicketResolvers.Type
   PublicEvent: PublicEventResolvers.Type
-  AdminEvent: AdminEventResolvers.Type
   Mutation: MutationResolvers.Type
   LoginPayload: LoginPayloadResolvers.Type
+  AdminEvent: AdminEventResolvers.Type
   Event?: EventResolvers.Type
+}
+
+// @ts-ignore
+declare module 'graphql-tools' {
+  interface IResolvers extends Resolvers {}
 }

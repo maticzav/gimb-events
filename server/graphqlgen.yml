@@ -8,6 +8,7 @@ context: ./src/utils.ts:Context
 # Output
 models:
   override:
+    User: ./src/generated/prisma/binding.ts:User
     PublicEvent: ./src/generated/prisma/binding.ts:Event
     AdminEvent: ./src/generated/prisma/binding.ts:Event
   files:

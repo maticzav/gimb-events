@@ -14,7 +14,7 @@ if (!process.env.PRISMA_ENDPOINT || !process.env.PRISMA_SECRET) {
 /* Server */
 
 export const server = new GraphQLServer({
-  typeDefs: './schema.graphql',
+  typeDefs: 'src/schema.graphql',
   resolvers: resolvers,
   middlewares: [permissions],
   context: ({
@@ -40,7 +40,7 @@ if (process.env.NODE_ENV !== 'test') {
     .start({
       debug: process.env.NODE_ENV !== 'production',
     })
-    .then(({ address }) => {
-      console.log(`🚀  Server ready at ${address}`)
+    .then(() => {
+      console.log(`🚀  Server ready!`)
     })
 }
