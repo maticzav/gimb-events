@@ -4,7 +4,7 @@ import { Query } from 'react-apollo'
 import styled from 'styled-components'
 
 import Container from '../components/Container'
-import Event, { fragment as eventFragment } from '../components/Event'
+import Event, { fragment as eventFragment } from '../components/PublicEvent'
 import Heading from '../components/SectionHeading'
 
 const EventsWrapper = styled.div`
@@ -24,11 +24,9 @@ const EventsWrapper = styled.div`
 const feedQuery = gql`
   query Feed {
     feed {
-      ...EventInformation
+      ${eventFragment}
     }
   }
-
-  ${eventFragment}
 `
 
 export default () => (
