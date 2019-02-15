@@ -1,7 +1,8 @@
-import gql from 'graphql-tag'
 import React from 'react'
 import { Query } from 'react-apollo'
-import styled from 'styled-components'
+import Link from 'next/link'
+import gql from 'graphql-tag'
+import styled, { css } from 'styled-components'
 
 import Container from '../components/Container'
 import AdminEvent, {
@@ -9,6 +10,8 @@ import AdminEvent, {
   empty as emptyEvent,
 } from '../components/AdminEvent'
 import Heading from '../components/SectionHeading'
+
+import { phone } from '../utils/media'
 
 const InputWrapper = styled.div`
   width: 100%;
@@ -32,6 +35,32 @@ const Input = styled.input`
   font-size: 14px;
 
   outline: none;
+`
+
+const NewEventWrapper = styled.div`
+  width: 100%;
+  margin: 0;
+  padding: 20px 10px;
+`
+
+const NewEventLink = styled.a`
+  padding: 5px 12px;
+  font-size: 20px;
+  font-weight: 600;
+
+  background: ${p => p.theme.colors.green};
+  color: rgba(255, 255, 255, 0.85);
+  border: none;
+  cursor: pointer;
+
+  transform-origin: right center;
+  transition: background 160ms ease-out, transform 160ms ease-out, color 160ms,
+    box-shadow 160ms;
+
+  ${phone(css`
+    margin-top: 18px;
+    transform-origin: center center;
+  `)};
 `
 
 const EventsWrapper = styled.div`
@@ -80,26 +109,27 @@ class AdminEvents extends React.Component {
             />
           </InputWrapper>
 
-          <Query
-            query={eventsQuery}
-            fetchPolicy="network-only"
-            variables={{ query: this.state.query }}
-          >
-            {({ loading, error, data }) => {
-              if (loading) return 'Nalagam...'
-              if (error) return JSON.stringify(error)
+          <NewEventWrapper>
+            <Link href="/admin/events/new">
+              <NewEventLink>Ustvari nov dogodek</NewEventLink>
+            </Link>
+          </NewEventWrapper>
+          <EventsWrapper>
+            <Query
+              query={eventsQuery}
+              fetchPolicy="network-only"
+              variables={{ query: this.state.query }}
+            >
+              {({ loading, error, data }) => {
+                if (loading) return 'Nalagam...'
+                if (error) return JSON.stringify(error)
 
-              const events = [emptyEvent, ...data.events]
-
-              return (
-                <EventsWrapper>
-                  {events.map(event => (
-                    <AdminEvent key={event.id} event={event} />
-                  ))}
-                </EventsWrapper>
-              )
-            }}
-          </Query>
+                return data.events.map(event => (
+                  <AdminEvent key={event.id} event={event} />
+                ))
+              }}
+            </Query>
+          </EventsWrapper>
         </Container>
       </React.Fragment>
     )

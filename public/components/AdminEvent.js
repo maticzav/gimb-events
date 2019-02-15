@@ -1,18 +1,15 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import TextArea from 'react-textarea-autosize'
+import Link from 'next/link'
 import Card from 'card-vibes'
-import { Formik, Form, Field } from 'formik'
 import gql from 'graphql-tag'
 import hasher from 'hash-index'
 import moment from 'moment'
 import { invert, saturate, hsl } from 'polished'
 import styled, { css } from 'styled-components'
-import * as Yup from 'yup'
 
 import { mobile, phone } from '../utils/media'
 
-/* Because of the delegation issue */
 export const fragment = `
   id
   name
@@ -21,10 +18,6 @@ export const fragment = `
   location
   period
   date
-  published
-  numberOfTickets
-  numberOfReservations
-  numberOfValidatedTickets
 `
 
 const EventWrapper = styled.div`
@@ -46,98 +39,41 @@ const EventWrapper = styled.div`
   `)};
 `
 
-const InlineInput = styled.input.attrs(({ field, ...props }) => ({
-  ...props,
-  ...field,
-}))`
-  display: inline;
-  width: min-content;
-
-  margin: 0;
-  padding: 0;
-
-  border: 0;
-
-  outline: 0;
-  max-width: ${p => p.width || 120}px;
-`
-
-const Input = styled(TextArea).attrs(({ field, ...props }) => ({
-  ...props,
-  ...field,
-}))`
+const Name = styled.h2`
   display: block;
 
-  width: 100%;
-  height: min-content;
-
   margin: 0;
   padding: 0;
-  border: 0;
-  outline: 0;
 
-  resize: none;
-`
-
-const Name = styled(Input).attrs({
-  placeholder: 'Naslov dogodka',
-  minRows: 2,
-})`
   font-weight: 600;
   font-size: 30px;
   font-family: Playfair Display;
 
-  color: ${p => hsl(hasher(p.value, 360), 1, 0.1)};
+  color: ${p => hsl(hasher(p.children, 360), 1, 0.1)};
 
   ${phone(css`
     font-size: 24px;
   `)};
 `
 
-const Speaker = styled(Input).attrs({
-  placeholder: 'Ime govorca',
-})`
+const Speaker = styled.h4`
+  display: block;
+
+  margin: 0;
   padding: 3px 0;
 
   font-weight: 400;
   font-size: 18px;
 `
 
-const Overview = styled(Input).attrs({
-  placeholder: 'Opis...',
-  minRows: 5,
-})`
+const Overview = styled.p`
+  display: block;
+
+  margin: 0;
   padding: 5px 0;
 
   font-weight: 400;
   font-size: 20px;
-
-  ${phone(css`
-    font-weight: 400;
-    font-size: 14px;
-  `)}
-`
-
-const Location = styled(InlineInput).attrs({
-  placeholder: 'Kraj',
-})`
-  font-weight: 400;
-  font-size: 20px;
-
-  ${phone(css`
-    font-weight: 400;
-    font-size: 14px;
-  `)}
-`
-
-const Period = styled(InlineInput).attrs(({ onChange, ...props }) => ({
-  ...props,
-  placeholder: 'N',
-}))`
-  font-weight: 400;
-  font-size: 20px;
-
-  text-align: center;
 
   ${phone(css`
     font-weight: 400;
@@ -164,7 +100,10 @@ const Datum = styled.p`
   display: block;
 
   margin: 0;
-  padding: 5px 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 5px;
+  padding-bottom: 15px;
 
   font-weight: 400;
   font-size: 20px;
@@ -175,33 +114,12 @@ const Datum = styled.p`
   `)}
 `
 
-const Status = styled.p`
-  display: block;
-  width: 100%;
-
-  margin: 0;
-  padding: 5px 0;
-  font-weight: 500;
-  font-size: 20px;
-
-  ${phone(css`
-    font-weight: 400;
-    font-size: 15px;
-  `)}
-
-  ${p =>
-    p.success &&
-    css`
-      color: ${p.theme.colors.green};
-    `};
-`
-
-const Button = styled.button`
-  padding: 5px 12px;
+const EditLink = styled.a`
+  padding: 8px 12px;
   font-size: 20px;
   font-weight: 600;
 
-  background: ${p => p.theme.colors.red};
+  background: ${p => p.theme.colors.lightBlue};
   color: rgba(255, 255, 255, 0.85);
   border: none;
   cursor: pointer;
@@ -216,106 +134,23 @@ const Button = styled.button`
   `)};
 `
 
-/* Create */
-
-export const empty = {
-  id: 'NEW',
-  name: '',
-  speaker: '',
-  description: '',
-  location: '',
-  // period: undefined,
-  // date: "",
-  published: false,
-  numberOfTickets: 1,
-  numberOfReservations: 0,
-  numberOfValidatedTickets: 0,
-}
-
-/* Mutations */
-
-const createMutation = gql`
-  mutation CreateEvent($data: CreateEventInput!) {
-    createEvent(data: $data) {
-      ${fragment}
-    }
-  }
-`
-
-const updateMutation = gql`
-  mutation UpdateEvent($id: ID!, $data: UpdateEventInput!) {
-    updateEvent(id: $id, data: $data) {
-      ${fragment}
-    }
-  }
-`
-
-const deleteMutation = gql`
-  mutation DeleteEvent($id: ID!) {
-    deleteEvent(id: $id) {
-      ${fragment}
-    }
-  }
-`
-
-const getEventMutation = event => {
-  if (event.id === 'NEW') {
-    return createMutation
-  } else {
-    return updateMutation
-  }
-}
-
-/* Schema */
-
-const eventSchema = Yup.object().shape({
-  name: Yup.string().required(),
-  speaker: Yup.string().required(),
-  description: Yup.string().default(''),
-  location: Yup.string().required(),
-  period: Yup.number()
-    .integer()
-    .min(0, 'Začneš lahko z najmanj preduro (0).')
-    .max(13, 'Dan ima samo 13 šolskih ur.'),
-  date: Yup.date().required(),
-  numberOfTickets: Yup.number()
-    .integer()
-    .min(1, 'Vsaj eno karto za dogodek rabiš.'),
-})
-
 /* Event */
 
-export default ({ event }) => (
-  <Mutation mutation={getEventMutation(event)}>
-    {(createOrUpdate, { loading, data, error }) => (
-      <Formik
-        initialValues={event}
-        validationSchema={eventSchema}
-        onSubmit={(values, formik) => {
-          console.log(values)
-        }}
-      >
-        <EventWrapper>
-          <Form>
-            <Field name="name" component={Name} />
-            <Field name="speaker" component={Speaker} />
-            <Field name="description" component={Overview} />
-            <LocationPeriod>
-              <Field name="location" width={150} component={Location} />
-              <Field name="period" width={25} component={Period} />
-              {'. ura'}
-            </LocationPeriod>
-            <Datum>
-              {moment(event.date)
-                .locale('sl')
-                .format('LL')}
-            </Datum>
-            <Button type="submit" disabled={loading}>
-              {loading ? 'Nalagam' : 'Dodaj'}
-            </Button>
-          </Form>
-        </EventWrapper>
-      </Formik>
-    )}
-  </Mutation>
+const AdminEvent = ({ event }) => (
+  <EventWrapper>
+    <Name>{event.name}</Name>
+    <Speaker>{event.speaker}</Speaker>
+    <Overview>{event.description}</Overview>
+    <LocationPeriod>{`${event.location}, ${event.period}. ura`}</LocationPeriod>
+    <Datum>
+      {moment(event.date)
+        .locale('sl')
+        .format('LL')}
+    </Datum>
+    <Link href={{ pathname: '/admin/events/edit', query: { id: event.id } }}>
+      <EditLink>Uredi</EditLink>
+    </Link>
+  </EventWrapper>
 )
+
+export default AdminEvent
