@@ -1,7 +1,11 @@
-import { GraphQLServer } from 'graphql-yoga'
+import { ApolloServer } from 'apollo-server'
+import * as express from 'express'
+import { applyMiddleware } from 'graphql-middleware'
+import { makeExecutableSchema } from 'graphql-tools'
 
 import { Prisma } from './generated/prisma/binding'
 import { resolvers, fragmentReplacements } from './resolvers'
+import { typeDefs } from './schema'
 import { permissions } from './shield'
 import { Context } from './utils'
 
@@ -11,16 +15,22 @@ if (!process.env.PRISMA_ENDPOINT || !process.env.PRISMA_SECRET) {
   throw new Error('Missing Prisma configuration!')
 }
 
+/* Schema */
+
+const {
+  schema,
+  fragmentReplacements: middlewareFragmentReplacements,
+} = applyMiddleware(
+  makeExecutableSchema({ typeDefs: typeDefs, resolvers: resolvers as any }),
+  permissions,
+)
+
 /* Server */
 
-export const server = new GraphQLServer({
-  typeDefs: 'src/schema.graphql',
-  resolvers: resolvers,
-  middlewares: [permissions],
-  context: ({
-    request,
-    fragmentReplacements: middlewareFragmentReplacements,
-  }) =>
+export const server = new ApolloServer({
+  schema,
+  debug: process.env.NODE_ENV !== 'production',
+  context: ({ req }: { req: express.Request }) =>
     ({
       prisma: new Prisma({
         fragmentReplacements: [
@@ -30,17 +40,13 @@ export const server = new GraphQLServer({
         endpoint: process.env.PRISMA_ENDPOINT,
         secret: process.env.PRISMA_SECRET,
       }),
-      request: request,
+      request: req,
     } as Context),
 })
 
 /* istanbul ignore if */
 if (process.env.NODE_ENV !== 'test') {
-  server
-    .start({
-      debug: process.env.NODE_ENV !== 'production',
-    })
-    .then(() => {
-      console.log(`🚀  Server ready!`)
-    })
+  server.listen().then(({ url }: { url: string }) => {
+    console.log(`🚀  Server ready at ${url}`)
+  })
 }

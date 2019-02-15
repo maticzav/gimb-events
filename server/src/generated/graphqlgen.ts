@@ -98,7 +98,7 @@ export namespace QueryResolvers {
         args: ArgsEvent,
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => Event | Event | null | Promise<Event | Event | null>)
+      ) => Event | null | Promise<Event | null>)
     | {
         fragment: string
         resolve: (
@@ -106,7 +106,7 @@ export namespace QueryResolvers {
           args: ArgsEvent,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | Event | null | Promise<Event | Event | null>
+        ) => Event | null | Promise<Event | null>
       }
 
   export type EventsResolver =
@@ -115,7 +115,7 @@ export namespace QueryResolvers {
         args: ArgsEvents,
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => Array<Event | Event> | null | Promise<Array<Event | Event> | null>)
+      ) => Event[] | null | Promise<Event[] | null>)
     | {
         fragment: string
         resolve: (
@@ -123,7 +123,7 @@ export namespace QueryResolvers {
           args: ArgsEvents,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Array<Event | Event> | null | Promise<Array<Event | Event> | null>
+        ) => Event[] | null | Promise<Event[] | null>
       }
 
   export interface Type {
@@ -201,7 +201,7 @@ export namespace QueryResolvers {
           args: ArgsEvent,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | Event | null | Promise<Event | Event | null>)
+        ) => Event | null | Promise<Event | null>)
       | {
           fragment: string
           resolve: (
@@ -209,7 +209,7 @@ export namespace QueryResolvers {
             args: ArgsEvent,
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) => Event | Event | null | Promise<Event | Event | null>
+          ) => Event | null | Promise<Event | null>
         }
 
     events:
@@ -218,7 +218,7 @@ export namespace QueryResolvers {
           args: ArgsEvents,
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Array<Event | Event> | null | Promise<Array<Event | Event> | null>)
+        ) => Event[] | null | Promise<Event[] | null>)
       | {
           fragment: string
           resolve: (
@@ -226,10 +226,7 @@ export namespace QueryResolvers {
             args: ArgsEvents,
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) =>
-            | Array<Event | Event>
-            | null
-            | Promise<Array<Event | Event> | null>
+          ) => Event[] | null | Promise<Event[] | null>
         }
   }
 }
@@ -952,383 +949,6 @@ export namespace PublicEventResolvers {
   }
 }
 
-export namespace MutationResolvers {
-  export const defaultResolvers = {}
-
-  export interface CreateEventInput {
-    name: string
-    speaker: string
-    description: string
-    location: string
-    period: number
-    date: string
-    numberOfTickets: number
-  }
-  export interface UpdateEventInput {
-    name?: string | null
-    speaker?: string | null
-    description?: string | null
-    location?: string | null
-    period?: number | null
-    date?: string | null
-    numberOfTickets?: number | null
-  }
-  export interface UpdateUserInput {
-    isModerator?: boolean | null
-    isAdministrator?: boolean | null
-  }
-
-  export interface ArgsLogin {
-    email: string
-  }
-
-  export interface ArgsRequestTicket {
-    eventId: string
-  }
-
-  export interface ArgsValidateTicket {
-    id: string
-  }
-
-  export interface ArgsCreateEvent {
-    data: CreateEventInput
-  }
-
-  export interface ArgsUpdateEvent {
-    id: string
-    data: UpdateEventInput
-  }
-
-  export interface ArgsDeleteEvent {
-    id: string
-  }
-
-  export interface ArgsUpdateUser {
-    id: string
-    data: UpdateUserInput
-  }
-
-  export interface ArgsDeleteUser {
-    id: string
-  }
-
-  export type LoginResolver =
-    | ((
-        parent: undefined,
-        args: ArgsLogin,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => LoginPayload | Promise<LoginPayload>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsLogin,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => LoginPayload | Promise<LoginPayload>
-      }
-
-  export type RequestTicketResolver =
-    | ((
-        parent: undefined,
-        args: ArgsRequestTicket,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => Ticket | null | Promise<Ticket | null>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsRequestTicket,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Ticket | null | Promise<Ticket | null>
-      }
-
-  export type ValidateTicketResolver =
-    | ((
-        parent: undefined,
-        args: ArgsValidateTicket,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => Ticket | null | Promise<Ticket | null>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsValidateTicket,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Ticket | null | Promise<Ticket | null>
-      }
-
-  export type CreateEventResolver =
-    | ((
-        parent: undefined,
-        args: ArgsCreateEvent,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => Event | null | Promise<Event | null>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsCreateEvent,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>
-      }
-
-  export type UpdateEventResolver =
-    | ((
-        parent: undefined,
-        args: ArgsUpdateEvent,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => Event | null | Promise<Event | null>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsUpdateEvent,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>
-      }
-
-  export type DeleteEventResolver =
-    | ((
-        parent: undefined,
-        args: ArgsDeleteEvent,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => Event | null | Promise<Event | null>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsDeleteEvent,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>
-      }
-
-  export type UpdateUserResolver =
-    | ((
-        parent: undefined,
-        args: ArgsUpdateUser,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => User | null | Promise<User | null>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsUpdateUser,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => User | null | Promise<User | null>
-      }
-
-  export type DeleteUserResolver =
-    | ((
-        parent: undefined,
-        args: ArgsDeleteUser,
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => User | null | Promise<User | null>)
-    | {
-        fragment: string
-        resolve: (
-          parent: undefined,
-          args: ArgsDeleteUser,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => User | null | Promise<User | null>
-      }
-
-  export interface Type {
-    login:
-      | ((
-          parent: undefined,
-          args: ArgsLogin,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => LoginPayload | Promise<LoginPayload>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsLogin,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => LoginPayload | Promise<LoginPayload>
-        }
-
-    requestTicket:
-      | ((
-          parent: undefined,
-          args: ArgsRequestTicket,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Ticket | null | Promise<Ticket | null>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsRequestTicket,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => Ticket | null | Promise<Ticket | null>
-        }
-
-    validateTicket:
-      | ((
-          parent: undefined,
-          args: ArgsValidateTicket,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Ticket | null | Promise<Ticket | null>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsValidateTicket,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => Ticket | null | Promise<Ticket | null>
-        }
-
-    createEvent:
-      | ((
-          parent: undefined,
-          args: ArgsCreateEvent,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsCreateEvent,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => Event | null | Promise<Event | null>
-        }
-
-    updateEvent:
-      | ((
-          parent: undefined,
-          args: ArgsUpdateEvent,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsUpdateEvent,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => Event | null | Promise<Event | null>
-        }
-
-    deleteEvent:
-      | ((
-          parent: undefined,
-          args: ArgsDeleteEvent,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => Event | null | Promise<Event | null>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsDeleteEvent,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => Event | null | Promise<Event | null>
-        }
-
-    updateUser:
-      | ((
-          parent: undefined,
-          args: ArgsUpdateUser,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => User | null | Promise<User | null>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsUpdateUser,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => User | null | Promise<User | null>
-        }
-
-    deleteUser:
-      | ((
-          parent: undefined,
-          args: ArgsDeleteUser,
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => User | null | Promise<User | null>)
-      | {
-          fragment: string
-          resolve: (
-            parent: undefined,
-            args: ArgsDeleteUser,
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => User | null | Promise<User | null>
-        }
-  }
-}
-
-export namespace LoginPayloadResolvers {
-  export const defaultResolvers = {
-    success: (parent: LoginPayload) => parent.success,
-  }
-
-  export type SuccessResolver =
-    | ((
-        parent: LoginPayload,
-        args: {},
-        ctx: Context,
-        info: GraphQLResolveInfo,
-      ) => boolean | Promise<boolean>)
-    | {
-        fragment: string
-        resolve: (
-          parent: LoginPayload,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => boolean | Promise<boolean>
-      }
-
-  export interface Type {
-    success:
-      | ((
-          parent: LoginPayload,
-          args: {},
-          ctx: Context,
-          info: GraphQLResolveInfo,
-        ) => boolean | Promise<boolean>)
-      | {
-          fragment: string
-          resolve: (
-            parent: LoginPayload,
-            args: {},
-            ctx: Context,
-            info: GraphQLResolveInfo,
-          ) => boolean | Promise<boolean>
-        }
-  }
-}
-
 export namespace AdminEventResolvers {
   export const defaultResolvers = {
     id: (parent: Event) => parent.id,
@@ -1721,6 +1341,383 @@ export namespace AdminEventResolvers {
   }
 }
 
+export namespace MutationResolvers {
+  export const defaultResolvers = {}
+
+  export interface CreateEventInput {
+    name: string
+    speaker: string
+    description: string
+    location: string
+    period: number
+    date: string
+    numberOfTickets: number
+  }
+  export interface UpdateEventInput {
+    name?: string | null
+    speaker?: string | null
+    description?: string | null
+    location?: string | null
+    period?: number | null
+    date?: string | null
+    numberOfTickets?: number | null
+  }
+  export interface UpdateUserInput {
+    isModerator?: boolean | null
+    isAdministrator?: boolean | null
+  }
+
+  export interface ArgsLogin {
+    email: string
+  }
+
+  export interface ArgsRequestTicket {
+    eventId: string
+  }
+
+  export interface ArgsValidateTicket {
+    id: string
+  }
+
+  export interface ArgsCreateEvent {
+    data: CreateEventInput
+  }
+
+  export interface ArgsUpdateEvent {
+    id: string
+    data: UpdateEventInput
+  }
+
+  export interface ArgsDeleteEvent {
+    id: string
+  }
+
+  export interface ArgsUpdateUser {
+    id: string
+    data: UpdateUserInput
+  }
+
+  export interface ArgsDeleteUser {
+    id: string
+  }
+
+  export type LoginResolver =
+    | ((
+        parent: undefined,
+        args: ArgsLogin,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => LoginPayload | Promise<LoginPayload>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsLogin,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => LoginPayload | Promise<LoginPayload>
+      }
+
+  export type RequestTicketResolver =
+    | ((
+        parent: undefined,
+        args: ArgsRequestTicket,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => Ticket | null | Promise<Ticket | null>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsRequestTicket,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Ticket | null | Promise<Ticket | null>
+      }
+
+  export type ValidateTicketResolver =
+    | ((
+        parent: undefined,
+        args: ArgsValidateTicket,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => Ticket | null | Promise<Ticket | null>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsValidateTicket,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Ticket | null | Promise<Ticket | null>
+      }
+
+  export type CreateEventResolver =
+    | ((
+        parent: undefined,
+        args: ArgsCreateEvent,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => Event | null | Promise<Event | null>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsCreateEvent,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event | null | Promise<Event | null>
+      }
+
+  export type UpdateEventResolver =
+    | ((
+        parent: undefined,
+        args: ArgsUpdateEvent,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => Event | null | Promise<Event | null>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsUpdateEvent,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event | null | Promise<Event | null>
+      }
+
+  export type DeleteEventResolver =
+    | ((
+        parent: undefined,
+        args: ArgsDeleteEvent,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => Event | null | Promise<Event | null>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsDeleteEvent,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event | null | Promise<Event | null>
+      }
+
+  export type UpdateUserResolver =
+    | ((
+        parent: undefined,
+        args: ArgsUpdateUser,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => User | null | Promise<User | null>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsUpdateUser,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => User | null | Promise<User | null>
+      }
+
+  export type DeleteUserResolver =
+    | ((
+        parent: undefined,
+        args: ArgsDeleteUser,
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => User | null | Promise<User | null>)
+    | {
+        fragment: string
+        resolve: (
+          parent: undefined,
+          args: ArgsDeleteUser,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => User | null | Promise<User | null>
+      }
+
+  export interface Type {
+    login:
+      | ((
+          parent: undefined,
+          args: ArgsLogin,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => LoginPayload | Promise<LoginPayload>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsLogin,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => LoginPayload | Promise<LoginPayload>
+        }
+
+    requestTicket:
+      | ((
+          parent: undefined,
+          args: ArgsRequestTicket,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Ticket | null | Promise<Ticket | null>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsRequestTicket,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => Ticket | null | Promise<Ticket | null>
+        }
+
+    validateTicket:
+      | ((
+          parent: undefined,
+          args: ArgsValidateTicket,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Ticket | null | Promise<Ticket | null>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsValidateTicket,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => Ticket | null | Promise<Ticket | null>
+        }
+
+    createEvent:
+      | ((
+          parent: undefined,
+          args: ArgsCreateEvent,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event | null | Promise<Event | null>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsCreateEvent,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => Event | null | Promise<Event | null>
+        }
+
+    updateEvent:
+      | ((
+          parent: undefined,
+          args: ArgsUpdateEvent,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event | null | Promise<Event | null>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsUpdateEvent,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => Event | null | Promise<Event | null>
+        }
+
+    deleteEvent:
+      | ((
+          parent: undefined,
+          args: ArgsDeleteEvent,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => Event | null | Promise<Event | null>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsDeleteEvent,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => Event | null | Promise<Event | null>
+        }
+
+    updateUser:
+      | ((
+          parent: undefined,
+          args: ArgsUpdateUser,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => User | null | Promise<User | null>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsUpdateUser,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => User | null | Promise<User | null>
+        }
+
+    deleteUser:
+      | ((
+          parent: undefined,
+          args: ArgsDeleteUser,
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => User | null | Promise<User | null>)
+      | {
+          fragment: string
+          resolve: (
+            parent: undefined,
+            args: ArgsDeleteUser,
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => User | null | Promise<User | null>
+        }
+  }
+}
+
+export namespace LoginPayloadResolvers {
+  export const defaultResolvers = {
+    success: (parent: LoginPayload) => parent.success,
+  }
+
+  export type SuccessResolver =
+    | ((
+        parent: LoginPayload,
+        args: {},
+        ctx: Context,
+        info: GraphQLResolveInfo,
+      ) => boolean | Promise<boolean>)
+    | {
+        fragment: string
+        resolve: (
+          parent: LoginPayload,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => boolean | Promise<boolean>
+      }
+
+  export interface Type {
+    success:
+      | ((
+          parent: LoginPayload,
+          args: {},
+          ctx: Context,
+          info: GraphQLResolveInfo,
+        ) => boolean | Promise<boolean>)
+      | {
+          fragment: string
+          resolve: (
+            parent: LoginPayload,
+            args: {},
+            ctx: Context,
+            info: GraphQLResolveInfo,
+          ) => boolean | Promise<boolean>
+        }
+  }
+}
+
 export namespace EventResolvers {
   export interface Type {
     __resolveType: (
@@ -1736,9 +1733,9 @@ export interface Resolvers {
   User: UserResolvers.Type
   Ticket: TicketResolvers.Type
   PublicEvent: PublicEventResolvers.Type
+  AdminEvent: AdminEventResolvers.Type
   Mutation: MutationResolvers.Type
   LoginPayload: LoginPayloadResolvers.Type
-  AdminEvent: AdminEventResolvers.Type
   Event?: EventResolvers.Type
 }
 

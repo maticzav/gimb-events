@@ -2,7 +2,7 @@ language: typescript
 
 # Config
 
-schema: ./src/schema.graphql
+schema: ./src/schema.ts:typeDefs
 context: ./src/utils.ts:Context
 
 # Output
