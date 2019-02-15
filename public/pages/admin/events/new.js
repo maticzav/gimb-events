@@ -7,6 +7,7 @@ import Container from '../../../components/Container'
 import Heading from '../../../components/SectionHeading'
 
 import EditableEvent from '../../../sections/EditableEvent'
+import Footer from '../../../sections/Footer'
 
 class NewEvent extends React.Component {
   static async getInitialProps(ctx) {
@@ -19,6 +20,17 @@ class NewEvent extends React.Component {
     return {}
   }
 
+  newEvent = {
+    name: '',
+    speaker: '',
+    description: '',
+    location: '',
+    period: '',
+    date: new Date(),
+    published: false,
+    numberOfTickets: 1,
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -26,8 +38,12 @@ class NewEvent extends React.Component {
           <Heading>Nov dogodek</Heading>
         </Container>
         <Container>
-          <EditableEvent initialValues={{}} />
+          <EditableEvent
+            initialValues={this.newEvent}
+            onSubmit={val => alert(val)}
+          />
         </Container>
+        <Footer />
       </React.Fragment>
     )
   }

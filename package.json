@@ -2,6 +2,9 @@
   "name": "gimb-events",
   "private": true,
   "scripts": {
+    "bootstrap": "npm-run-all -p bootstrap-*",
+    "bootstrap-public": "cd public; npm install",
+    "bootstrap-server": "cd server; npm install",
     "test": "cd public; npm-run-all test",
     "dev": "NODE_ENV=dev npm-run-all -p dev-*",
     "dev-public": "cd public; npm-run-all dev",

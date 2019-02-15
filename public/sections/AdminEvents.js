@@ -4,14 +4,13 @@ import Link from 'next/link'
 import gql from 'graphql-tag'
 import styled, { css } from 'styled-components'
 
+import Button from '../components/Button'
 import Container from '../components/Container'
 import AdminEvent, {
   fragment as adminEventFragment,
   empty as emptyEvent,
 } from '../components/AdminEvent'
 import Heading from '../components/SectionHeading'
-
-import { phone } from '../utils/media'
 
 const InputWrapper = styled.div`
   width: 100%;
@@ -43,25 +42,9 @@ const NewEventWrapper = styled.div`
   padding: 20px 10px;
 `
 
-const NewEventLink = styled.a`
-  padding: 5px 12px;
-  font-size: 20px;
-  font-weight: 600;
-
-  background: ${p => p.theme.colors.green};
-  color: rgba(255, 255, 255, 0.85);
-  border: none;
-  cursor: pointer;
-
-  transform-origin: right center;
-  transition: background 160ms ease-out, transform 160ms ease-out, color 160ms,
-    box-shadow 160ms;
-
-  ${phone(css`
-    margin-top: 18px;
-    transform-origin: center center;
-  `)};
-`
+const NewEventLink = styled(Button).attrs({
+  as: 'a',
+})``
 
 const EventsWrapper = styled.div`
   width: 100%;

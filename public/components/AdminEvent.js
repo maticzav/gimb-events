@@ -8,6 +8,8 @@ import moment from 'moment'
 import { invert, saturate, hsl } from 'polished'
 import styled, { css } from 'styled-components'
 
+import Button from './Button'
+
 import { mobile, phone } from '../utils/media'
 
 export const fragment = `
@@ -18,6 +20,7 @@ export const fragment = `
   location
   period
   date
+  numberOfTickets
 `
 
 const EventWrapper = styled.div`
@@ -114,24 +117,10 @@ const Datum = styled.p`
   `)}
 `
 
-const EditLink = styled.a`
-  padding: 8px 12px;
-  font-size: 20px;
-  font-weight: 600;
-
+const EditLink = styled(Button).attrs({
+  as: 'a',
+})`
   background: ${p => p.theme.colors.lightBlue};
-  color: rgba(255, 255, 255, 0.85);
-  border: none;
-  cursor: pointer;
-
-  transform-origin: right center;
-  transition: background 160ms ease-out, transform 160ms ease-out, color 160ms,
-    box-shadow 160ms;
-
-  ${phone(css`
-    margin-top: 18px;
-    transform-origin: center center;
-  `)};
 `
 
 /* Event */

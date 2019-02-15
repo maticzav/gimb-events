@@ -3,7 +3,7 @@ import { ServerStyleSheet } from 'styled-components'
 
 import { meta } from '../utils/meta'
 
-// Document
+/* Document */
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
