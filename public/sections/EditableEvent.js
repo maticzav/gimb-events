@@ -8,7 +8,12 @@ import styled, { css } from 'styled-components'
 import * as Yup from 'yup'
 
 import { fragment as eventFragment } from '../components/AdminEvent'
-import { Input, DateInput, NumberInput } from '../components/Input'
+import {
+  InputContainer,
+  Input,
+  DateInput,
+  NumberInput,
+} from '../components/Input'
 
 import { mobile, phone } from '../utils/media'
 import Button from '../components/Button'
@@ -20,13 +25,16 @@ const eventSchema = Yup.object().shape({
   speaker: Yup.string().required('Govorec je obvezen!'),
   description: Yup.string().default(''),
   location: Yup.string().required('Kraj dogodka je obvezen!'),
-  period: Yup.number()
+  period: Yup.number('Ura mora biti številka.')
     .integer()
     .min(0, 'Začneš lahko z najmanj preduro (0).')
-    .max(13, 'Dan ima samo 13 šolskih ur.'),
-  date: Yup.date().required('Datum dogodka ne sme manjkati!'),
-  numberOfTickets: Yup.number()
-    .integer()
+    .max(13, 'Dan ima samo 13 šolskih ur.')
+    .required(),
+  date: Yup.date('Vpisati moraš veljaven datum.').required(
+    'Datum dogodka ne sme manjkati!',
+  ),
+  numberOfTickets: Yup.number('Število kart mora biti številka.')
+    .integer('Število kart mora biti celo število.')
     .min(1, 'Vsaj eno karto za dogodek rabiš.')
     .required('Vpisati moraš število vztopnic'),
 })
@@ -69,40 +77,50 @@ const EventOverview = styled(Input).attrs({
   padding: 5px 0;
 
   ${phone(css`
-    font-size: 14px;
+    font-size: 16px;
   `)}
 `
 
 const EventLocation = styled(Input).attrs({
-  placeholder: 'Kraj...',
+  placeholder: 'Kje se bo dogodek odvijal?',
   minRows: 1,
 })`
   font-weight: 400;
   font-size: 20px;
 
   ${phone(css`
-    font-size: 14px;
+    font-size: 16px;
   `)}
+`
+const EventLocationLabel = styled.label`
+  font-weight: 600;
+  font-size: 20px;
 
-  &:before {
-    content: 'Kraj:\00a0';
-  }
+  ${phone(css`
+    font-size: 16px;
+  `)}
 `
 
 const EventPeriod = styled(NumberInput).attrs({
-  placeholder: 'Ura dogodka...',
+  placeholder: 'Katero uro se dogodek začne?',
   maxRows: 1,
 })`
   font-weight: 400;
   font-size: 20px;
+  font-family: monospace;
 
   ${phone(css`
-    font-size: 14px;
+    font-size: 16px;
   `)}
+`
 
-  &:before {
-    content: 'Ura:\00a0';
-  }
+const EventPeriodLabel = styled.label`
+  font-weight: 600;
+  font-size: 20px;
+
+  ${phone(css`
+    font-size: 16px;
+  `)}
 `
 
 const EventDate = styled(DateInput).attrs(({ value }) => ({
@@ -113,27 +131,38 @@ const EventDate = styled(DateInput).attrs(({ value }) => ({
   font-size: 20px;
 
   ${phone(css`
-    font-size: 14px;
+    font-size: 16px;
   `)}
-
-  &:before {
-    content: 'Datum:\00a0';
-  }
 `
 
-const EventNumberOfTickets = styled(NumberInput).attrs({
-  placeholder: 'Število vztopnic za dogodek',
-})`
-  font-weight: 400;
+const EventDateLabel = styled.label`
+  font-weight: 600;
   font-size: 20px;
 
   ${phone(css`
-    font-size: 14px;
+    font-size: 16px;
   `)}
+`
 
-  &:before {
-    content: 'Število kart:\00a0';
-  }
+const EventNumberOfTickets = styled(NumberInput).attrs({
+  placeholder: 'Število vstopnic za dogodek...',
+})`
+  font-weight: 400;
+  font-size: 20px;
+  font-family: monospace;
+
+  ${phone(css`
+    font-size: 16px;
+  `)}
+`
+
+const EventNumberOfTicketsLabel = styled.label`
+  font-weight: 600;
+  font-size: 20px;
+
+  ${phone(css`
+    font-size: 16px;
+  `)}
 `
 
 const CreateButton = styled(Button).attrs({
@@ -154,10 +183,14 @@ const FormErrorMessage = styled.p`
   margin: 0;
   padding: 0;
 
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
 
   color: ${p => p.theme.colors.red};
+
+  ${phone(css`
+    font-size: 14px;
+  `)}
 `
 
 /* GraphQL */
@@ -196,22 +229,42 @@ const EditableEvent = ({ initialValues, onSubmit, edit, onDelete }) => (
   >
     <EventContainer>
       <Form>
-        <Field name="name" component={EventName} />
-        <ErrorMessage name="name" component={FormErrorMessage} />
-        <Field name="speaker" component={EventSpeaker} />
-        <ErrorMessage name="speaker" component={FormErrorMessage} />
-        <Field name="description" component={EventOverview} />
-        <ErrorMessage name="description" component={FormErrorMessage} />
-        <Field name="location" component={EventLocation} />
-        <ErrorMessage name="location" component={FormErrorMessage} />
-        <Field name="period" component={EventPeriod} />
-        <ErrorMessage name="period" component={FormErrorMessage} />
-        <Field name="date" component={EventDate} />
-        <ErrorMessage name="date" component={FormErrorMessage} />
-        <Field name="numberOfTickets" component={EventNumberOfTickets} />
-        <ErrorMessage name="numberOfTickets" component={FormErrorMessage} />
-        {!edit && <CreateButton>Ustvari</CreateButton>}
-        {edit && <UpdateButton>Shrani</UpdateButton>}
+        <InputContainer>
+          <Field name="name" component={EventName} />
+          <ErrorMessage name="name" component={FormErrorMessage} />
+        </InputContainer>
+        <InputContainer>
+          <Field name="speaker" component={EventSpeaker} />
+          <ErrorMessage name="speaker" component={FormErrorMessage} />
+        </InputContainer>
+        <InputContainer>
+          <Field name="description" component={EventOverview} />
+          <ErrorMessage name="description" component={FormErrorMessage} />
+        </InputContainer>
+        <InputContainer>
+          <EventLocationLabel>{`Kraj: `}</EventLocationLabel>
+          <Field name="location" component={EventLocation} />
+          <ErrorMessage name="location" component={FormErrorMessage} />
+        </InputContainer>
+        <InputContainer>
+          <EventPeriodLabel>{`Ura: `}</EventPeriodLabel>
+          <Field name="period" component={EventPeriod} />
+          <ErrorMessage name="period" component={FormErrorMessage} />
+        </InputContainer>
+        <InputContainer>
+          <EventDateLabel>{`Datum: `}</EventDateLabel>
+          <Field name="date" component={EventDate} />
+          <ErrorMessage name="date" component={FormErrorMessage} />
+        </InputContainer>
+        <InputContainer>
+          <EventNumberOfTicketsLabel>{`Število vstopnic: `}</EventNumberOfTicketsLabel>
+          <Field name="numberOfTickets" component={EventNumberOfTickets} />
+          <ErrorMessage name="numberOfTickets" component={FormErrorMessage} />
+        </InputContainer>
+        <InputContainer>
+          {!edit && <CreateButton>Ustvari</CreateButton>}
+          {edit && <UpdateButton>Shrani</UpdateButton>}
+        </InputContainer>
       </Form>
       {edit && <DeleteButton onClick={onDelete}>Izbriši</DeleteButton>}
     </EventContainer>

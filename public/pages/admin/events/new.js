@@ -4,6 +4,7 @@ import checkLoggedIn from '../../../lib/checkLoggedIn'
 import redirect from '../../../lib/redirect'
 
 import Container from '../../../components/Container'
+import HeroMessage from '../../../components/HeroMessage'
 import Heading from '../../../components/SectionHeading'
 
 import EditableEvent from '../../../sections/EditableEvent'
@@ -20,7 +21,8 @@ class NewEvent extends React.Component {
     return {}
   }
 
-  newEvent = {
+  emptyEvent = {
+    id: 'NEW',
     name: '',
     speaker: '',
     description: '',
@@ -34,14 +36,15 @@ class NewEvent extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <HeroMessage>
+          Priporočam uporabo Google Chroma za administriranje Gimb Dogodkov. Pri
+          drugih brskalnikih so možni občasni problemi.
+        </HeroMessage>
         <Container>
           <Heading>Nov dogodek</Heading>
         </Container>
         <Container>
-          <EditableEvent
-            initialValues={this.newEvent}
-            onSubmit={val => alert(val)}
-          />
+          <EditableEvent initialValues={this.emptyEvent} />
         </Container>
         <Footer />
       </React.Fragment>

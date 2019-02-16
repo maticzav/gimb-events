@@ -5,6 +5,7 @@ import checkLoggedIn from '../../../lib/checkLoggedIn'
 import redirect from '../../../lib/redirect'
 
 import Container from '../../../components/Container'
+import HeroMessage from '../../../components/HeroMessage'
 import Heading from '../../../components/SectionHeading'
 
 import { fragment as eventFragment } from '../../../components/AdminEvent'
@@ -48,15 +49,15 @@ class EditEvent extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <HeroMessage>
+          Priporočam uporabo Google Chroma za administriranje Gimb Dogodkov. Pri
+          drugih brskalnikih so možni občasni problemi.
+        </HeroMessage>
         <Container>
           <Heading>Uredi dogodek</Heading>
         </Container>
         <Container>
-          <EditableEvent
-            initialValues={this.props.event}
-            onSubmit={val => alert(val)}
-            edit
-          />
+          <EditableEvent initialValues={this.props.event} edit />
         </Container>
         <Footer />
       </React.Fragment>
