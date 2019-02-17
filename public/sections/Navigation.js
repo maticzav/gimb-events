@@ -12,6 +12,7 @@ const NavigationWrapper = styled.nav`
   width: 100%;
   margin: 0;
   border: 0;
+  padding-bottom: 10px;
 `
 
 /* Hero */
