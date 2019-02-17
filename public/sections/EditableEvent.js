@@ -17,6 +17,7 @@ import {
 
 import { mobile, phone } from '../utils/media'
 import Button from '../components/Button'
+import redirect from '../lib/redirect'
 
 /* Schema */
 
@@ -167,16 +168,22 @@ const EventNumberOfTicketsLabel = styled.label`
 
 const CreateButton = styled(Button).attrs({
   type: 'submit',
-})``
+})`
+  margin: 5px;
+`
 
 const UpdateButton = styled(Button).attrs({
   type: 'submit',
 })`
   background: ${p => p.theme.colors.lightBlue};
+  margin: 5px;
 `
 
-const DeleteButton = styled(Button)`
+const DeleteButton = styled(Button).attrs({
+  type: 'button',
+})`
   background: ${p => p.theme.colors.red};
+  margin: 5px;
 `
 
 const FormErrorMessage = styled.p`
@@ -221,70 +228,155 @@ const deleteMutation = gql`
 
 /* Editable Event */
 
-const EditableEvent = ({ initialValues, onSubmit, edit, onDelete }) => (
-  <Formik
-    initialValues={initialValues}
-    validationSchema={eventSchema}
-    onSubmit={onSubmit}
-  >
-    <EventContainer>
-      <Form>
-        <InputContainer>
-          <Field name="name" component={EventName} />
-          <ErrorMessage name="name" component={FormErrorMessage} />
-        </InputContainer>
-        <InputContainer>
-          <Field name="speaker" component={EventSpeaker} />
-          <ErrorMessage name="speaker" component={FormErrorMessage} />
-        </InputContainer>
-        <InputContainer>
-          <Field name="description" component={EventOverview} />
-          <ErrorMessage name="description" component={FormErrorMessage} />
-        </InputContainer>
-        <InputContainer>
-          <EventLocationLabel>{`Kraj: `}</EventLocationLabel>
-          <Field name="location" component={EventLocation} />
-          <ErrorMessage name="location" component={FormErrorMessage} />
-        </InputContainer>
-        <InputContainer>
-          <EventPeriodLabel>{`Ura: `}</EventPeriodLabel>
-          <Field name="period" component={EventPeriod} />
-          <ErrorMessage name="period" component={FormErrorMessage} />
-        </InputContainer>
-        <InputContainer>
-          <EventDateLabel>{`Datum: `}</EventDateLabel>
-          <Field name="date" component={EventDate} />
-          <ErrorMessage name="date" component={FormErrorMessage} />
-        </InputContainer>
-        <InputContainer>
-          <EventNumberOfTicketsLabel>{`Število vstopnic: `}</EventNumberOfTicketsLabel>
-          <Field name="numberOfTickets" component={EventNumberOfTickets} />
-          <ErrorMessage name="numberOfTickets" component={FormErrorMessage} />
-        </InputContainer>
-        <InputContainer>
-          {!edit && <CreateButton>Ustvari</CreateButton>}
-          {edit && <UpdateButton>Shrani</UpdateButton>}
-        </InputContainer>
-      </Form>
-      {edit && <DeleteButton onClick={onDelete}>Izbriši</DeleteButton>}
-    </EventContainer>
-  </Formik>
-)
+class EditableEvent extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
+  }
+
+  async handleSubmit(values, actions) {
+    const { edit, createEvent, updateEvent, initialValues } = this.props
+
+    actions.setSubmitting(true)
+
+    const data = {
+      name: values.name,
+      speaker: values.speaker,
+      description: values.description,
+      location: values.location,
+      period: values.period,
+      date: values.date,
+      numberOfTickets: values.numberOfTickets,
+    }
+
+    if (edit) {
+      await updateEvent({
+        variables: { id: initialValues.id, data: data },
+      }).then(res => {
+        redirect({}, '/admin')
+      })
+    } else {
+      await createEvent({ variables: { data: data } }).then(res => {
+        redirect({}, '/admin')
+      })
+    }
+
+    actions.setSubmitting(false)
+  }
+
+  async handleDelete() {
+    const { deleteEvent, initialValues } = this.props
+
+    await deleteEvent({
+      variables: { id: initialValues.id },
+    }).then(res => {
+      redirect({}, '/admin')
+    })
+  }
+
+  render() {
+    const { initialValues, edit, deleteEventLoading } = this.props
+
+    return (
+      <Formik
+        initialValues={initialValues}
+        validationSchema={eventSchema}
+        onSubmit={this.handleSubmit}
+      >
+        {({ isSubmitting, status }) => (
+          <EventContainer>
+            <Form>
+              <InputContainer>
+                <Field name="name" component={EventName} />
+                <ErrorMessage name="name" component={FormErrorMessage} />
+              </InputContainer>
+              <InputContainer>
+                <Field name="speaker" component={EventSpeaker} />
+                <ErrorMessage name="speaker" component={FormErrorMessage} />
+              </InputContainer>
+              <InputContainer>
+                <Field name="description" component={EventOverview} />
+                <ErrorMessage name="description" component={FormErrorMessage} />
+              </InputContainer>
+              <InputContainer>
+                <EventLocationLabel>{`Kraj: `}</EventLocationLabel>
+                <Field name="location" component={EventLocation} />
+                <ErrorMessage name="location" component={FormErrorMessage} />
+              </InputContainer>
+              <InputContainer>
+                <EventPeriodLabel>{`Ura: `}</EventPeriodLabel>
+                <Field name="period" component={EventPeriod} />
+                <ErrorMessage name="period" component={FormErrorMessage} />
+              </InputContainer>
+              <InputContainer>
+                <EventDateLabel>{`Datum: `}</EventDateLabel>
+                <Field name="date" component={EventDate} />
+                <ErrorMessage name="date" component={FormErrorMessage} />
+              </InputContainer>
+              <InputContainer>
+                <EventNumberOfTicketsLabel>{`Število vstopnic: `}</EventNumberOfTicketsLabel>
+                <Field
+                  name="numberOfTickets"
+                  component={EventNumberOfTickets}
+                />
+                <ErrorMessage
+                  name="numberOfTickets"
+                  component={FormErrorMessage}
+                />
+              </InputContainer>
+              <InputContainer>
+                {!edit && (
+                  <CreateButton>
+                    {isSubmitting ? 'Ustvarjam...' : 'Ustvari'}
+                  </CreateButton>
+                )}
+                {edit && (
+                  <UpdateButton>
+                    {isSubmitting ? 'Shranjujem...' : 'Shrani'}
+                  </UpdateButton>
+                )}
+                {edit && (
+                  <DeleteButton onClick={this.handleDelete}>
+                    {deleteEventLoading ? 'Brišem...' : 'Izbriši'}
+                  </DeleteButton>
+                )}
+              </InputContainer>
+            </Form>
+          </EventContainer>
+        )}
+      </Formik>
+    )
+  }
+}
 
 export default compose(
   graphql(createMutation, {
-    props: ({ edit, onSubmit, mutate }) => ({
-      onSubmit: edit ? onSubmit : mutate,
+    options: {
+      refetchQueries: ['events', 'feed'],
+    },
+    props: ({ mutate }) => ({
+      createEvent: mutate,
     }),
   }),
   graphql(updateMutation, {
-    props: ({ edit, onSubmit, mutate }) => ({
-      onSubmit: edit ? mutate : onSubmit,
+    options: {
+      refetchQueries: ['events', 'feed'],
+    },
+    props: ({ mutate }) => ({
+      updateEvent: mutate,
     }),
   }),
   graphql(deleteMutation, {
+    options: {
+      refetchQueries: ['events', 'feed'],
+      onCompleted: () => {
+        redirect({}, '/admin')
+      },
+    },
     props: ({ mutate }) => ({
-      onDelete: mutate,
+      deleteEvent: mutate,
     }),
   }),
 )(EditableEvent)

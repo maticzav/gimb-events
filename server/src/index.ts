@@ -29,7 +29,14 @@ const {
 
 export const server = new ApolloServer({
   schema,
-  debug: process.env.NODE_ENV !== 'production',
+  formatError: error => {
+    if (process.env.NODE_ENV !== 'production') console.log(error)
+    return error
+  },
+  formatResponse: response => {
+    if (process.env.NODE_ENV !== 'production') console.log(response)
+    return response
+  },
   context: ({ req }: { req: express.Request }) =>
     ({
       prisma: new Prisma({

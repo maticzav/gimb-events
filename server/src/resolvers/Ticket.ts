@@ -8,7 +8,10 @@ export const Ticket: TicketResolvers.Type = {
     resolve: async ({ id }, args, ctx) => {
       const now = new Date().toISOString()
 
-      return ctx.prisma.exists.Ticket({ id: id, event: { date_lt: now } })
+      return ctx.prisma.exists.Ticket({
+        id: id,
+        OR: [{ event: { date_lt: now } }, { isValidated: true }],
+      })
     },
   },
 }

@@ -79,7 +79,7 @@ export const typeDefs = gql`
 
   type Ticket {
     id: ID!
-    event: Event!
+    event: PublicEvent!
     owner: User!
     isValidated: Boolean!
     isExpired: Boolean!
