@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import Container from '../components/Container'
 import Heading from '../components/SectionHeading'
+import Status from '../components/Status'
 import Ticket, { fragment as ticketFragment } from '../components/Ticket'
 
 const TicketsWrapper = styled.div`
@@ -42,12 +43,12 @@ export default () => (
     <Container>
       <Query query={viewerQuery}>
         {({ loading, error, data }) => {
-          if (loading) return 'Nalagam...'
-          if (error) return 'Prišlo je do napake.'
+          if (loading) return <Status>Nalagam...</Status>
+          if (error) return <Status>Prišlo je do napake.</Status>
 
-          if (!data.viewer) return 'Nalagam...'
-
-          if (data.viewer.tickets.length === 0) return 'Nimaš še nobenih kart.'
+          if (data.viewer.tickets.length === 0) {
+            return <Status>Nimaš še nobenih kart.</Status>
+          }
 
           return (
             <TicketsWrapper>

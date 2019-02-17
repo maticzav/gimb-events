@@ -1,16 +1,13 @@
 import React from 'react'
-import { Mutation } from 'react-apollo'
 import Link from 'next/link'
-import Card from 'card-vibes'
-import gql from 'graphql-tag'
 import hasher from 'hash-index'
 import moment from 'moment'
-import { invert, saturate, hsl } from 'polished'
+import { hsl } from 'polished'
 import styled, { css } from 'styled-components'
 
 import Button from './Button'
 
-import { mobile, phone } from '../utils/media'
+import { phone } from '../utils/media'
 
 export const fragment = `
   id
@@ -21,6 +18,7 @@ export const fragment = `
   period
   date
   numberOfTickets
+  published
 `
 
 const EventWrapper = styled.div`
@@ -123,6 +121,24 @@ const EditLink = styled(Button).attrs({
   background: ${p => p.theme.colors.lightBlue};
 `
 
+const Status = styled.p`
+  display: block;
+  width: 100%;
+
+  margin: 0;
+  padding: 5px 0;
+  font-weight: 500;
+  font-size: 18px;
+  font-family: monospace;
+
+  color: ${p => p.theme.colors.red};
+
+  ${phone(css`
+    font-weight: 400;
+    font-size: 14px;
+  `)}
+`
+
 /* Event */
 
 const AdminEvent = ({ event }) => (
@@ -139,6 +155,7 @@ const AdminEvent = ({ event }) => (
     <Link href={{ pathname: '/admin/events/edit', query: { id: event.id } }}>
       <EditLink>Uredi</EditLink>
     </Link>
+    {!event.published && <Status>Dogodek ni objavljen.</Status>}
   </EventWrapper>
 )
 

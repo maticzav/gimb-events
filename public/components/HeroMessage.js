@@ -1,16 +1,17 @@
+import React from 'react'
+import { lighten } from 'polished'
 import styled, { css } from 'styled-components'
 
 import { rem } from '../utils/rem'
-import { lighten } from 'polished'
 
-export const WIDE_WIDTH = 1200
+export const WIDE_WIDTH = 1000
 export const NORMAL_WIDTH = 900
-export const SIDE_PADDINGS = 25
+export const SIDE_PADDINGS = 30
 
 const HeroMessageContainer = styled.div`
   max-width: ${p => (p.wide ? rem(WIDE_WIDTH) : rem(NORMAL_WIDTH))};
   margin: 0 auto;
-  padding: 20px ${SIDE_PADDINGS}px;
+  padding: 10px ${SIDE_PADDINGS}px;
   box-sizing: content-box;
 `
 

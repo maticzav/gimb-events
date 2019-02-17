@@ -2,15 +2,15 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import Link from 'next/link'
 import gql from 'graphql-tag'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Button from '../components/Button'
 import Container from '../components/Container'
 import AdminEvent, {
   fragment as adminEventFragment,
-  empty as emptyEvent,
 } from '../components/AdminEvent'
 import Heading from '../components/SectionHeading'
+import Status from '../components/Status'
 
 const InputWrapper = styled.div`
   width: 100%;
@@ -78,6 +78,8 @@ class AdminEvents extends React.Component {
   }
 
   render() {
+    const { query } = this.state
+
     return (
       <React.Fragment>
         <Container>
@@ -86,7 +88,7 @@ class AdminEvents extends React.Component {
         <Container>
           <InputWrapper>
             <Input
-              value={this.state.query}
+              value={query}
               onChange={this.handleQueryChange}
               placeholder="Išči dogodke..."
             />
@@ -101,11 +103,11 @@ class AdminEvents extends React.Component {
             <Query
               query={eventsQuery}
               fetchPolicy="network-only"
-              variables={{ query: this.state.query }}
+              variables={{ query }}
             >
               {({ loading, error, data }) => {
-                if (loading) return 'Nalagam...'
-                if (error) return JSON.stringify(error)
+                if (loading) return <Status>Nalagam...</Status>
+                if (error) return <Status>Nekaj je šlo narobe!</Status>
 
                 return data.events.map(event => (
                   <AdminEvent key={event.id} event={event} />

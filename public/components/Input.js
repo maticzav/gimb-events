@@ -1,6 +1,6 @@
 import React from 'react'
 import TextArea from 'react-textarea-autosize'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 export const InputContainer = styled.div`
   display: block;
@@ -37,7 +37,7 @@ export const DateInput = styled.input.attrs(({ field, ...props }) => ({
   overflow: hidden;
 `
 
-export const Input = styled(TextArea).attrs(({ field, ...props }) => ({
+export const TextInput = styled(TextArea).attrs(({ field, ...props }) => ({
   ...props,
   ...field,
 }))`
@@ -63,4 +63,14 @@ export const NumberInput = styled.input.attrs(({ field, ...props }) => ({
   padding: 0;
   border: 0;
   outline: 0;
+`
+
+export const BooleanInput = styled(({ children, ...props }) =>
+  React.cloneElement(children({ selected: props.field.value }), props),
+).attrs(({ field, form, ...props }) => ({
+  ...props,
+  ...field,
+  onClick: () => form.setFieldValue(field.name, !field.value),
+}))`
+  display: block;
 `

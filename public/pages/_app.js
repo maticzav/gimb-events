@@ -10,7 +10,7 @@ import withApollo from '../lib/withApollo'
 import Navigation from '../sections/Navigation'
 
 import { phone } from '../utils/media'
-import { meta } from '../utils/meta'
+import meta from '../utils/meta'
 import { BASE_MOBILE_FONT_SIZE, BASE_FONT_SIZE } from '../utils/rem'
 import { theme } from '../utils/theme'
 
@@ -41,9 +41,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Work Sans", sans-serif;
     font-size: ${BASE_FONT_SIZE}px;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
 
     ${phone(css`
       font-size: ${BASE_MOBILE_FONT_SIZE}px;

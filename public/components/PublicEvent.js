@@ -1,13 +1,12 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import Card from 'card-vibes'
 import gql from 'graphql-tag'
 import hasher from 'hash-index'
 import moment from 'moment'
-import { invert, saturate, hsl } from 'polished'
+import { hsl } from 'polished'
 import styled, { css } from 'styled-components'
 
-import { mobile, phone } from '../utils/media'
+import { phone } from '../utils/media'
 
 export const fragment = `
   id
@@ -187,17 +186,17 @@ const Event = ({ event }) => (
       variables={{ eventId: event.id }}
       refetchQueries={['feed']}
     >
-      {(reserve, { data, loading, error }) => {
+      {(reserve, { loading }) => {
         if (event.viewerHasTicket)
-          return <Status success>{'Karta za dogodek rezervirana!'}</Status>
+          return <Status success>Karta za dogodek rezervirana!</Status>
         if (!event.hasAvailableTickets)
-          return <Status>{'Vse karte za ta dogodek so že pošle.'}</Status>
+          return <Status>Vse karte za ta dogodek so že pošle.</Status>
         if (!event.viewerCanRequestTicket)
-          return <Status>{'Te karte ne moraš rezervirat.'}</Status>
+          return <Status>Te karte ne moraš rezervirat.</Status>
 
         return (
           <Button onClick={reserve} disabled={loading}>
-            {loading ? 'Nalagam' : 'Rezerviraj'}
+            {loading ? 'Nalagam...' : 'Rezerviraj'}
           </Button>
         )
       }}

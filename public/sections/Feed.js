@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Container from '../components/Container'
 import Event, { fragment as eventFragment } from '../components/PublicEvent'
 import Heading from '../components/SectionHeading'
+import Status from '../components/Status'
 
 const EventsWrapper = styled.div`
   width: 100%;
@@ -37,10 +38,11 @@ export default () => (
     <Container>
       <Query query={feedQuery}>
         {({ loading, error, data }) => {
-          if (loading) return 'Nalagam...'
-          if (error) return 'Prišlo je do napake.'
+          if (loading) return <Status>Nalagam...</Status>
+          if (error) return <Status>Prišlo je do napake.</Status>
 
-          if (data.feed.length === 0) return 'Na voljo ni nobenih dogodkov.'
+          if (data.feed.length === 0)
+            return <Status>Na voljo ni nobenih dogodkov.</Status>
 
           return (
             <EventsWrapper>

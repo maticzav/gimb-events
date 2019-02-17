@@ -56,6 +56,7 @@ export const typeDefs = gql`
     period: Int
     date: DateTime
     numberOfTickets: Int
+    published: Boolean
   }
 
   input UpdateUserInput {

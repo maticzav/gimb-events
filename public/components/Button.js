@@ -12,6 +12,7 @@ const Button = styled.button`
   border: none;
   cursor: pointer;
   overflow: none;
+  outline: none;
 
   transform-origin: right center;
   transition: background 160ms ease-out, transform 160ms ease-out, color 160ms,
@@ -23,6 +24,18 @@ const Button = styled.button`
     margin-top: 18px;
     transform-origin: center center;
   `)};
+`
+
+export const InfoButton = styled(Button)`
+  background: ${p => p.theme.colors.lightBlue};
+`
+
+export const SuccessButton = styled(Button)`
+  background: ${p => p.theme.colors.green};
+`
+
+export const WarningButton = styled(Button)`
+  background: ${p => p.theme.colors.red};
 `
 
 export default Button

@@ -5,8 +5,6 @@ import gql from 'graphql-tag'
 import styled, { css } from 'styled-components'
 import * as Yup from 'yup'
 
-import { phone } from '../utils/media'
-
 /* Components */
 
 const LoginWrapper = styled.span`
@@ -114,7 +112,7 @@ const loginSchema = Yup.object().shape({
 export default () => (
   <LoginWrapper>
     <Mutation mutation={loginMutation}>
-      {(login, { data, loading, error }) => (
+      {login => (
         <Formik
           initialValues={{ email: '' }}
           validationSchema={loginSchema}

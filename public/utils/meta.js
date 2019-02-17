@@ -1,4 +1,4 @@
-export const meta = {
+export default {
   url: 'https://dogodki.gimb.xyz/',
   title: 'Gimb Dogodki',
   description: 'Spletna stran dogodkov na Gimnaziji Bežigrad.',

@@ -47,6 +47,8 @@ class EditEvent extends React.Component {
   }
 
   render() {
+    const { event } = this.props
+
     return (
       <React.Fragment>
         <HeroMessage>
@@ -57,7 +59,7 @@ class EditEvent extends React.Component {
           <Heading>Uredi dogodek</Heading>
         </Container>
         <Container>
-          <EditableEvent initialValues={this.props.event} edit />
+          <EditableEvent initialValues={event} edit />
         </Container>
         <Footer />
       </React.Fragment>

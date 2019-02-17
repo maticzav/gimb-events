@@ -1,6 +1,6 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field } from 'formik'
 import gql from 'graphql-tag'
 import { lighten, darken } from 'polished'
 import styled, { css } from 'styled-components'
@@ -125,7 +125,7 @@ const InviteButton = styled(Button)`
 
 const Invite = ({ email }) => (
   <Mutation mutation={inviteMutation} variables={{ email }}>
-    {(invite, { loading, data, error }) => {
+    {(invite, { loading }) => {
       return (
         <InviteButton onClick={invite} disabled={loading}>
           {loading ? 'Pošiljam' : 'Pošlji link'}
@@ -160,7 +160,7 @@ export default ({ user }) => (
     <Email>{user.email}</Email>
 
     <Mutation mutation={updateUserMutation}>
-      {(update, { data, loading, error }) => (
+      {update => (
         <Formik
           initialValues={{
             isModerator: user.isModerator,
@@ -180,7 +180,7 @@ export default ({ user }) => (
               () => {
                 actions.setSubmitting(false)
               },
-              error => {
+              () => {
                 actions.setSubmitting(false)
               },
             )

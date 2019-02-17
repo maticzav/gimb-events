@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 
 import Container from '../components/Container'
 import Login from '../components/Login'
-import { phone, mobile } from '../utils/media'
+import { phone } from '../utils/media'
 
 const NavigationWrapper = styled.nav`
   width: 100%;
@@ -147,10 +147,7 @@ export default () => (
     <Container>
       <Query query={viewerQuery}>
         {({ loading, error, data }) => {
-          if (loading) return 'Nalagam...'
-          if (error) return 'Prišlo je do napake!'
-
-          if (!data.viewer) {
+          if (!data.viewer || loading || error) {
             return <Login />
           }
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
-import DayPicker from 'react-day-picker'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import gql from 'graphql-tag'
 import moment from 'moment'
@@ -10,12 +9,13 @@ import * as Yup from 'yup'
 import { fragment as eventFragment } from '../components/AdminEvent'
 import {
   InputContainer,
-  Input,
+  TextInput,
   DateInput,
   NumberInput,
+  BooleanInput,
 } from '../components/Input'
 
-import { mobile, phone } from '../utils/media'
+import { phone } from '../utils/media'
 import Button from '../components/Button'
 import redirect from '../lib/redirect'
 
@@ -38,6 +38,9 @@ const eventSchema = Yup.object().shape({
     .integer('Število kart mora biti celo število.')
     .min(1, 'Vsaj eno karto za dogodek rabiš.')
     .required('Vpisati moraš število vztopnic'),
+  published: Yup.boolean()
+    .required()
+    .default(false),
 })
 
 /* Components */
@@ -48,7 +51,7 @@ const EventContainer = styled.div`
   padding: 10px;
 `
 
-const EventName = styled(Input).attrs({
+const EventName = styled(TextInput).attrs({
   placeholder: 'Naslov dogodka',
   minRows: 1,
 })`
@@ -61,7 +64,7 @@ const EventName = styled(Input).attrs({
   `)};
 `
 
-const EventSpeaker = styled(Input).attrs({
+const EventSpeaker = styled(TextInput).attrs({
   placeholder: 'Ime govorca',
 })`
   font-weight: 400;
@@ -69,7 +72,7 @@ const EventSpeaker = styled(Input).attrs({
   padding: 3px 0;
 `
 
-const EventOverview = styled(Input).attrs({
+const EventOverview = styled(TextInput).attrs({
   placeholder: 'Tukaj napiši opis dogodka...',
   minRows: 5,
 })`
@@ -82,7 +85,7 @@ const EventOverview = styled(Input).attrs({
   `)}
 `
 
-const EventLocation = styled(Input).attrs({
+const EventLocation = styled(TextInput).attrs({
   placeholder: 'Kje se bo dogodek odvijal?',
   minRows: 1,
 })`
@@ -166,6 +169,23 @@ const EventNumberOfTicketsLabel = styled.label`
   `)}
 `
 
+const EventPublished = props => (
+  <BooleanInput {...props}>
+    {({ selected }) => (
+      <Button {...props}>{selected ? 'Viden drugim' : 'Ni objavlen'}</Button>
+    )}
+  </BooleanInput>
+)
+
+const EventPublishedLabel = styled.label`
+  font-weight: 600;
+  font-size: 20px;
+
+  ${phone(css`
+    font-size: 16px;
+  `)}
+`
+
 const CreateButton = styled(Button).attrs({
   type: 'submit',
 })`
@@ -241,24 +261,38 @@ class EditableEvent extends React.Component {
 
     actions.setSubmitting(true)
 
-    const data = {
-      name: values.name,
-      speaker: values.speaker,
-      description: values.description,
-      location: values.location,
-      period: values.period,
-      date: values.date,
-      numberOfTickets: values.numberOfTickets,
-    }
-
     if (edit) {
       await updateEvent({
-        variables: { id: initialValues.id, data: data },
-      }).then(res => {
+        variables: {
+          id: initialValues.id,
+          data: {
+            name: values.name,
+            speaker: values.speaker,
+            description: values.description,
+            location: values.location,
+            period: values.period,
+            date: values.date,
+            numberOfTickets: values.numberOfTickets,
+            published: values.published,
+          },
+        },
+      }).then(() => {
         redirect({}, '/admin')
       })
     } else {
-      await createEvent({ variables: { data: data } }).then(res => {
+      await createEvent({
+        variables: {
+          data: {
+            name: values.name,
+            speaker: values.speaker,
+            description: values.description,
+            location: values.location,
+            period: values.period,
+            date: values.date,
+            numberOfTickets: values.numberOfTickets,
+          },
+        },
+      }).then(() => {
         redirect({}, '/admin')
       })
     }
@@ -271,7 +305,7 @@ class EditableEvent extends React.Component {
 
     await deleteEvent({
       variables: { id: initialValues.id },
-    }).then(res => {
+    }).then(() => {
       redirect({}, '/admin')
     })
   }
@@ -285,7 +319,7 @@ class EditableEvent extends React.Component {
         validationSchema={eventSchema}
         onSubmit={this.handleSubmit}
       >
-        {({ isSubmitting, status }) => (
+        {({ isSubmitting }) => (
           <EventContainer>
             <Form>
               <InputContainer>
@@ -301,22 +335,24 @@ class EditableEvent extends React.Component {
                 <ErrorMessage name="description" component={FormErrorMessage} />
               </InputContainer>
               <InputContainer>
-                <EventLocationLabel>{`Kraj: `}</EventLocationLabel>
+                <EventLocationLabel>Kraj:</EventLocationLabel>
                 <Field name="location" component={EventLocation} />
                 <ErrorMessage name="location" component={FormErrorMessage} />
               </InputContainer>
               <InputContainer>
-                <EventPeriodLabel>{`Ura: `}</EventPeriodLabel>
+                <EventPeriodLabel>Ura:</EventPeriodLabel>
                 <Field name="period" component={EventPeriod} />
                 <ErrorMessage name="period" component={FormErrorMessage} />
               </InputContainer>
               <InputContainer>
-                <EventDateLabel>{`Datum: `}</EventDateLabel>
+                <EventDateLabel>Datum:</EventDateLabel>
                 <Field name="date" component={EventDate} />
                 <ErrorMessage name="date" component={FormErrorMessage} />
               </InputContainer>
               <InputContainer>
-                <EventNumberOfTicketsLabel>{`Število vstopnic: `}</EventNumberOfTicketsLabel>
+                <EventNumberOfTicketsLabel>
+                  Število vstopnic:
+                </EventNumberOfTicketsLabel>
                 <Field
                   name="numberOfTickets"
                   component={EventNumberOfTickets}
@@ -325,6 +361,10 @@ class EditableEvent extends React.Component {
                   name="numberOfTickets"
                   component={FormErrorMessage}
                 />
+              </InputContainer>
+              <InputContainer>
+                <EventPublishedLabel>Objavljen:</EventPublishedLabel>
+                <Field name="published" component={EventPublished} />
               </InputContainer>
               <InputContainer>
                 {!edit && (

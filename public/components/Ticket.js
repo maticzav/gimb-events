@@ -3,11 +3,10 @@ import gql from 'graphql-tag'
 import hasher from 'hash-index'
 import moment from 'moment'
 import Link from 'next/link'
-import { invert, saturate, hsl } from 'polished'
-import QRCode from 'qrcode.react'
+import { hsl } from 'polished'
 import styled, { css } from 'styled-components'
 
-import { mobile, phone } from '../utils/media'
+import { phone } from '../utils/media'
 
 export const fragment = gql`
   fragment TicketInformation on Ticket {

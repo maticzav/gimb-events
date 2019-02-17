@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 
 import Container from '../components/Container'
 
-import { mobile, phone } from '../utils/media'
+import { phone } from '../utils/media'
 
 const TicketWrapper = styled.div`
   width: 100%;
@@ -85,7 +85,7 @@ export const ticketQuery = gql`
 `
 
 export default ({ id }) => (
-  <Query query={ticketQuery} variables={{ id: id }} errorPolicy="ignore">
+  <Query query={ticketQuery} variables={{ id }} errorPolicy="ignore">
     {({ data, loading, error }) => {
       if (loading)
         return (

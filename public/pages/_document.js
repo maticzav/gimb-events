@@ -1,7 +1,8 @@
+import React from 'react'
 import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
-import { meta } from '../utils/meta'
+import meta from '../utils/meta'
 
 /* Document */
 
@@ -17,7 +18,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <html>
+      <html xmlns="http://www.w3.org/1999/xhtml" lang="sl" xmlLang="sl">
         <Head>
           <meta
             name="google-site-verification"

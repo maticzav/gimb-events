@@ -443,7 +443,7 @@ export namespace TicketResolvers {
         args: {},
         ctx: Context,
         info: GraphQLResolveInfo,
-      ) => Event | Event | Promise<Event | Event>)
+      ) => Event | Promise<Event>)
     | {
         fragment: string
         resolve: (
@@ -451,7 +451,7 @@ export namespace TicketResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | Event | Promise<Event | Event>
+        ) => Event | Promise<Event>
       }
 
   export type OwnerResolver =
@@ -529,7 +529,7 @@ export namespace TicketResolvers {
           args: {},
           ctx: Context,
           info: GraphQLResolveInfo,
-        ) => Event | Event | Promise<Event | Event>)
+        ) => Event | Promise<Event>)
       | {
           fragment: string
           resolve: (
@@ -537,7 +537,7 @@ export namespace TicketResolvers {
             args: {},
             ctx: Context,
             info: GraphQLResolveInfo,
-          ) => Event | Event | Promise<Event | Event>
+          ) => Event | Promise<Event>
         }
 
     owner:
@@ -1352,6 +1352,7 @@ export namespace MutationResolvers {
     period: number
     date: string
     numberOfTickets: number
+    published: boolean
   }
   export interface UpdateEventInput {
     name?: string | null
@@ -1361,6 +1362,7 @@ export namespace MutationResolvers {
     period?: number | null
     date?: string | null
     numberOfTickets?: number | null
+    published?: boolean | null
   }
   export interface UpdateUserInput {
     isModerator?: boolean | null

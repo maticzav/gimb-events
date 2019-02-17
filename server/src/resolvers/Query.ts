@@ -20,7 +20,10 @@ export const Query: QueryResolvers.Type = {
       .startOf('day')
       .toISOString()
 
-    return ctx.prisma.query.events({ where: { date_gte: now } }, info)
+    return ctx.prisma.query.events(
+      { where: { date_gte: now, published: true } },
+      info,
+    )
   },
   event: async (parent, { id }, ctx, info) => {
     return ctx.prisma.query.event({ where: { id } }, info)

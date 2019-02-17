@@ -35,8 +35,11 @@ const LinkItem = styled.a`
 const Footer = () => (
   <Wrapper>
     <p>
-      Made with <span>❤️</span> by{' '}
-      <a href="https://www.instagram.com/maticzavadlal/">Matic Zavadlal</a>
+      Made with{' '}
+      <span role="img" aria-label="love">
+        ❤️
+      </span>{' '}
+      by <a href="https://www.instagram.com/maticzavadlal/">Matic Zavadlal</a>
     </p>
     <p>
       <LinkItem href="/privacy">Privacy Policy</LinkItem>{' '}

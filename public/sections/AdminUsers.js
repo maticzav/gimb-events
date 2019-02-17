@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Container from '../components/Container'
 import User, { fragment as userFragment } from '../components/User'
 import Heading from '../components/SectionHeading'
+import Status from '../components/Status'
 
 const InputWrapper = styled.div`
   width: 100%;
@@ -61,6 +62,8 @@ class AdminUsers extends React.Component {
   }
 
   render() {
+    const { query } = this.state
+
     return (
       <React.Fragment>
         <Container>
@@ -69,7 +72,7 @@ class AdminUsers extends React.Component {
         <Container>
           <InputWrapper>
             <Input
-              value={this.state.query}
+              value={query}
               onChange={this.handleQueryChange}
               placeholder="Išči..."
             />
@@ -78,14 +81,15 @@ class AdminUsers extends React.Component {
           <Query
             query={usersQuery}
             fetchPolicy="network-only"
-            variables={{ query: this.state.query }}
+            variables={{ query }}
           >
             {({ loading, error, data }) => {
-              if (loading) return 'Nalagam...'
-              if (error) return 'Prišlo je do napake.'
+              if (loading) return <Status>Nalagam...</Status>
+              if (error) return <Status>Prišlo je do napake.</Status>
 
-              if (data.users.length === 0)
-                return 'Ne najdem nobenih uporabnikov.'
+              if (data.users.length === 0) {
+                return <Status>Ne najdem nobenih uporabnikov.</Status>
+              }
 
               return (
                 <UsersWrapper>

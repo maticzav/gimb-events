@@ -39,6 +39,7 @@ function create(initialState = {}, { getToken }) {
   const loggerLink = new ApolloLink((operation, forward) => {
     return forward(operation).map(result => {
       if (process.browser && process.env.NODE_ENV !== 'production') {
+        /* eslint-disable no-console */
         console.log(operation.operationName)
         console.log(operation)
         console.log(result)
