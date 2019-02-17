@@ -25,7 +25,7 @@
     "next": "^8.0.0",
     "nookies": "^1.2.0",
     "nprogress": "^0.2.0",
-    "polished": "^2.3.3",
+    "polished": "^3.0.0",
     "qrcode.react": "^0.9.2",
     "react": "^16.8.1",
     "react-apollo": "^2.4.1",
