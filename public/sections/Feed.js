@@ -36,7 +36,7 @@ export default () => (
       <Heading>Dogodki</Heading>
     </Container>
     <Container>
-      <Query query={feedQuery}>
+      <Query query={feedQuery} fetchPolicy="cache-and-network">
         {({ loading, error, data }) => {
           if (loading) return <Status>Nalagam...</Status>
           if (error) return <Status>Prišlo je do napake.</Status>
