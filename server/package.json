@@ -30,7 +30,7 @@
     "@types/node": "10.12.26",
     "dotenv-cli": "1.4.0",
     "graphql-cli": "3.0.10",
-    "graphqlgen": "0.6.0-rc8",
+    "graphqlgen": "0.6.0-rc9",
     "jest": "23.6.0",
     "nodemon": "1.18.10",
     "npm-run-all": "4.1.5",
