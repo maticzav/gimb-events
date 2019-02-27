@@ -15,7 +15,7 @@
     "expo": "32.0.6",
     "graphql": "14.1.1",
     "graphql-tag": "2.10.1",
-    "react": "16.8.2",
+    "react": "16.8.3",
     "react-apollo": "2.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz"
   },
