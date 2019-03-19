@@ -3,10 +3,23 @@
 
 import { UserResolvers } from '../generated/graphqlgen'
 
+import { getUserId } from '../utils'
+
 export const User: UserResolvers.Type = {
   ...UserResolvers.defaultResolvers,
 
-  tickets: (parent, args, ctx) => {
-    return parent.tickets
+  tickets: async (parent, args, ctx, info) => {
+    const userId = getUserId(ctx)
+
+    return ctx.prisma.query.tickets(
+      {
+        where: {
+          owner: { id: userId },
+          isValidated: false,
+        },
+        orderBy: 'createdAt_DESC',
+      },
+      info,
+    )
   },
 }
