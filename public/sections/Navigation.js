@@ -25,7 +25,7 @@ const Hero = styled.h1`
   padding-left: 10px;
   padding-top: 50px;
   padding-right: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 0;
 
   color: ${p => p.theme.colors.black};
   font-family: Playfair Display;
@@ -34,6 +34,24 @@ const Hero = styled.h1`
 
   ${phone(css`
     font-size: 50px;
+  `)};
+`
+
+const SubHeading = styled.h2`
+  width: 100%;
+
+  margin: 0;
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-right: 12px;
+  padding-bottom: 10px;
+
+  color: ${p => p.theme.colors.black};
+  font-size: 20px;
+  font-weight: 500;
+
+  ${phone(css`
+    font-size: 18px;
   `)};
 `
 
@@ -144,6 +162,7 @@ export default () => (
   <NavigationWrapper>
     <Container>
       <Hero>Gimb Dogodki</Hero>
+      <SubHeading>Spletna stran dogodkov na Gimnaziji Bežigrad</SubHeading>
     </Container>
     <Container>
       <Query query={viewerQuery}>
