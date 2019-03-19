@@ -192,7 +192,7 @@ const Event = ({ event }) => (
         if (!event.hasAvailableTickets)
           return <Status>Vse karte za ta dogodek so že pošle.</Status>
         if (!event.viewerCanRequestTicket)
-          return <Status>Te karte ne moraš rezervirat.</Status>
+          return <Status>Te karte ne moreš rezervirat.</Status>
 
         return (
           <Button onClick={reserve} disabled={loading}>
