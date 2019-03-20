@@ -41,7 +41,7 @@ export default () => (
       <Heading>Moje Karte</Heading>
     </Container>
     <Container>
-      <Query query={viewerQuery}>
+      <Query query={viewerQuery} fetchPolicy="cache-and-network">
         {({ loading, error, data }) => {
           if (loading) return <Status>Nalagam...</Status>
           if (error) return <Status>Prišlo je do napake.</Status>
