@@ -13,7 +13,7 @@
     "apollo-link": "1.2.11",
     "apollo-link-http": "1.5.14",
     "expo": "32.0.6",
-    "graphql": "14.2.1",
+    "graphql": "14.3.0",
     "graphql-tag": "2.10.1",
     "react": "16.8.6",
     "react-apollo": "2.5.5",
