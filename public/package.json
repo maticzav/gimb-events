@@ -37,7 +37,7 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "babel-eslint": "10.0.1",
+    "babel-eslint": "10.0.2",
     "babel-plugin-polished": "1.1.0",
     "babel-plugin-styled-components": "1.10.1",
     "enzyme": "3.10.0",
