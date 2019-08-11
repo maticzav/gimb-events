@@ -7,9 +7,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "apollo-cache-inmemory": "1.6.2",
+    "apollo-cache-inmemory": "1.6.3",
     "apollo-cache-persist": "0.1.1",
-    "apollo-client": "2.6.3",
+    "apollo-client": "2.6.4",
     "apollo-link": "1.2.12",
     "apollo-link-http": "1.5.15",
     "expo": "32.0.6",
