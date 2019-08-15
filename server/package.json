@@ -29,7 +29,7 @@
     "@types/moment": "2.13.0",
     "@types/node": "10.14.15",
     "dotenv-cli": "1.4.0",
-    "graphql-cli": "3.0.13",
+    "graphql-cli": "3.0.14",
     "graphqlgen": "0.6.0-rc9",
     "jest": "23.6.0",
     "nodemon": "1.19.1",
