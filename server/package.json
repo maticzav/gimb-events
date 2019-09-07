@@ -16,7 +16,7 @@
     "@sendgrid/mail": "6.4.0",
     "apollo-server": "2.9.3",
     "graphql-middleware": "3.0.5",
-    "graphql-shield": "6.0.6",
+    "graphql-shield": "6.0.7",
     "jsonwebtoken": "8.5.1",
     "moment": "2.24.0",
     "multilines": "1.0.2",
