@@ -28,7 +28,7 @@
     "@types/jsonwebtoken": "8.3.4",
     "@types/moment": "2.13.0",
     "@types/node": "10.14.21",
-    "dotenv-cli": "1.4.0",
+    "dotenv-cli": "2.0.1",
     "graphql-cli": "3.0.14",
     "graphqlgen": "0.6.0-rc9",
     "jest": "23.6.0",
