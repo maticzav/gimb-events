@@ -13,7 +13,7 @@
     "generate": "graphqlgen"
   },
   "dependencies": {
-    "@sendgrid/mail": "6.4.0",
+    "@sendgrid/mail": "6.5.5",
     "apollo-server": "2.14.2",
     "graphql-middleware": "3.0.5",
     "graphql-shield": "6.1.0",
