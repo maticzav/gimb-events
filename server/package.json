@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@sendgrid/mail": "6.5.5",
-    "apollo-server": "2.16.1",
+    "apollo-server": "2.17.0",
     "graphql-middleware": "3.0.5",
     "graphql-shield": "6.1.0",
     "jsonwebtoken": "8.5.1",
