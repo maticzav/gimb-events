@@ -16,7 +16,7 @@
     "apollo-link": "^1.2.8",
     "apollo-link-http": "^1.5.11",
     "card-vibes": "^0.1.0",
-    "formik": "^1.5.0",
+    "formik": "^2.0.0",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "hash-index": "^3.0.0",
