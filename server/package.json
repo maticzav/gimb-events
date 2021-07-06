@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/graphql": "14.2.3",
-    "@types/jest": "24.9.1",
+    "@types/jest": "26.0.24",
     "@types/jsonwebtoken": "8.5.2",
     "@types/moment": "2.13.0",
     "@types/node": "10.17.60",
