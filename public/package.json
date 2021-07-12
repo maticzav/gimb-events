@@ -28,7 +28,7 @@
     "polished": "^2.3.3",
     "qrcode.react": "^0.9.2",
     "react": "^16.8.1",
-    "react-apollo": "^2.4.1",
+    "react-apollo": "^3.0.0",
     "react-dates": "^19.0.3",
     "react-day-picker": "^7.2.4",
     "react-dom": "^16.8.1",
