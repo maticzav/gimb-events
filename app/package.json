@@ -12,7 +12,7 @@
     "apollo-client": "2.6.10",
     "apollo-link": "1.2.14",
     "apollo-link-http": "1.5.17",
-    "expo": "32.0.6",
+    "expo": "45.0.5",
     "graphql": "14.7.0",
     "graphql-tag": "2.12.6",
     "react": "16.14.0",
@@ -20,7 +20,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz"
   },
   "devDependencies": {
-    "babel-preset-expo": "5.2.0"
+    "babel-preset-expo": "9.1.0"
   },
   "private": true
 }
